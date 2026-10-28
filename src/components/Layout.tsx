@@ -25,11 +25,11 @@ export function Logo() {
 }
 
 export default function Layout() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
-  useEffect(() => { window.scrollTo(0, 0); setOpen(false) }, [pathname])
+  useEffect(() => { if (!hash) window.scrollTo(0, 0); setOpen(false) }, [pathname])
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 8)
     on()

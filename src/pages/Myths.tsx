@@ -14,7 +14,11 @@ export default function Myths() {
     if (!hash) return
     const id = hash.slice(1)
     setOpen(id)
-    setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300)
+    const t = setTimeout(() => {
+      const el = document.getElementById(id)
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 84 })
+    }, 120)
+    return () => clearTimeout(t)
   }, [hash])
 
   const list = useMemo(() => {
