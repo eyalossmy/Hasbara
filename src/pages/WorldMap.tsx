@@ -86,7 +86,7 @@ export default function WorldMap() {
 
     const cluster = L.markerClusterGroup({
       showCoverageOnHover: false,
-      maxClusterRadius: 56,
+      maxClusterRadius: 70,
       spiderfyOnMaxZoom: true,
       iconCreateFunction: clusterIcon,
     })
