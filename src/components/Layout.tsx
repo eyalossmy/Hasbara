@@ -62,7 +62,7 @@ export default function Layout() {
 
       <main><Outlet /></main>
 
-      <footer className="footer">
+      {pathname !== '/map' && <footer className="footer">
         <div className="container">
           <div className="cols">
             <div>
@@ -89,7 +89,7 @@ export default function Layout() {
             <span>מצאתם טעות? <a href={`${REPO_URL}/issues/new`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline', color: 'var(--gold)' }}>דווחו לנו</a> — אנחנו מתקנים בפומבי.</span>
           </div>
         </div>
-      </footer>
+      </footer>}
     </>
   )
 }
