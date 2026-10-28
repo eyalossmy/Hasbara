@@ -1,3 +1,6 @@
+import { WEST } from './conflicts-west'
+import { SOUTH } from './conflicts-south'
+
 export type ConfType = 'war' | 'civil' | 'territorial' | 'terror' | 'atrocity'
 export type ConfStatus = 'active' | 'frozen' | 'ended'
 
@@ -23,7 +26,7 @@ export const CONF_STATUS: Record<ConfStatus, { label: string; color: string }> =
 export interface Actor {
   name: string
   flag?: string
-  svg?: 'somaliland' | 'yugoslavia'
+  svg?: 'somaliland' | 'yugoslavia' | 'ussr' | 'southvietnam' | 'biafra' | 'oldsa'
   badge?: { text: string; color: string }
 }
 
@@ -56,6 +59,44 @@ export const ACTORS = {
   tutsi: G('הטוטסים וההוטו המתונים', 'ט', '#0f766e'), khmer: G('הקמר רוז׳', 'ק', '#7f1d1d'), yazidis: G('היזידים', 'י', '#ca8a04'),
   sakurds: G('הכורדים בעיראק', 'כ', '#15803d'),
   janjaweed: G('ממשלת סודאן והג׳נג׳וויד', 'ג׳', '#7c4a1e'), darfuri: G('שבטי פור, מסאלית וזע׳אווה', 'ד', '#0f766e'),
+  // ── states, by flag
+  eg: A('מצרים', 'eg'), jo: A('ירדן', 'jo'), syria: A('סוריה', 'sy'), fr: A('צרפת', 'fr'), kw: A('כווית', 'kw'), au: A('אוסטרליה', 'au'),
+  dz: A('ממשלת אלג׳יריה', 'dz'), fln: A('FLN — חזית השחרור הלאומי', 'dz'), ke: A('קניה', 'ke'), ug: A('אוגנדה', 'ug'), tz: A('טנזניה', 'tz'),
+  bi: A('ממשלת בורונדי', 'bi'), na: A('נמיביה', 'na'), lr: A('ממשלת ליבריה', 'lr'), sl: A('סיירה לאון', 'sl'), td: A('צ׳אד', 'td'),
+  ci: A('חוף השנהב', 'ci'), cm: A('קמרון', 'cm'), cf: A('הרפובליקה המרכז־אפריקאית', 'cf'), mz: A('מוזמביק', 'mz'), frelimo: A('FRELIMO', 'mz'),
+  mpla: A('MPLA', 'ao'), cu: A('קובה', 'cu'), zw: A('זימבבואה של מוגאבה', 'zw'), sdgov: A('ממשלת סודאן', 'sd'), spla: A('SPLA — מורדי הדרום', 'ss'),
+  eplf: A('המורדים האריתראים', 'er'), amin: A('אוגנדה של אידי אמין', 'ug'), irregime: A('משטר האייתולות', 'ir'),
+  ccp: A('הקומוניסטים של מאו', 'cn'), kmt: A('הלאומנים (קוומינטנג)', 'tw'), vietminh: A('הוויאט מין', 'vn'), nvn: A('צפון וייטנאם', 'vn'),
+  pathetlao: A('הפאתט לאו', 'la'), nl: A('הולנד', 'nl'), id: A('אינדונזיה', 'id'), idarmy: A('צבא אינדונזיה', 'id'), tl: A('מזרח טימור', 'tl'),
+  bd: A('בנגלדש', 'bd'), np: A('ממשלת נפאל', 'np'), tj: A('ממשלת טג׳יקיסטן', 'tj'), th: A('תאילנד', 'th'),
+  hu: A('המהפכנים ההונגרים', 'hu'), cz: A('צ׳כוסלובקיה', 'cz'), gr: A('ממשלת יוון', 'gr'), es: A('ספרד', 'es'), md: A('מולדובה', 'md'),
+  castro: A('קובה של קסטרו', 'cu'), gt: A('צבא גואטמלה', 'gt'), svgov: A('ממשלת אל סלוודור', 'sv'), sv: A('אל סלוודור', 'sv'), hn: A('הונדורס', 'hn'),
+  sandinistas: A('הסנדיניסטים', 'ni'), ar: A('ארגנטינה', 'ar'), arjunta: A('החונטה הארגנטינאית', 'ar'), pinochet: A('משטר פינושה', 'cl'),
+  pe: A('ממשלת פרו', 'pe'), noriega: A('פנמה של נורייגה', 'pa'), mx1846: A('מקסיקו', 'mx'),
+  // ── hand-drawn flags
+  ussr: { name: 'ברית המועצות', svg: 'ussr' } as Actor, svn: { name: 'דרום וייטנאם', svg: 'southvietnam' } as Actor,
+  biafra: { name: 'ביאפרה', svg: 'biafra' } as Actor, oldsa: { name: 'דרום אפריקה של האפרטהייד', svg: 'oldsa' } as Actor,
+  // ── armed groups, movements and victims
+  plo: G('אש״ף', 'אש״ף', '#15803d'), palterror: G('חמאס, פת״ח והג׳יהאד', 'ט', '#374151'), blacksept: G('ספטמבר השחור', 'ס', '#111827'),
+  ilathletes: G('ספורטאי המשלחת הישראלית', '✡', '#1d4ed8'), pflp: G('חוטפי ה־PFLP ושותפיהם הגרמנים', 'PF', '#b91c1c'),
+  lbchristians: G('המיליציות הנוצריות', 'נ', '#1d4ed8'), lbleft: G('המיליציות המוסלמיות והשמאל', 'מ', '#166534'),
+  ymroyal: G('המלוכנים בתימן', 'מ', '#b91c1c'), ymrep: G('הרפובליקנים בתימן', 'ר', '#166534'), mb: G('האחים המוסלמים', 'א', '#166534'),
+  iranpeople: G('המפגינים באיראן', '✊', '#16a34a'), gia: G('GIA', 'GIA', '#111827'), maumau: G('המאו מאו', 'MM', '#7f1d1d'),
+  un: G('כוחות האו״ם', 'UN', '#3b82f6'), katanga: G('קטנגה הבדלנית', 'K', '#15803d'), unita: G('UNITA', 'U', '#b91c1c'),
+  renamo: G('RENAMO', 'R', '#1d4ed8'), rhodesia: G('רודזיה', 'רו', '#166534'), zanu: G('ZANU ו־ZAPU', 'Z', '#ca8a04'), anc: G('ANC', 'ANC', '#15803d'),
+  ndebele: G('בני הנדבלה', 'נ', '#0f766e'), derg: G('הדרג — החונטה האתיופית', 'ד', '#7f1d1d'), gaddafi: G('לוב של קדאפי', 'ל', '#16a34a'),
+  lra: G('צבא ההתנגדות של האל (LRA)', 'LRA', '#111827'), hutureb: G('מורדי ההוטו', 'ה', '#1f2937'), taylor: G('צ׳רלס טיילור ו־NPFL', 'T', '#7c2d12'),
+  ruf: G('RUF', 'RUF', '#7f1d1d'), aidid: G('המיליציות של עידיד', 'ע', '#374151'), fn: G('המורדים בצפון (FN)', 'FN', '#ea580c'),
+  ambazonia: G('בדלני אמבזוניה', 'א', '#1d4ed8'), seleka: G('סלקה ואנטי־בלאקה', 'S', '#78350f'), tibet: G('טיבט', 'ט', '#b91c1c'),
+  uyghurs: G('האויגורים', 'או', '#0ea5e9'), students: G('מפגיני טיאננמן', '✊', '#0f766e'), vietcong: G('הוויאטקונג', 'VC', '#b91c1c'),
+  laoroyal: G('ממשלת לאוס המלכותית', 'ל', '#1d4ed8'), mcp: G('הקומוניסטים במלאיה', 'MCP', '#b91c1c'), pki: G('קומוניסטים ומי שנחשדו בכך', 'PKI', '#b91c1c'),
+  gam: G('GAM — תנועת אצ׳ה החופשית', 'GAM', '#b91c1c'), opm: G('התנועה לפפואה חופשית', 'OPM', '#1d4ed8'), milf: G('MILF, אבו סייאף ודאעש', 'M', '#166534'),
+  naxal: G('המורדים המאואיסטים', 'נ', '#b91c1c'), maoists: G('המאואיסטים', 'מ', '#b91c1c'), uto: G('האופוזיציה המאוחדת', 'UTO', '#166534'),
+  ttp: G('הטליבאן הפקיסטני (TTP)', 'TTP', '#e5e7eb'), afcom: G('המשטר הקומוניסטי באפגניסטן', 'ק', '#b91c1c'), mujahideen: G('המוג׳אהידין', 'מ', '#166534'),
+  dse: G('הקומוניסטים היוונים', 'DSE', '#b91c1c'), ira: G('ה־IRA', 'IRA', '#15803d'), eta: G('ETA', 'ETA', '#111827'), pmr: G('טרנסניסטריה', 'טר', '#b91c1c'),
+  urng: G('המורדים והקהילות המאיה', 'מ', '#0f766e'), fmln: G('FMLN', 'FM', '#b91c1c'), contras: G('הקונטראס', 'ק', '#1d4ed8'),
+  desaparecidos: G('״הנעלמים״', '?', '#6b7280'), chileopp: G('מתנגדי המשטר', '✊', '#b91c1c'), sendero: G('השביל הזוהר', 'ש', '#b91c1c'),
+  alqaeda: G('אל־קאעידה', 'AQ', '#111827'),
 } satisfies Record<string, Actor>
 
 export type ActorId = keyof typeof ACTORS
@@ -75,7 +116,7 @@ export interface Conflict {
   angle?: string
 }
 
-export const CONFLICTS: Conflict[] = [
+const CORE: Conflict[] = [
   // ───────── Israel's fronts
   {
     id: 'gaza', name: 'ישראל נגד חמאס — מלחמת חרבות ברזל', short: 'ישראל–חמאס', type: 'terror', status: 'frozen', years: '2023–2025',
@@ -399,3 +440,8 @@ export const CONFLICTS: Conflict[] = [
     now: 'הכורדים בעיראק זכו לאוטונומיה.',
   },
 ]
+
+export const CONFLICTS: Conflict[] = [...CORE, ...WEST, ...SOUTH]
+
+/** First year a conflict's `years` mentions, for the era filter. */
+export const startYear = (c: Conflict) => Number(c.years.match(/\d{4}/)?.[0] ?? 1949)

@@ -13,7 +13,7 @@ export const NAV = [
 ]
 
 // Pages whose hero is dark get a dark nav bar so the top of the page reads as one surface.
-const DARK_TOP = ['/', '/oct7']
+const DARK_TOP = ['/', '/oct7', '/map']
 
 export function Logo() {
   return (
