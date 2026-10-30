@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import L from 'leaflet'
 import 'leaflet.markercluster'
@@ -7,7 +7,11 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import { ACTORS, CONFLICTS, CONF_STATUS, CONF_TYPES, startYear, type ActorId, type ConfStatus, type ConfType, type Conflict } from '../data/conflicts'
 import { addBasemap } from '../components/basemap'
 import Flag from '../components/Flag'
+import BloodText from '../components/BloodText'
 import { CountUp, Emph, Split, copyText, isKeyFact } from '../components/ui'
+import { CONFLICT_WIKI } from '../data/conflict-sources'
+import { SRC } from '../data/sources'
+import type { Source } from '../data/types'
 
 const WORLD = L.latLngBounds([-35, -110], [60, 140])
 
@@ -85,42 +89,31 @@ function FilterIcon() {
   )
 }
 
-/**
- * Drips hang from letters with a solid bottom stroke (מ, ם, כ, the legs of ה and ח):
- * per word, [letter index, position across that letter in %, length in em, delay in s].
- */
-const DRIPS: [number, number, number, number][][] = [
-  [[1, 50, 0.55, 0.3], [2, 86, 0.26, 1.2]],
-  [[1, 38, 0.4, 0.7]],
-  [[0, 46, 0.3, 1.5]],
-  [[2, 12, 0.62, 0], [5, 52, 0.36, 0.9]],
+// Lines that rest on a specific document cite it; everything else cites the conflict's article
+const SPECIFIC: [RegExp, Source][] = [
+  [/משרד הבריאות/, SRC.gazaMoh],
+  [/שלושה לאווים/, SRC.khartoum],
+  [/וב־2005 יצאה|ההתנתקות/, SRC.disengagement],
+  [/ב־7 באוקטובר 2023/, SRC.oct7],
+  [/אמנת חמאס/, SRC.hamasCharter],
 ]
 
-/** Headline that rises in word by word, then bleeds. */
-function BloodText({ text, start = 0 }: { text: string; start?: number }) {
-  return (
-    <span className="split blood" aria-label={text}>
-      {text.split(' ').map((w, i) => (
-        <Fragment key={i}>
-          {i > 0 && ' '}
-          <span className="w" style={{ ['--i' as string]: i + start }} aria-hidden>
-            {[...w].map((ch, k) => {
-              const drips = (DRIPS[i] ?? []).filter(([at]) => at === k)
-              if (!drips.length) return ch
-              return (
-                <span key={k} className="bl">
-                  {ch}
-                  {drips.map(([, x, len, d], j) => (
-                    <i key={j} className="drip" style={{ left: `${x}%`, ['--len' as string]: `${len}em`, animationDelay: `${1.4 + d}s` }} />
-                  ))}
-                </span>
-              )
-            })}
-          </span>
-        </Fragment>
-      ))}
-    </span>
-  )
+/** Numbers every sourced line of a conflict, and the list the numbers point to. */
+function citations(c: Conflict, lines: string[]) {
+  const wiki = CONFLICT_WIKI[c.id] ?? []
+  const refs: Source[] = []
+  const num = new Map<string, number>()
+  for (const t of lines) {
+    const src = SPECIFIC.find(([re]) => re.test(t))?.[1] ?? wiki[0]
+    if (!src) continue
+    if (!refs.includes(src)) refs.push(src)
+    num.set(t, refs.indexOf(src) + 1)
+  }
+  wiki.forEach((w) => { if (!refs.includes(w)) refs.push(w) })
+  return { refs, ref: (t: string) => {
+    const n = num.get(t)
+    return n ? <a className="fn" href={refs[n - 1].url} target="_blank" rel="noopener noreferrer" title={refs[n - 1].label}>{n}</a> : null
+  } }
 }
 
 /** One side of a conflict: its flags, overlapping, and its names in one line. */
@@ -338,6 +331,7 @@ export default function WorldMap() {
   // Death tolls and the facts marked as crucial stay in view; the rest fold away
   const keyFacts = sel?.facts.filter(isKeyFact) ?? []
   const moreFacts = sel?.facts.filter((f) => !isKeyFact(f)) ?? []
+  const cite = sel ? citations(sel, [sel.summary, ...keyFacts, sel.now, ...moreFacts]) : null
   const activeCount = types.size + statuses.size + eras.size
 
   return (
@@ -468,17 +462,22 @@ export default function WorldMap() {
                   <Side ids={sel.sides[1]} cap={isAtrocity ? 'הקורבנות' : undefined} />
                 </div>
 
-                <p className="wp-sum"><Emph text={sel.summary} /></p>
-                {keyFacts.length > 0 && <ul className="wp-key">{keyFacts.map((f) => <li key={f}><Emph text={f} /></li>)}</ul>}
-                <p className="wp-now"><b>היום</b><Emph text={sel.now} /></p>
+                <p className="wp-sum"><Emph text={sel.summary} />{cite!.ref(sel.summary)}</p>
+                {keyFacts.length > 0 && <ul className="wp-key">{keyFacts.map((f) => <li key={f}><Emph text={f} />{cite!.ref(f)}</li>)}</ul>}
+                <p className="wp-now"><b>היום</b><Emph text={sel.now} />{cite!.ref(sel.now)}</p>
                 {sel.angle && <p className="wp-point"><Emph text={sel.angle} /></p>}
 
                 {moreFacts.length > 0 && (
                   <details className="wp-facts">
                     <summary><span className="plus" aria-hidden />{moreFacts.length === 1 ? 'עובדה נוספת' : `${moreFacts.length} עובדות נוספות`}</summary>
-                    <ul>{moreFacts.map((f) => <li key={f}><Emph text={f} /></li>)}</ul>
+                    <ul>{moreFacts.map((f) => <li key={f}><Emph text={f} />{cite!.ref(f)}</li>)}</ul>
                   </details>
                 )}
+
+                <div className="wp-refs">
+                  <div className="label-sm">מקורות</div>
+                  <ol>{cite!.refs.map((r) => <li key={r.url}><a className="src" href={r.url} target="_blank" rel="noopener noreferrer">{r.label}</a></li>)}</ol>
+                </div>
               </div>
 
               <footer className="wp-foot">

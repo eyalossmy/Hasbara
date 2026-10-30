@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { ERAS, TIMELINE, type Era } from '../data/timeline'
 import { Emph, PageHero, SourceLinks, useReveal } from '../components/ui'
-import LandMap from '../components/LandMap'
+import LandMap, { LandSvg, PeriodText } from '../components/LandMap'
 
 export default function Timeline() {
   const [era, setEra] = useState<Era | 'all' | 'key'>('all')
@@ -50,7 +50,7 @@ export default function Timeline() {
             return (
               <Fragment key={e.i}>
                 {/* Small screens have no side column: each new period opens with its map */}
-                {newPeriod && <div className="tl-period"><LandMap period={e.map} compact /></div>}
+                {newPeriod && <div className="tl-period"><LandMap period={e.map} /></div>}
                 <div data-i={e.i} className={`tl-item reveal ${e.key ? 'key' : ''} ${cur === TIMELINE[e.i] ? 'on' : ''}`}>
                   <div className="tl-year">{e.year}</div>
                   <button className={`tl-card ${isOpen ? 'open' : ''}`} onClick={() => { setActive(e.i); setOpen(isOpen ? null : e.i) }} aria-expanded={isOpen}>
@@ -72,12 +72,15 @@ export default function Timeline() {
         </div>
 
         <aside className="tl-side" aria-label="מפה והסבר">
-          <div className="tl-explain" key={cur.title}>
-            <div className="tl-explain-k">{cur.year} · {cur.title}</div>
-            <p><Emph text={cur.why} /></p>
-            {cur.sources && <SourceLinks sources={cur.sources} />}
+          <div className="tl-side-text">
+            <div className="tl-explain" key={cur.title}>
+              <div className="tl-explain-k">{cur.year} · {cur.title}</div>
+              <p><Emph text={cur.why} /></p>
+              {cur.sources && <SourceLinks sources={cur.sources} />}
+            </div>
+            <PeriodText period={cur.map} />
           </div>
-          <LandMap period={cur.map} />
+          <div className="tl-side-map"><LandSvg period={cur.map} /></div>
         </aside>
       </section>
     </>
