@@ -1,5 +1,6 @@
 import { WEST } from './conflicts-west'
 import { SOUTH } from './conflicts-south'
+import { POWERS } from './conflicts-powers'
 
 export type ConfType = 'war' | 'civil' | 'territorial' | 'terror' | 'atrocity'
 export type ConfStatus = 'active' | 'frozen' | 'ended'
@@ -97,6 +98,10 @@ export const ACTORS = {
   urng: G('המורדים והקהילות המאיה', 'מ', '#0f766e'), fmln: G('FMLN', 'FM', '#b91c1c'), contras: G('הקונטראס', 'ק', '#1d4ed8'),
   desaparecidos: G('״הנעלמים״', '?', '#6b7280'), chileopp: G('מתנגדי המשטר', '✊', '#b91c1c'), sendero: G('השביל הזוהר', 'ש', '#b91c1c'),
   alqaeda: G('אל־קאעידה', 'AQ', '#111827'),
+  it: A('איטליה', 'it'), jp: A('יפן', 'jp'), greece: A('יוון', 'gr'), algeria: A('אלג׳יריה', 'dz'), ec: A('אקוודור', 'ec'),
+  kg: A('קירגיזסטן', 'kg'), bh: A('בחריין', 'bh'), qa: A('קטר', 'qa'), maduro: A('משטר מדורו', 've'), grenada: A('גרנדה', 'gd'),
+  dominican: A('המורדים בדומיניקנה', 'do'), kaiser: G('גרמניה הקיסרית', 'DE', '#111827'), austria: G('אוסטרו־הונגריה', 'AH', '#ca8a04'),
+  sdf: G('הכורדים בצפון סוריה (SDF)', 'SDF', '#ca8a04'),
 } satisfies Record<string, Actor>
 
 export type ActorId = keyof typeof ACTORS
@@ -362,7 +367,7 @@ const CORE: Conflict[] = [
   },
   {
     id: 'korea', name: 'צפון קוריאה נגד דרום קוריאה', short: 'קוריאה', type: 'territorial', status: 'frozen', years: '1950–היום',
-    coords: [38.3, 127.2], sides: [['kp'], ['kr', 'us']],
+    coords: [38.3, 127.2], sides: [['kp', 'cn'], ['kr', 'us', 'un']],
     summary: 'מלחמת קוריאה הסתיימה ב־1953 בשביתת נשק, לא בהסכם שלום. צפון קוריאה מפתחת נשק גרעיני וטילים.',
     facts: ['מיליוני הרוגים במלחמת קוריאה.', 'כוחות צפון קוריאניים נלחמים לצד רוסיה באוקראינה.'],
     now: 'ניסויי טילים ומתיחות.',
@@ -441,7 +446,7 @@ const CORE: Conflict[] = [
   },
 ]
 
-export const CONFLICTS: Conflict[] = [...CORE, ...WEST, ...SOUTH]
+export const CONFLICTS: Conflict[] = [...CORE, ...WEST, ...SOUTH, ...POWERS]
 
 /** First year a conflict's `years` mentions, for the era filter. */
 export const startYear = (c: Conflict) => Number(c.years.match(/\d{4}/)?.[0] ?? 1949)

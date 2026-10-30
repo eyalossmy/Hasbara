@@ -39,7 +39,7 @@ export default function Quiz() {
   const shareText = `קיבלתי ${score}/${QUIZ.length} בחידון ההסברה — דרגה: ${rank.title} ${rank.emoji}. בואו לראות אם אתם יודעים יותר:`
 
   return (
-    <section className="section" style={{ background: 'radial-gradient(ellipse at top, #e3eaff, var(--bg) 60%)', minHeight: '80vh' }}>
+    <section className="section" style={{ background: 'radial-gradient(60% 50% at 50% 0%, #eef0ff, var(--bg) 70%)', minHeight: '80vh' }}>
       <div className="container quiz-shell">
         <div className="center" style={{ marginBottom: 28 }}>
           <span className="eyebrow">🧠 החידון</span>

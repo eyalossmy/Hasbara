@@ -12,9 +12,6 @@ export const NAV = [
   { to: '/glossary', label: 'מילון', emoji: '📖' },
 ]
 
-// Pages whose hero is dark get a dark nav bar so the top of the page reads as one surface.
-const DARK_TOP = ['/', '/oct7', '/map']
-
 export function Logo() {
   return (
     <Link to="/" className="logo" aria-label="הסברה — דף הבית">
@@ -38,17 +35,15 @@ export default function Layout() {
   }, [])
   useEffect(() => { document.body.style.overflow = open ? 'hidden' : '' }, [open])
 
-  const dark = DARK_TOP.includes(pathname) && !open
-
   return (
     <>
-      <nav className={`nav ${scrolled ? 'scrolled' : ''} ${dark ? 'dark' : ''}`}>
+      <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
         <div className="container nav-inner">
           <Logo />
           <div className="nav-links">
             {NAV.map((n) => <NavLink key={n.to} to={n.to}>{n.label}</NavLink>)}
           </div>
-          <Link to="/quiz" className="btn btn-gold btn-sm nav-cta">🧠 חידון</Link>
+          <Link to="/quiz" className="btn btn-primary btn-sm nav-cta">חידון 🧠</Link>
           <button className={`burger ${open ? 'open' : ''}`} onClick={() => setOpen(!open)} aria-label="תפריט" aria-expanded={open}>
             <span />
           </button>
@@ -86,7 +81,7 @@ export default function Layout() {
           </div>
           <div className="fine">
             <span>עודכן לאחרונה: {LAST_UPDATED}</span>
-            <span>מצאתם טעות? <a href={`${REPO_URL}/issues/new`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline', color: 'var(--gold)' }}>דווחו לנו</a> — אנחנו מתקנים בפומבי.</span>
+            <span>מצאתם טעות? <a href={`${REPO_URL}/issues/new`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline', color: 'var(--blue)' }}>דווחו לנו</a> — אנחנו מתקנים בפומבי.</span>
           </div>
         </div>
       </footer>}

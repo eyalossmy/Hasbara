@@ -29,44 +29,49 @@ export default function Home() {
     <>
       <section className="hero">
         <div className="grid-bg" />
-        <div className="glow a" /><div className="glow b" /><div className="glow c" />
-        <div className="container">
-          <div>
-            <span className="pill-live">🇮🇱 <span>הסברה ישראלית. <b>בלי לצעוק.</b></span></span>
-            <h1>האמת פשוטה יותר <span className="hl">ממה שמספרים לכם בטיקטוק.</span></h1>
-            <p className="lead">ציר זמן, מיתוסים מול עובדות, משפט בינלאומי בשפה של בני אדם, וארגז כלים לכל ויכוח — מהקמפוס ועד קבוצת הווטסאפ המשפחתית. הכל עם מקורות שאפשר לבדוק.</p>
-            <div className="hero-actions">
-              <Link to="/quiz" className="btn btn-gold">🧠 כמה אתם יודעים? חידון</Link>
-              <Link to="/myths" className="btn btn-ghost">מיתוס מול מציאות ←</Link>
-            </div>
-          </div>
-          <div className="hero-stack" aria-hidden>
-            <div className="float-card myth f1">
-              <div className="k">❌ מיתוס</div>
-              <div className="v">״עזה הייתה כבושה״</div>
-              <div className="s">ב־2005 ישראל הוציאה משם כל חייל וכל אזרח.</div>
-            </div>
-            <div className="float-card f2">
-              <div className="k">✅ עובדה</div>
-              <div className="v">850,000</div>
-              <div className="s">פליטים יהודים ממדינות ערב. ישראל קלטה את כולם.</div>
-            </div>
-            <div className="float-card f3">
-              <div className="k">📜 1947</div>
-              <div className="v">״כן״ לחלוקה</div>
-              <div className="s">היהודים קיבלו. הצד השני פתח במלחמה.</div>
-            </div>
+        <div className="container hero-in">
+          <span className="pill-live">🇮🇱 הסברה ישראלית · <b>בלי לצעוק, עם מקורות</b></span>
+          <h1>האמת פשוטה יותר <span className="hl">ממה שמספרים לכם בטיקטוק.</span></h1>
+          <p className="lead">ציר זמן, מיתוסים מול עובדות, משפט בינלאומי בשפה של בני אדם וארגז כלים לכל ויכוח — מהקמפוס ועד קבוצת הווטסאפ המשפחתית.</p>
+          <div className="hero-actions">
+            <Link to="/myths" className="btn btn-primary">מיתוס מול מציאות</Link>
+            <Link to="/quiz" className="btn btn-soft">🧠 כמה אתם יודעים?</Link>
           </div>
         </div>
-      </section>
-
-      <section className="stats">
         <div className="container">
-          <div className="stats-grid reveal">
-            <div className="stat"><div className="n"><CountUp to={3000} suffix="+" /></div><div className="t">שנות היסטוריה יהודית</div><div className="d">בארץ ישראל, מתועדות בארכיאולוגיה</div></div>
-            <div className="stat"><div className="n"><CountUp to={850000} /></div><div className="t">פליטים יהודים</div><div className="d">ממדינות ערב ואיראן אחרי 1948</div></div>
-            <div className="stat"><div className="n"><CountUp to={21} suffix="%" /></div><div className="t">מאזרחי ישראל ערבים</div><div className="d">עם זכות הצבעה ובחירה מלאה</div></div>
-            <div className="stat"><div className="n"><CountUp to={251} /></div><div className="t">חטופים ב־7.10</div><div className="d">מתינוקות ועד קשישים</div></div>
+          <div className="bento">
+            <Link to="/myths#occupied-gaza" className="bc tall lilac reveal">
+              <span className="bc-k">❌ מיתוס נפוץ</span>
+              <div className="bc-q"><s>״עזה הייתה כבושה עד 7 באוקטובר״</s></div>
+              <p className="bc-a">ב־2005 ישראל הוציאה מעזה כל חייל וכל אזרח — 21 יישובים פונו. מ־2007 שולט בה חמאס לבדו.</p>
+              <span className="bc-link">לכל 14 המיתוסים ←</span>
+            </Link>
+            <div className="bc sky reveal">
+              <span className="bc-k">🧳 הנכבה שלא מדברים עליה</span>
+              <div className="bc-n"><CountUp to={850000} /></div>
+              <p className="bc-t">פליטים יהודים ממדינות ערב ואיראן. ישראל קלטה את כולם.</p>
+            </div>
+            <div className="bc mint reveal">
+              <span className="bc-k">🗳️ ״אפרטהייד״?</span>
+              <div className="bc-n"><CountUp to={21} suffix="%" /></div>
+              <p className="bc-t">מאזרחי ישראל ערבים — עם זכות הצבעה, נציגים בכנסת ושופט בעליון.</p>
+            </div>
+            <div className="bc white reveal">
+              <span className="bc-k">🎗️ 7.10.2023</span>
+              <div className="bc-n"><CountUp to={251} /></div>
+              <p className="bc-t">חטופים, מתינוקות ועד קשישים.</p>
+            </div>
+            <Link to="/timeline" className="bc wide peach reveal">
+              <span className="bc-k">📜 29.11.1947</span>
+              <div className="bc-q">היהודים אמרו ״כן״ לחלוקה. הצד השני פתח במלחמה.</div>
+              <span className="bc-link">3,000 שנה ב־5 דקות ←</span>
+              <span className="bc-ill" aria-hidden>🕊️</span>
+            </Link>
+            <div className="bc lemon reveal">
+              <span className="bc-k">🏛️ מצבת מרנפתח</span>
+              <div className="bc-n"><CountUp to={3200} /></div>
+              <p className="bc-t">שנה עברו מאז ש״ישראל״ נחקק באבן במצרים.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -91,7 +96,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section" style={{ background: 'var(--surface)' }}>
+      <section className="section" style={{ background: 'var(--surface)', borderBlock: '1px solid var(--line)' }}>
         <div className="container">
           <div className="grid-2" style={{ alignItems: 'center', gap: 48 }}>
             <div className="reveal">

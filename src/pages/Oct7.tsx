@@ -37,8 +37,7 @@ export default function Oct7() {
         <div className="grid-bg" />
         <div className="glow c" style={{ opacity: .12 }} />
         <div className="container">
-          <span className="candle" aria-hidden />
-          <span className="eyebrow" style={{ display: 'block', marginTop: 16 }}>7.10.2023 · שמחת תורה</span>
+          <span className="eyebrow"><span className="candle" aria-hidden /> 7.10.2023 · שמחת תורה</span>
           <h1>היום שבו העולם היה צריך להבין.</h1>
           <p className="lead">בעמוד הזה אין בדיחות. יש עובדות — כדי לזכור, וכדי שאף אחד לא יוכל להכחיש.</p>
         </div>
