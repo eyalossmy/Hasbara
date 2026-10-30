@@ -180,14 +180,14 @@ img, svg { display: block; max-width: 100%; }
 .badge.developing { color: var(--violet); }
 
 /* ═════ Motion ═════ */
-.route { animation: routeIn .7s var(--ease) backwards; }
+.route { animation: routeIn .35s var(--ease) backwards; }
 @keyframes routeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-.split .w { display: inline-block; opacity: 0; transform: translateY(.45em); filter: blur(8px); animation: wordIn .9s var(--ease) forwards; animation-delay: calc(var(--i) * 60ms + 120ms); }
-@keyframes wordIn { to { opacity: 1; transform: none; filter: none; } }
-.fade-up { opacity: 0; animation: fadeUpBig .9s var(--ease) forwards; animation-delay: var(--d, .4s); }
+.split .w { display: inline-block; opacity: 0; transform: translateY(.4em); animation: wordIn .6s var(--ease) forwards; animation-delay: calc(var(--i) * 45ms + 60ms); }
+@keyframes wordIn { to { opacity: 1; transform: none; } }
+.fade-up { opacity: 0; animation: fadeUpBig .6s var(--ease) forwards; animation-delay: calc(var(--d, .4s) * .6); }
 @keyframes fadeUpBig { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-.reveal { opacity: 0; transform: translateY(28px); filter: blur(6px); transition: opacity 1s var(--ease), transform 1s var(--ease), filter 1s var(--ease); transition-delay: var(--rd, 0ms); }
-.reveal.in { opacity: 1; transform: none; filter: none; }
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s var(--ease), transform .6s var(--ease); transition-delay: calc(var(--rd, 0ms) * .6); }
+.reveal.in { opacity: 1; transform: none; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* ═════ Page hero (inner pages) ═════ */
@@ -853,14 +853,24 @@ a.bc.dark:hover { background: #1a1d25; }
    Layout above stays as is; this only re-skins it.
    ═══════════════════════════════════════════════════════════════ */
 
-/* the textured blue surface used for the nav, heroes, bands and footer */
+/* the blue surface used for the nav, heroes, bands and footer */
 .nav, .page-hero, .hero, .footer, .cta-band {
   --stripes:
-    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, .14) 1px, transparent 1.6px) 0 0 / 24px 24px,
     radial-gradient(55% 80% at 100% 0%, rgba(120, 160, 255, .35), transparent 65%),
     radial-gradient(45% 70% at 0% 100%, rgba(255, 194, 61, .16), transparent 60%),
     linear-gradient(165deg, var(--accent) 0%, var(--blue-deep) 100%);
 }
+
+/* silk lines drifting slowly across the blue; moved with transform only, so it stays cheap */
+.page-hero, .hero, .footer, .cta-band { position: relative; overflow: hidden; isolation: isolate; }
+.page-hero::before, .hero::before, .footer::before, .cta-band::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: calc(100% + 600px); z-index: -1; pointer-events: none;
+  background: url('/flow.svg') repeat-x 0 0 / 600px 100%;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, rgba(0, 0, 0, .35));
+  mask-image: linear-gradient(180deg, #000 30%, rgba(0, 0, 0, .35));
+  animation: flow 40s linear infinite; will-change: transform;
+}
+@keyframes flow { to { transform: translateX(-600px); } }
 
 /* nav: blue, white links, gold call to action */
 .nav { background: var(--stripes); backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: 0; box-shadow: 0 1px 0 rgba(255, 255, 255, .08); }
