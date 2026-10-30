@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { LAST_UPDATED, REPO_URL } from '../data/types'
 
@@ -25,24 +25,27 @@ export default function Layout() {
   const { pathname, hash } = useLocation()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [progress, setProgress] = useState(0)
+  const bar = useRef<HTMLDivElement>(null)
 
   useEffect(() => { if (!hash) window.scrollTo(0, 0); setOpen(false) }, [pathname])
   useEffect(() => {
-    const on = () => {
+    let frame = 0
+    const paint = () => {
+      frame = 0
       const max = document.documentElement.scrollHeight - window.innerHeight
       setScrolled(window.scrollY > 8)
-      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0)
+      bar.current?.style.setProperty('transform', `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`)
     }
-    on()
+    const on = () => { frame ||= requestAnimationFrame(paint) }
+    paint()
     window.addEventListener('scroll', on, { passive: true })
-    return () => window.removeEventListener('scroll', on)
+    return () => { window.removeEventListener('scroll', on); cancelAnimationFrame(frame) }
   }, [])
   useEffect(() => { document.body.style.overflow = open ? 'hidden' : '' }, [open])
 
   return (
     <>
-      <div className="scroll-progress" style={{ width: `${progress * 100}%` }} aria-hidden />
+      <div className="scroll-progress" ref={bar} aria-hidden />
       <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
         <div className="container nav-inner">
           <Logo />

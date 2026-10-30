@@ -1,9 +1,15 @@
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { ERAS, KEY_FACTS, TIMELINE, type Era } from '../data/timeline'
 import { Emph, PageHero, SourceLinks, useReveal } from '../components/ui'
 import LandMap, { MapView, PeriodText } from '../components/LandMap'
 
+// Wide screens show one map beside the list; only narrow ones need a map per period inside it
+const WIDE = '(min-width: 1241px)'
+const subscribeWide = (cb: () => void) => { const m = matchMedia(WIDE); m.addEventListener('change', cb); return () => m.removeEventListener('change', cb) }
+const isWide = () => matchMedia(WIDE).matches
+
 export default function Timeline() {
+  const wide = useSyncExternalStore(subscribeWide, isWide)
   const [era, setEra] = useState<Era | 'all' | 'key'>('all')
   const [active, setActive] = useState(0)
   const [open, setOpen] = useState<number | null>(null)
@@ -61,7 +67,7 @@ export default function Timeline() {
             return (
               <Fragment key={e.i}>
                 {/* Small screens have no side column: each new period opens with its map */}
-                {newPeriod && <div className="tl-period"><LandMap period={e.map} /></div>}
+                {newPeriod && !wide && <div className="tl-period"><LandMap period={e.map} /></div>}
                 <div data-i={e.i} className={`tl-item reveal ${e.key ? 'key' : ''} ${cur === TIMELINE[e.i] ? 'on' : ''}`}>
                   <div className="tl-year">{e.year}</div>
                   <button className={`tl-card ${isOpen ? 'open' : ''}`} onClick={() => { setActive(e.i); setOpen(isOpen ? null : e.i) }} aria-expanded={isOpen}>

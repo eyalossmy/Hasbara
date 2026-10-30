@@ -2,23 +2,27 @@ import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
 import { STATUS, type Source, type Status } from '../data/types'
 
+// One observer for the whole site; pages re-render often (the timeline on every scroll step), so each pass only picks up new elements
+let revealIO: IntersectionObserver | undefined
+const seen = new WeakSet<Element>()
+
 export function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>('.reveal:not(.in)')
-    // Siblings that enter together cascade instead of popping in at once
-    els.forEach((el) => {
-      const sibs = el.parentElement ? [...el.parentElement.children].filter((c) => c.classList.contains('reveal')) : []
-      const i = Math.max(0, sibs.indexOf(el))
-      el.style.setProperty('--rd', `${Math.min(i, 6) * 80}ms`)
-    })
-    const io = new IntersectionObserver(
+    revealIO ??= new IntersectionObserver(
       (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) }
+        if (e.isIntersecting) { e.target.classList.add('in'); revealIO!.unobserve(e.target) }
       }),
-      { threshold: 0.12, rootMargin: '0px 0px -60px 0px' },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
     )
-    els.forEach((el) => io.observe(el))
-    return () => io.disconnect()
+    document.querySelectorAll<HTMLElement>('.reveal:not(.in)').forEach((el) => {
+      if (seen.has(el)) return
+      seen.add(el)
+      // Siblings that enter together cascade instead of popping in at once
+      let i = 0
+      for (let p = el.previousElementSibling; p && i < 6; p = p.previousElementSibling) if (p.classList.contains('reveal')) i++
+      el.style.setProperty('--rd', `${i * 60}ms`)
+      revealIO!.observe(el)
+    })
   })
 }
 
