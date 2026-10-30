@@ -40,3 +40,11 @@ export const SRC = {
   shifa: { label: 'בית החולים שיפא — מחלוקת וראיות', url: 'https://en.wikipedia.org/wiki/Al-Shifa_Hospital_siege' },
   gazaMoh: { label: 'נתוני משרד הבריאות בעזה — מתודולוגיה ומחלוקות', url: 'https://en.wikipedia.org/wiki/Gaza_Health_Ministry' },
 } satisfies Record<string, Source>
+
+/** A Wikipedia article as a source: Hebrew where it exists, English otherwise. */
+export const wiki = (lang: 'he' | 'en', title: string): Source => ({
+  label: lang === 'he' ? `ויקיפדיה: ${title}` : `Wikipedia: ${title}`,
+  url: `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`,
+})
+
+export const src = (label: string, url: string): Source => ({ label, url })

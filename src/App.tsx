@@ -4,11 +4,11 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 
 /** A lazy page that can be fetched ahead of time, and renders without suspending once it is in. */
-function page(load: () => Promise<{ default: ComponentType }>) {
-  let Loaded: ComponentType | undefined
+function page<P extends object = object>(load: () => Promise<{ default: ComponentType<P> }>) {
+  let Loaded: ComponentType<P> | undefined
   const preload = () => load().then((m) => { Loaded = m.default; return m })
-  const Lazy = lazy(preload)
-  const Page = () => (Loaded ? <Loaded /> : <Lazy />)
+  const Lazy = lazy(preload) as unknown as ComponentType<P>
+  const Page = (props: P) => (Loaded ? <Loaded {...props} /> : <Lazy {...props} />)
   Page.preload = preload
   return Page
 }
@@ -23,10 +23,17 @@ const Quiz = page(() => import('./pages/Quiz'))
 const GazaOrNot = page(() => import('./pages/GazaOrNot'))
 const Glossary = page(() => import('./pages/Glossary'))
 const About = page(() => import('./pages/About'))
+const Hub = page(() => import('./pages/Hub'))
+const Holocaust = page(() => import('./pages/Holocaust'))
+const Antisemitism = page(() => import('./pages/Antisemitism'))
+const Achievements = page(() => import('./pages/Achievements'))
+const War = page(() => import('./pages/War'))
+const ConflictHistory = page(() => import('./pages/ConflictHistory'))
+const Compare = page(() => import('./pages/Compare'))
 const NotFound = page(() => import('./pages/NotFound'))
 
 // Light pages are fetched once the first page is idle, so moving between them never waits on the network
-const LIGHT = [Timeline, Oct7, Myths, Toolkit, Law, Quiz, GazaOrNot, Glossary, About]
+const LIGHT = [Hub, Timeline, Oct7, Holocaust, Antisemitism, Achievements, War, ConflictHistory, Myths, Toolkit, Compare, Law, Quiz, GazaOrNot, Glossary, About]
 
 export default function App() {
   useEffect(() => {
@@ -44,6 +51,15 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="israel" element={<Hub id="israel" />} />
+          <Route path="conflict" element={<Hub id="conflict" />} />
+          <Route path="world" element={<Hub id="world" />} />
+          <Route path="holocaust" element={<Holocaust />} />
+          <Route path="antisemitism" element={<Antisemitism />} />
+          <Route path="achievements" element={<Achievements />} />
+          <Route path="war" element={<War />} />
+          <Route path="conflict-history" element={<ConflictHistory />} />
+          <Route path="compare" element={<Compare />} />
           <Route path="timeline" element={<Timeline />} />
           <Route path="oct7" element={<Oct7 />} />
           <Route path="myths" element={<Myths />} />

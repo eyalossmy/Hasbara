@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { QUIZ, RANKS } from '../data/quiz'
-import { QuizTabs, copyText, shareUrl } from '../components/ui'
+import { QuizTabs, SourceLinks, copyText, shareUrl } from '../components/ui'
 
 const LETTERS = ['א', 'ב', 'ג', 'ד']
 const COLORS = ['#1446f5', '#ffb020', '#0fb47e', '#ff5a5f', '#7c4dff']
@@ -84,6 +84,7 @@ export default function Quiz() {
                   <div className="explain">
                     <div className="quip">{pick === q.answer ? q.right : q.wrong}</div>
                     <div className="muted">{q.explain}</div>
+                    <div style={{ marginTop: 12 }}><SourceLinks sources={q.sources} /></div>
                   </div>
                   <div className="quiz-next">
                     <button className="btn btn-primary" onClick={next}>{i === QUIZ.length - 1 ? 'לתוצאה' : 'הבאה'}</button>

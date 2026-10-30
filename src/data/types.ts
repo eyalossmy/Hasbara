@@ -13,5 +13,5 @@ export interface Source {
   url: string
 }
 
-export const LAST_UPDATED = '28.10.2026'
+export const LAST_UPDATED = '30.10.2026'
 export const REPO_URL = 'https://github.com/eyalossmy/Hasbara'

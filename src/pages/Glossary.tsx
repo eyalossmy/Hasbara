@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { GLOSSARY, TERM_CATS, type TermCat } from '../data/glossary'
-import { PageHero } from '../components/ui'
+import { PageHero, SourceLinks } from '../components/ui'
 
 export default function Glossary() {
   const [q, setQ] = useState('')
@@ -41,6 +41,7 @@ export default function Glossary() {
                     <h3>{t.he}</h3>
                     <p>{t.def}</p>
                     {t.tip && <div className="tip"><b>ומה עונים?</b>{t.tip}</div>}
+                    {t.sources && <div style={{ marginTop: 14 }}><SourceLinks sources={t.sources} /></div>}
                   </article>
                 ))}
               </div>

@@ -1,16 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { LAST_UPDATED, REPO_URL } from '../data/types'
-
-export const NAV = [
-  { to: '/timeline', label: 'ציר זמן' },
-  { to: '/oct7', label: '7 באוקטובר' },
-  { to: '/myths', label: 'מיתוסים' },
-  { to: '/toolkit', label: 'ארגז כלים' },
-  { to: '/law', label: 'משפט' },
-  { to: '/map', label: 'מפת העולם' },
-  { to: '/glossary', label: 'מילון' },
-]
+import { SECTIONS } from '../data/sections'
 
 export function Logo() {
   return (
@@ -50,7 +41,15 @@ export default function Layout() {
         <div className="container nav-inner">
           <Logo />
           <div className="nav-links">
-            {NAV.map((n) => <NavLink key={n.to} to={n.to}>{n.label}</NavLink>)}
+            {SECTIONS.map((s) => (
+              <div key={s.id} className={`nav-group ${s.pages.some((p) => p.to === pathname) ? 'here' : ''}`}>
+                <NavLink to={s.to}>{s.label}</NavLink>
+                <div className="nav-menu">
+                  {s.pages.map((p) => <NavLink key={p.to} to={p.to}><b>{p.label}</b><span>{p.text}</span></NavLink>)}
+                </div>
+              </div>
+            ))}
+            <NavLink to="/glossary">מילון</NavLink>
           </div>
           <Link to="/quiz" className="btn btn-primary btn-sm nav-cta">חידון</Link>
           <button className={`burger ${open ? 'open' : ''}`} onClick={() => setOpen(!open)} aria-label="תפריט" aria-expanded={open}>
@@ -59,8 +58,16 @@ export default function Layout() {
         </div>
       </nav>
       <div className={`drawer ${open ? 'open' : ''}`} aria-hidden={!open}>
-        {[...NAV, { to: '/quiz', label: 'חידון' }, { to: '/gaza-or-not', label: 'עזה או לא?' }, { to: '/about', label: 'שקיפות' }].map((n, i) => (
-          <NavLink key={n.to} to={n.to} tabIndex={open ? 0 : -1}><span className="em">{String(i + 1).padStart(2, '0')}</span>{n.label}</NavLink>
+        {SECTIONS.map((s, i) => (
+          <div key={s.id} className="drawer-group">
+            <NavLink to={s.to} tabIndex={open ? 0 : -1}><span className="em">{String(i + 1).padStart(2, '0')}</span>{s.label}</NavLink>
+            <div className="drawer-sub">
+              {s.pages.map((p) => <NavLink key={p.to} to={p.to} tabIndex={open ? 0 : -1}>{p.label}</NavLink>)}
+            </div>
+          </div>
+        ))}
+        {[{ to: '/glossary', label: 'מילון' }, { to: '/quiz', label: 'חידון' }, { to: '/about', label: 'שקיפות ומקורות' }].map((n, i) => (
+          <NavLink key={n.to} to={n.to} tabIndex={open ? 0 : -1}><span className="em">{String(i + 4).padStart(2, '0')}</span>{n.label}</NavLink>
         ))}
       </div>
 
@@ -71,23 +78,19 @@ export default function Layout() {
           <div className="cols">
             <div>
               <Logo />
-              <p>העובדות על ישראל — קצרות, מדויקות ועם מקורות.</p>
+              <p>להבין את ישראל, להסביר את הסכסוך ולחשוב ביקורתית — עם מקור לכל עובדה.</p>
             </div>
+            {SECTIONS.map((sec) => (
+              <div key={sec.id}>
+                <h4><Link to={sec.to} style={{ color: 'inherit' }}>{sec.label}</Link></h4>
+                {sec.pages.map((p) => <Link key={p.to} to={p.to}>{p.label}</Link>)}
+              </div>
+            ))}
             <div>
-              <h4>ללמוד</h4>
-              <Link to="/timeline">ציר זמן</Link>
-              <Link to="/oct7">7 באוקטובר</Link>
-              <Link to="/law">משפט בינלאומי</Link>
-              <Link to="/map">מפת העולם</Link>
+              <h4>עוד</h4>
               <Link to="/glossary">מילון</Link>
-            </div>
-            <div>
-              <h4>להסביר</h4>
-              <Link to="/myths">מיתוס מול מציאות</Link>
-              <Link to="/toolkit">ארגז כלים</Link>
               <Link to="/quiz">חידון</Link>
-              <Link to="/gaza-or-not">עזה או לא?</Link>
-              <Link to="/about">שקיפות ומקורות</Link>
+              <Link to="/about">המשימה, שקיפות ומקורות</Link>
             </div>
           </div>
           <div className="fine">

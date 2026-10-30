@@ -1,3 +1,6 @@
+import type { Source } from './types'
+import { SRC, wiki } from './sources'
+
 export type TermCat = 'history' | 'politics' | 'law' | 'actors' | 'words'
 
 export const TERM_CATS: { id: TermCat; label: string }[] = [
@@ -14,6 +17,7 @@ export interface Term {
   cat: TermCat
   def: string
   tip?: string
+  sources?: Source[]
 }
 
 export const GLOSSARY: Term[] = [
@@ -67,4 +71,12 @@ export const GLOSSARY: Term[] = [
   { he: 'ג׳יהאד', en: 'Jihad', cat: 'words', def: 'בערבית ״מאמץ״. בפי ארגוני טרור כמו חמאס והג׳יהאד האסלאמי — מלחמת קודש אלימה. אמנת חמאס קובעת שאין פתרון לבעיה הפלסטינית מלבד ג׳יהאד.' },
   { he: 'שהיד', en: 'Shahid', cat: 'words', def: '״מעיד״ או ״קדוש מעונה״ בערבית. בשיח הפלסטיני הכינוי ניתן גם למחבלים שנהרגו בפיגוע — ואחריהם נקראים כיכרות ובתי ספר.' },
   { he: 'פאלייווד', en: 'Pallywood', cat: 'words', def: 'כינוי לסרטונים ולתמונות מבוימים או מוצאים מהקשרם שמופצים כתיעוד מעזה — לעיתים צילומים מסוריה, מעיראק ואפילו ממלחמת העולם השנייה.', tip: 'לפני ששולחים הלאה — חיפוש תמונה הפוך. נסו את ״עזה או לא?״.' },
+  // Added with the mission sections
+  { he: 'שואה', en: 'Holocaust', cat: 'history', def: 'רצח שישה מיליון יהודים בידי גרמניה הנאצית ושותפיה בשנים 1941–1945, כחלק מתוכנית מכוונת להשמיד את העם היהודי כולו.', tip: 'השואה היא רצח העם המתועד ביותר בהיסטוריה — בפרוטוקולים של המבצעים עצמם.', sources: [{ label: 'יד ושם', url: 'https://www.yadvashem.org/holocaust/about.html' }] },
+  { he: 'עלילת דם', en: 'Blood libel', cat: 'words', def: 'השקר מימי הביניים שיהודים רוצחים ילדים נוצרים לצורכי פולחן. הוא הוביל לטבח בקהילות יהודיות במשך מאות שנים.', tip: 'כשמאשימים את ישראל ב״רצח ילדים בכוונה״ בלי ראיות — זו אותה עלילה בבגדים חדשים.', sources: [wiki('en', 'Blood libel')] },
+  { he: 'ד׳ימי', en: 'Dhimmi', cat: 'history', def: 'מעמד של יהודים ונוצרים תחת שלטון האסלאם: מוגנים, אבל נחותים בחוק, ומשלמים מס מיוחד (ג׳יזיה).', tip: 'מדינה יהודית ריבונית בלב העולם המוסלמי הופכת את הסדר הזה — וזה חלק משורשי ההתנגדות אליה.', sources: [wiki('en', 'Dhimmi')] },
+  { he: 'האחים המוסלמים', en: 'Muslim Brotherhood', cat: 'actors', def: 'תנועה אסלאמיסטית שנוסדה במצרים ב־1928. חמאס מגדיר את עצמו באמנתו כסניף שלה בארץ.', sources: [wiki('en', 'Muslim Brotherhood'), SRC.hamasCharter] },
+  { he: 'חרבות ברזל', en: 'Swords of Iron', cat: 'history', def: 'שם המלחמה שפרצה ב־7 באוקטובר 2023 — בעזה, בלבנון, מול החות׳ים ומול איראן.', sources: [wiki('en', 'Gaza war')] },
+  { he: 'מבחן ה־3D', en: '3D test', cat: 'words', def: 'שלושה סימנים לביקורת על ישראל שהפכה לאנטישמיות, לפי נתן שרנסקי: דמוניזציה, דה־לגיטימציה וסטנדרט כפול.', tip: 'השאלה הפשוטה: האם הייתם אומרים את זה על כל מדינה אחרת?', sources: [wiki('en', '3D test of antisemitism')] },
+  { he: 'IHRA', en: 'IHRA definition', cat: 'words', def: 'הגדרת העבודה לאנטישמיות של הברית הבינלאומית לזיכרון השואה. אומצה בידי עשרות מדינות, ומפרטת דוגמאות — כולל השוואת ישראל לנאצים.', sources: [SRC.ihra] },
 ]

@@ -1,5 +1,7 @@
 import { SRC } from '../data/sources'
 import { LAST_UPDATED, REPO_URL, STATUS, type Status } from '../data/types'
+import { Link } from 'react-router-dom'
+import { MISSIONS, SECTIONS } from '../data/sections'
 import { PageHero, StatusBadge, useReveal } from '../components/ui'
 
 const PRINCIPLES = [
@@ -15,8 +17,23 @@ export default function About() {
   useReveal()
   return (
     <>
-      <PageHero eyebrow="שקיפות" title="איך אנחנו עובדים"
-        lead="לאתר יש עמדה ישראלית ברורה. לכן כל טענה בו מגובה במקור ומסומנת לפי רמת הוודאות." />
+      <PageHero eyebrow="המשימה ושקיפות" title="למה האתר הזה קיים"
+        lead="לאתר יש עמדה ישראלית ברורה. לכן כל טענה בו מגובה במקור ומסומנת לפי רמת הוודאות — כדי שכל אחד, בכל מקום בעולם, יוכל לבדוק בעצמו." />
+
+      <section className="section-tight">
+        <div className="container">
+          <div className="section-head reveal"><span className="eyebrow">המשימה</span><h2>שלוש משימות</h2></div>
+          <div className="missions">
+            {MISSIONS.map((m, i) => (
+              <Link key={m.n} to={SECTIONS.find((s) => s.mission === i)!.to} className="mission reveal">
+                <span className="n">{m.n}</span>
+                <h3>{m.title}</h3>
+                <p>{m.text}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="section-tight">
         <div className="container">
@@ -44,7 +61,7 @@ export default function About() {
 
       <section className="section-tight">
         <div className="container">
-          <div className="section-head reveal"><span className="eyebrow">מקורות</span><h2>כל המקורות</h2></div>
+          <div className="section-head reveal"><span className="eyebrow">מקורות</span><h2>המקורות המרכזיים</h2><p>בכל עמוד, ליד כל פריט, מופיעים המקורות שלו. כאן מרוכזים העיקריים.</p></div>
           <div className="src-table">
             {Object.values(SRC).map((s) => (
               <a key={s.url} className="src-row" href={s.url} target="_blank" rel="noopener noreferrer">

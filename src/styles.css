@@ -1018,3 +1018,62 @@ a.bc.dark:hover { background: #0a3d82; }
 .gon-tip span { color: var(--ink-2); font-size: 15px; }
 .gon-end .row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
 @media (max-width: 600px) { .gon-btn { height: 56px; font-size: 19px; } .gon-stamp { inset-inline-start: 10px; bottom: 10px; padding: 10px 14px; } }
+
+/* ═════ Nav sections: a menu drops under each of the three sections ═════ */
+.nav-group { position: relative; display: flex; align-items: center; height: var(--nav); }
+.nav-group.here > a { color: #fff; }
+.nav-group.here > a::after { width: 100%; }
+.nav-menu {
+  position: absolute; top: calc(var(--nav) - 6px); inset-inline-start: -18px; min-width: 300px; padding: 10px;
+  background: #fff; border-radius: 18px; box-shadow: var(--shadow-lg); display: grid; gap: 2px;
+  opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity .2s, transform .25s var(--ease);
+}
+.nav-group:hover .nav-menu, .nav-group:focus-within .nav-menu { opacity: 1; transform: none; pointer-events: auto; }
+.nav-links .nav-menu a { display: grid; gap: 1px; padding: 10px 14px; border-radius: 12px; color: var(--ink); }
+.nav-links .nav-menu a::after { display: none; }
+.nav-links .nav-menu a:hover, .nav-links .nav-menu a.active { background: var(--accent-soft); color: var(--ink); }
+.nav-menu b { font-size: 15.5px; font-weight: 700; color: var(--accent); }
+.nav-menu span { font-size: 13px; font-weight: 400; color: var(--ink-2); line-height: 1.45; }
+.drawer-group { border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.drawer-group > a { border-bottom: 0; }
+.drawer-sub { display: flex; flex-wrap: wrap; gap: 6px 18px; padding-inline-start: 40px; }
+.drawer .drawer-sub a { font-size: 17px; font-weight: 500; padding: 4px 0; border: 0; color: var(--ink-2); }
+.drawer .drawer-sub a.active { color: var(--accent); }
+
+/* ═════ The three missions ═════ */
+.missions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.mission { display: grid; align-content: start; gap: 8px; padding: 28px; border-radius: 24px; background: var(--bg-2); color: var(--ink); transition: background .3s, transform .4s var(--ease); }
+.mission:hover { background: var(--accent-soft); transform: translateY(-3px); }
+.mission.on { background: var(--accent); color: #fff; }
+.mission .n { font-size: 15px; font-weight: 800; color: var(--sun); }
+.mission h3 { font-size: 26px; font-weight: 800; color: inherit; }
+.mission.on h3 { color: #fff; }
+.mission:not(.on) h3 { color: var(--accent); }
+.mission p { font-size: 15.5px; color: inherit; opacity: .85; }
+@media (max-width: 800px) { .missions { grid-template-columns: 1fr; } }
+
+/* ═════ Content pages: cards that each carry their sources ═════ */
+.ac-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.ac { display: flex; flex-direction: column; gap: 10px; padding: 26px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); }
+.ac-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 20px; }
+.ac-k { font-size: 13px; font-weight: 700; color: var(--gold); direction: rtl; }
+.ac h3 { font-size: 22px; font-weight: 700; color: var(--ink); }
+.ac p { color: var(--ink-2); font-size: 16px; flex: 1; }
+.ac .sources { padding-top: 12px; border-top: 1px solid var(--line); }
+.ac .src { font-size: 13.5px; }
+.ac-src { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.ac-src .src { font-size: 13.5px; }
+.ac-next { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 40px; }
+.hour .t { font-size: 20px; }
+
+/* ═════ Think critically ═════ */
+.think { padding: 36px; border-radius: 28px; background: var(--ink); color: #fff; }
+.think-k { font-size: 13px; font-weight: 700; color: var(--sun); }
+.think h3 { font-size: clamp(24px, 3vw, 32px); font-weight: 800; margin: 8px 0 18px; }
+.think ol { margin: 0; padding-inline-start: 22px; display: grid; gap: 10px; font-size: 17.5px; }
+.think p { margin-top: 18px; font-size: 14.5px; color: rgba(255, 255, 255, .7); }
+@media (max-width: 700px) { .think { padding: 26px 22px; } .hour { grid-template-columns: 1fr; gap: 6px; } }
+.ac-stats { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.ac-stats > div { min-width: 0; }
+.ac-stats .n { font-size: clamp(32px, 4vw, 56px); overflow-wrap: anywhere; }
+@media (max-width: 800px) { .ac-stats { grid-template-columns: 1fr 1fr; } .ac-stats .n { font-size: clamp(24px, 7.4vw, 40px); } }
