@@ -4,7 +4,7 @@ import L from 'leaflet'
 import 'leaflet.markercluster'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
-import { ACTORS, CONFLICTS, CONF_STATUS, CONF_TYPES, startYear, type ConfStatus, type ConfType, type Conflict } from '../data/conflicts'
+import { ACTORS, CONFLICTS, CONF_STATUS, CONF_TYPES, startYear, type ActorId, type ConfStatus, type ConfType, type Conflict } from '../data/conflicts'
 import { addBasemap } from '../components/basemap'
 import Flag from '../components/Flag'
 import { CountUp, Split, copyText } from '../components/ui'
@@ -36,21 +36,38 @@ function matches(c: Conflict, q: string) {
   return norm(q).split(/\s+/).filter(Boolean).every((w) => hay.includes(w))
 }
 
-function signIcon(c: Conflict, selected: boolean) {
-  const t = CONF_TYPES[c.type]
+/** Below this zoom the map shows dots only; names appear on hover or when zoomed in. */
+const LABEL_ZOOM = 4
+
+/** A solid dot in the conflict's colour sitting exactly on the place, with its name above it. */
+function pinIcon(c: Conflict, selected: boolean) {
   return L.divIcon({
     className: '',
-    html: `<div class="sign${selected ? ' sel' : ''}${c.status === 'active' ? ' live' : ''}" style="--c:${t.color}"><span class="sg-ic">${t.icon}</span><span class="sg-lb">${c.short}</span></div>`,
+    html: `<div class="pin${selected ? ' sel' : ''}${c.status === 'active' ? ' live' : ''}" style="--c:${CONF_TYPES[c.type].color}"><i class="pin-dot"></i><span class="pin-lb">${c.short}</span></div>`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
   })
 }
 
+/** A count wrapped in a ring that shows the mix of conflict types inside. */
 function clusterIcon(cluster: L.MarkerCluster) {
-  const n = cluster.getChildCount()
-  const colors = cluster.getAllChildMarkers().map((m) => CONF_TYPES[(m.options as unknown as { conflict: Conflict }).conflict.type].color)
-  const dots = [...new Set(colors)].slice(0, 4).map((c) => `<i style="background:${c}"></i>`).join('')
-  return L.divIcon({ className: '', html: `<div class="sg-cluster"><b>${n}</b><span>${dots}</span></div>`, iconSize: [0, 0], iconAnchor: [0, 0] })
+  const kids = cluster.getAllChildMarkers().map((m) => (m.options as unknown as { conflict: Conflict }).conflict.type)
+  const n = kids.length
+  let at = 0
+  const stops = (Object.keys(CONF_TYPES) as ConfType[]).flatMap((t) => {
+    const k = kids.filter((x) => x === t).length
+    if (!k) return []
+    const from = at
+    at += (k / n) * 360
+    return [`${CONF_TYPES[t].color} ${from}deg ${at}deg`]
+  })
+  const size = n < 5 ? 38 : n < 15 ? 46 : n < 40 ? 54 : 62
+  return L.divIcon({
+    className: '',
+    html: `<div class="cl" style="--s:${size}px;background:conic-gradient(${stops.join(',')})"><b>${n}</b></div>`,
+    iconSize: [0, 0],
+    iconAnchor: [0, 0],
+  })
 }
 
 function toggle<T>(set: Set<T>, v: T) {
@@ -68,18 +85,15 @@ function FilterIcon() {
   )
 }
 
-/** Two rows of conflict names drifting past — "all the others" at a glance. */
-function Marquee() {
-  const rows = [CONFLICTS.filter((_, i) => i % 2 === 0), CONFLICTS.filter((_, i) => i % 2 === 1)]
+/** One side of a conflict: its flags, overlapping, and its names in one line. */
+function Side({ ids, cap }: { ids: ActorId[]; cap?: string }) {
   return (
-    <div className="mq" aria-hidden>
-      {rows.map((row, r) => (
-        <div key={r} className={`mq-track ${r ? 'rev' : ''}`}>
-          {[...row, ...row].map((c, i) => (
-            <span key={i} className="mq-chip"><i style={{ background: CONF_TYPES[c.type].color }} />{c.short}</span>
-          ))}
-        </div>
-      ))}
+    <div className="wp-side">
+      <span className="wp-flags">{ids.map((a) => <Flag key={a} actor={ACTORS[a]} />)}</span>
+      <span className="wp-names">
+        {cap && <small>{cap}</small>}
+        {ids.map((a) => ACTORS[a].name).join(' · ')}
+      </span>
     </div>
   )
 }
@@ -101,6 +115,7 @@ export default function WorldMap() {
   const mapRef = useRef<L.Map | null>(null)
   const clusterRef = useRef<L.MarkerClusterGroup | null>(null)
   const markers = useRef(new Map<string, L.Marker>())
+  const lifted = useRef<L.Marker | null>(null)
   const selRef = useRef(selId)
   selRef.current = selId
 
@@ -145,16 +160,18 @@ export default function WorldMap() {
     L.control.zoom({ position: 'bottomleft', zoomInTitle: 'התקרבות', zoomOutTitle: 'התרחקות' }).addTo(map)
     map.fitBounds(WORLD, { ...padding(false), animate: false })
 
+    // Group only dots that would sit on top of each other, so most conflicts show as their own pin
     const cluster = L.markerClusterGroup({
       showCoverageOnHover: false,
-      maxClusterRadius: 70,
+      maxClusterRadius: (z: number) => (z < LABEL_ZOOM ? 26 : 56),
+      disableClusteringAtZoom: 7,
       spiderfyOnMaxZoom: true,
       iconCreateFunction: clusterIcon,
     })
     map.addLayer(cluster)
     mapRef.current = map
     clusterRef.current = cluster
-    const zoomClass = () => el.current?.classList.toggle('wm-far', map.getZoom() < 3.5)
+    const zoomClass = () => el.current?.classList.toggle('wm-far', map.getZoom() < LABEL_ZOOM)
     map.on('zoomend', zoomClass)
     zoomClass()
     // The vector basemap is the heavy part: fetch it only as the visitor heads for the map,
@@ -194,22 +211,44 @@ export default function WorldMap() {
       mapRef.current = null
       clusterRef.current = null
       markers.current.clear()
+      lifted.current = null
     }
   }, [])
+
+  /** The open conflict's pin sits on the map itself, never folded into a cluster. */
+  const lift = (id: string | null) => {
+    const map = mapRef.current
+    const cluster = clusterRef.current
+    if (!map || !cluster) return
+    const prev = lifted.current
+    if (prev) {
+      map.removeLayer(prev)
+      if ([...markers.current.values()].includes(prev)) cluster.addLayer(prev)
+      lifted.current = null
+    }
+    const m = id ? markers.current.get(id) : undefined
+    if (!m) return
+    cluster.removeLayer(m)
+    m.addTo(map)
+    lifted.current = m
+  }
 
   // Signs for the conflicts that match the search and filters.
   useEffect(() => {
     const cluster = clusterRef.current
     if (!cluster) return
+    if (lifted.current) mapRef.current?.removeLayer(lifted.current)
+    lifted.current = null
     cluster.clearLayers()
     markers.current.clear()
     const list = visible.map((c) => {
-      const m = L.marker(c.coords, { icon: signIcon(c, c.id === selRef.current), conflict: c, riseOnHover: true, keyboard: true, title: c.name } as L.MarkerOptions)
+      const m = L.marker(c.coords, { icon: pinIcon(c, c.id === selRef.current), conflict: c, riseOnHover: true, keyboard: true, title: c.name } as L.MarkerOptions)
       m.on('click', () => selectRef.current(c.id))
       markers.current.set(c.id, m)
       return m
     })
     cluster.addLayers(list)
+    lift(selRef.current)
     const map = mapRef.current!
     if ((q || filtered) && visible.length) {
       const b = L.latLngBounds(visible.map((c) => c.coords))
@@ -221,9 +260,10 @@ export default function WorldMap() {
   useEffect(() => {
     markers.current.forEach((m, id) => {
       const c = CONFLICTS.find((x) => x.id === id)!
-      m.setIcon(signIcon(c, id === selId))
+      m.setIcon(pinIcon(c, id === selId))
       m.setZIndexOffset(id === selId ? 1000 : 0)
     })
+    lift(selId)
     const map = mapRef.current
     if (!map || !sel) return
     const target = L.latLng(sel.coords)
@@ -236,6 +276,11 @@ export default function WorldMap() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (selRef.current && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !(e.target instanceof HTMLInputElement)) {
+        // Right-to-left: the left key moves forward
+        stepRef.current(e.key === 'ArrowLeft' ? 1 : -1)
+        return
+      }
       if (e.key !== 'Escape') return
       if (filterOpen) setFilterOpen(false)
       else selectRef.current(null)
@@ -244,8 +289,12 @@ export default function WorldMap() {
     return () => window.removeEventListener('keydown', onKey)
   }, [filterOpen])
 
-  const idx = sel ? CONFLICTS.indexOf(sel) : -1
-  const step = (d: number) => select(CONFLICTS[(idx + d + CONFLICTS.length) % CONFLICTS.length].id)
+  // Next / previous walk through what the search and filters show, when the open conflict is among them
+  const pool = sel && visible.includes(sel) ? visible : CONFLICTS
+  const idx = sel ? pool.indexOf(sel) : -1
+  const step = (d: number) => select(pool[(idx + d + pool.length) % pool.length].id)
+  const stepRef = useRef(step)
+  stepRef.current = step
   const showList = (listOpen || !!q) && !filterOpen
   const isAtrocity = sel?.type === 'atrocity'
   const activeCount = types.size + statuses.size + eras.size
@@ -255,7 +304,10 @@ export default function WorldMap() {
       <section className="wm-hero">
         <div className="container wm-hero-in">
           <span className="eyebrow fade-up" style={{ ['--d' as string]: '0s' }}>מפת הסכסוכים בעולם</span>
-          <h1><Split text="מפגינים ונלחמים למען עזה?" /> <span className="hl"><Split text="ומה עם כל האחרים?" /></span></h1>
+          <h1>
+            <span className="wm-h-q"><Split text="מפגינים ונלחמים למען עזה?" /></span>
+            <span className="wm-h-a"><Split text="ומה עם כל האחרים?" start={4} /></span>
+          </h1>
           <p className="lead fade-up" style={{ ['--d' as string]: '.6s' }}>מאז 1948 העולם ידע מאות מלחמות, רציחות עם וכיבושים. רק סכסוך אחד מקבל את כל תשומת הלב.</p>
           <div className="wm-hero-row fade-up" style={{ ['--d' as string]: '.8s' }}>
             <div className="wm-hero-stats">
@@ -263,10 +315,9 @@ export default function WorldMap() {
               <div><b><CountUp to={stats.active} /></b><span>פעילים עכשיו</span></div>
               <div><b><CountUp to={stats.atrocities} /></b><span>רציחות עם וזוועות</span></div>
             </div>
-            <button className="btn btn-primary" onClick={toMap}>למפה <span className="bounce">↓</span></button>
+            <button className="btn btn-primary" onClick={toMap}>למפה</button>
           </div>
         </div>
-        <Marquee />
       </section>
 
       <div ref={wrap} id="map" className={`wm ${sel ? 'has-sel' : ''}`}>
@@ -354,42 +405,45 @@ export default function WorldMap() {
           )}
         </section>
 
-        <button className="wm-up" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="חזרה למעלה">↑</button>
+        <button className="wm-up" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} >חזרה למעלה</button>
 
         <aside className={`wm-panel ${sel ? 'open' : ''}`} aria-hidden={!sel} aria-label="פרטי הסכסוך">
           {sel && (
-            <div className="wm-panel-in" key={sel.id}>
-              <div className="wm-panel-top">
-                <span className="wm-meta"><i style={{ background: CONF_TYPES[sel.type].color }} />{CONF_TYPES[sel.type].label}</span>
-                <span className="wm-meta"><i style={{ background: CONF_STATUS[sel.status].color }} />{CONF_STATUS[sel.status].label}</span>
+            <div className="wm-panel-in" key={sel.id} style={{ ['--c' as string]: CONF_TYPES[sel.type].color }}>
+              <header className="wp-head">
+                <span className="wp-type"><i /><span>{CONF_TYPES[sel.type].label}</span></span>
+                <span className={`wp-status ${sel.status}`}>{CONF_STATUS[sel.status].label}</span>
+                <button className="wp-link" onClick={() => copyText(window.location.href)}>העתקת קישור</button>
                 <button className="wm-x" onClick={() => select(null)} aria-label="סגירה">✕</button>
-              </div>
-              <h2>{sel.name}</h2>
-              <div className="wm-years">{sel.years}</div>
+              </header>
 
-              <div className={`vs ${isAtrocity ? 'atrocity' : ''}`}>
-                <div className="vs-side">
-                  {isAtrocity && <div className="vs-cap">המבצעים</div>}
-                  {sel.sides[0].map((a) => <div key={a} className="vs-actor"><Flag actor={ACTORS[a]} /><span>{ACTORS[a].name}</span></div>)}
+              <div className="wp-body">
+                <h2>{sel.name}</h2>
+                <div className="wp-years">{sel.years}</div>
+
+                <div className="wp-sides">
+                  <Side ids={sel.sides[0]} cap={isAtrocity ? 'המבצעים' : undefined} />
+                  <div className="wp-vs">{isAtrocity ? 'נגד' : 'מול'}</div>
+                  <Side ids={sel.sides[1]} cap={isAtrocity ? 'הקורבנות' : undefined} />
                 </div>
-                <div className="vs-mid">{isAtrocity ? '←' : 'VS'}</div>
-                <div className="vs-side">
-                  {isAtrocity && <div className="vs-cap">הקורבנות</div>}
-                  {sel.sides[1].map((a) => <div key={a} className="vs-actor"><Flag actor={ACTORS[a]} /><span>{ACTORS[a].name}</span></div>)}
-                </div>
+
+                <p className="wp-sum">{sel.summary}</p>
+                <p className="wp-now"><b>היום</b>{sel.now}</p>
+                {sel.angle && <p className="wp-point">{sel.angle}</p>}
+
+                {sel.facts.length > 0 && (
+                  <details className="wp-facts">
+                    <summary><span className="plus" aria-hidden />{sel.facts.length} עובדות נוספות</summary>
+                    <ul>{sel.facts.map((f) => <li key={f}>{f}</li>)}</ul>
+                  </details>
+                )}
               </div>
 
-              <p className="wm-sum">{sel.summary}</p>
-              <div className="label-sm" style={{ margin: '18px 0 10px' }}>עובדות מפתח</div>
-              <ul className="facts-list">{sel.facts.map((f) => <li key={f}>{f}</li>)}</ul>
-              <div className="wm-now"><b>המצב היום</b>{sel.now}</div>
-              {sel.angle && <div className="box honest" style={{ marginTop: 12 }}><h4>הזווית ההסברתית</h4>{sel.angle}</div>}
-
-              <div className="wm-nav">
-                <button className="btn btn-soft btn-sm" onClick={() => step(-1)}>→ הקודם</button>
-                <button className="btn btn-soft btn-sm" onClick={() => copyText(window.location.href)}>העתקת קישור</button>
-                <button className="btn btn-soft btn-sm" onClick={() => step(1)}>הבא ←</button>
-              </div>
+              <footer className="wp-foot">
+                <button onClick={() => step(-1)}>הקודם</button>
+                <span>{idx + 1} מתוך {pool.length}</span>
+                <button onClick={() => step(1)}>הבא</button>
+              </footer>
             </div>
           )}
         </aside>

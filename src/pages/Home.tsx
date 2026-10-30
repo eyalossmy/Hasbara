@@ -37,7 +37,7 @@ export default function Home() {
             <div className="hero-side">
               <p className="lead fade-up" style={{ ['--d' as string]: '.5s' }}>תשובות קצרות ומדויקות, עם מקורות, לשאלות שכולם שואלים.</p>
               <div className="hero-actions fade-up" style={{ ['--d' as string]: '.65s' }}>
-                <Link to="/myths" className="btn btn-primary">למיתוסים <span className="arr">←</span></Link>
+                <Link to="/myths" className="btn btn-primary">למיתוסים</Link>
                 <Link to="/quiz" className="btn btn-soft">לחידון</Link>
               </div>
             </div>
@@ -50,7 +50,7 @@ export default function Home() {
               <span className="bc-k">מיתוס נפוץ</span>
               <div className="bc-q"><s>״עזה הייתה כבושה עד 7 באוקטובר״</s></div>
               <p className="bc-a">ב־2005 ישראל יצאה מעזה — כל חייל וכל אזרח. מ־2007 שולט בה חמאס לבדו.</p>
-              <span className="bc-link">לכל המיתוסים <span className="arr">←</span></span>
+              <span className="bc-link">לכל המיתוסים</span>
             </Link>
             <div className="bc reveal">
               <span className="bc-k">פליטים יהודים ממדינות ערב</span>
@@ -70,7 +70,7 @@ export default function Home() {
             <Link to="/timeline" className="bc wide reveal">
               <span className="bc-k">29.11.1947</span>
               <div className="bc-q">היהודים אמרו ״כן״ לחלוקה. הצד השני פתח במלחמה.</div>
-              <span className="bc-link">לציר הזמן <span className="arr">←</span></span>
+              <span className="bc-link">לציר הזמן</span>
             </Link>
             <div className="bc reveal">
               <span className="bc-k">שנים מאז ש״ישראל״ נחקק באבן</span>
@@ -93,7 +93,6 @@ export default function Home() {
                 <span className="n">{String(i + 1).padStart(2, '0')}</span>
                 <h3>{p.title}</h3>
                 <p>{p.text}</p>
-                <span className="go" aria-hidden>←</span>
               </Link>
             ))}
           </nav>
@@ -108,7 +107,7 @@ export default function Home() {
               <h2 style={{ fontSize: 'clamp(34px,4.6vw,56px)', margin: '18px 0 16px' }}>הפכו את הכרטיס.</h2>
               <p className="muted" style={{ fontSize: 19 }}>טענה נפוצה — ותשובה במשפט אחד.</p>
               <div style={{ display: 'flex', gap: 24, marginTop: 32, alignItems: 'center', flexWrap: 'wrap' }}>
-                <Link to={`/myths#${myth.id}`} className="btn btn-primary">לפרטים המלאים <span className="arr">←</span></Link>
+                <Link to={`/myths#${myth.id}`} className="btn btn-primary">לפרטים המלאים</Link>
                 <button className="btn btn-link" onClick={nextMyth}>מיתוס אחר</button>
               </div>
             </div>
@@ -153,7 +152,7 @@ export default function Home() {
               <h2>12 שאלות.<br />שלוש דקות.</h2>
               <p>כמה אתם באמת יודעים?</p>
             </div>
-            <Link to="/quiz" className="btn btn-primary">להתחיל <span className="arr">←</span></Link>
+            <Link to="/quiz" className="btn btn-primary">להתחיל</Link>
           </div>
         </div>
       </section>

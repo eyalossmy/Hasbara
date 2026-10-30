@@ -22,13 +22,13 @@ export function useReveal() {
 }
 
 /** Headline that rises in word by word. */
-export function Split({ text, className }: { text: string; className?: string }) {
+export function Split({ text, className, start = 0 }: { text: string; className?: string; start?: number }) {
   return (
     <span className={`split ${className ?? ''}`} aria-label={text}>
       {text.split(' ').map((w, i) => (
         <Fragment key={i}>
           {i > 0 && ' '}
-          <span className="w" style={{ ['--i' as string]: i }} aria-hidden>{w}</span>
+          <span className="w" style={{ ['--i' as string]: i + start }} aria-hidden>{w}</span>
         </Fragment>
       ))}
     </span>

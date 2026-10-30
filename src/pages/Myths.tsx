@@ -65,7 +65,7 @@ export default function Myths() {
                         <span className="who">מי טוען: {c.who}</span>
                       </span>
                     </span>
-                    <span className="chev" aria-hidden>↓</span>
+                    <span className="plus" aria-hidden />
                   </button>
                   <div className="claim-body">
                     <div>

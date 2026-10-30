@@ -36,7 +36,7 @@ function Simulator() {
             <div className="fb" key={`${step}-${pick}`}>
               {s.options[pick].fb}
               <div style={{ marginTop: 12 }}>
-                <button className="btn btn-gold btn-sm" onClick={() => { setStep(step + 1); setPick(null) }}>{step === SIM.length - 1 ? 'לסיכום' : 'לשלב הבא'} <span className="arr">←</span></button>
+                <button className="btn btn-gold btn-sm" onClick={() => { setStep(step + 1); setPick(null) }}>{step === SIM.length - 1 ? 'לסיכום' : 'לשלב הבא'}</button>
               </div>
             </div>
           )}

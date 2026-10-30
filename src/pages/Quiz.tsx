@@ -59,7 +59,7 @@ export default function Quiz() {
                 <button className="btn btn-soft" onClick={() => copyText(`${shareText} ${window.location.href}`)}>העתקת תוצאה</button>
                 <button className="btn btn-soft" onClick={restart}>שוב</button>
               </div>
-              <div style={{ marginTop: 22 }}><Link to="/myths">רוצים להשתפר? למיתוס מול מציאות ←</Link></div>
+              <div style={{ marginTop: 22 }}><Link to="/myths">רוצים להשתפר? למיתוס מול מציאות</Link></div>
             </div>
           ) : (
             <>
@@ -86,7 +86,7 @@ export default function Quiz() {
                     <div className="muted">{q.explain}</div>
                   </div>
                   <div className="quiz-next">
-                    <button className="btn btn-primary" onClick={next}>{i === QUIZ.length - 1 ? 'לתוצאה' : 'הבאה'} <span className="arr">←</span></button>
+                    <button className="btn btn-primary" onClick={next}>{i === QUIZ.length - 1 ? 'לתוצאה' : 'הבאה'}</button>
                   </div>
                 </>
               )}

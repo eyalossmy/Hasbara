@@ -128,7 +128,7 @@ export default function Oct7() {
             <SourceLinks sources={[SRC.oct7, SRC.hostages, SRC.idf]} />
           </div>
           <div style={{ marginTop: 40, textAlign: 'center' }} className="reveal">
-            <Link to="/myths#vacuum" className="btn btn-primary">״זה לא קרה בחלל ריק״? כך עונים <span className="arr">←</span></Link>
+            <Link to="/myths#vacuum" className="btn btn-primary">״זה לא קרה בחלל ריק״? כך עונים</Link>
           </div>
         </div>
       </section>

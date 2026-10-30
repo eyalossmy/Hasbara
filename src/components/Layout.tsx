@@ -49,7 +49,7 @@ export default function Layout() {
           <div className="nav-links">
             {NAV.map((n) => <NavLink key={n.to} to={n.to}>{n.label}</NavLink>)}
           </div>
-          <Link to="/quiz" className="btn btn-primary btn-sm nav-cta">חידון <span className="arr">←</span></Link>
+          <Link to="/quiz" className="btn btn-primary btn-sm nav-cta">חידון</Link>
           <button className={`burger ${open ? 'open' : ''}`} onClick={() => setOpen(!open)} aria-label="תפריט" aria-expanded={open}>
             <span />
           </button>

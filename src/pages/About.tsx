@@ -50,7 +50,6 @@ export default function About() {
               <a key={s.url} className="src-row" href={s.url} target="_blank" rel="noopener noreferrer">
                 <span>🔗</span>
                 <span><span className="t">{s.label}</span><br /><span className="k">{new URL(s.url).hostname.replace('www.', '')}</span></span>
-                <span className="arr">↗</span>
               </a>
             ))}
           </div>
@@ -64,7 +63,7 @@ export default function About() {
               <h2>מצאתם טעות?</h2>
               <p>אנחנו בודקים כל פנייה ומתקנים בפומבי. עודכן: {LAST_UPDATED}</p>
             </div>
-            <a className="btn btn-primary" href={`${REPO_URL}/issues/new`} target="_blank" rel="noopener noreferrer">דיווח על טעות <span className="arr">←</span></a>
+            <a className="btn btn-primary" href={`${REPO_URL}/issues/new`} target="_blank" rel="noopener noreferrer">דיווח על טעות</a>
           </div>
         </div>
       </section>
