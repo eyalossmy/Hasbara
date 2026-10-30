@@ -29,14 +29,14 @@ export default function Myths() {
 
   return (
     <>
-      <PageHero eyebrow="🔍 Claim Explorer" emoji="🕵️" title="מיתוס מול מציאות"
-        lead="הטענות שהכי הרבה פעמים תשמעו נגד ישראל. לכל אחת: מי טוען, מה העובדות, מה באמת שנוי במחלוקת, ותשובה בשורה אחת שאפשר להעתיק." />
+      <PageHero eyebrow="מיתוס מול מציאות" title="מה אומרים, ומה נכון"
+        lead="הטענות הנפוצות נגד ישראל — והעובדות, עם מקורות ורמת ודאות." />
 
       <section className="section-tight">
         <div className="container" style={{ maxWidth: 940 }}>
           <label className="search">
             <span className="ic">🔎</span>
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפשו טענה... למשל ״רצח עם״, ״אפרטהייד״, ״כיבוש״" aria-label="חיפוש טענה" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש: רצח עם, אפרטהייד, כיבוש…" aria-label="חיפוש טענה" />
             {q && <button onClick={() => setQ('')} aria-label="נקה">✕</button>}
           </label>
           <div className="chips" style={{ marginTop: 16 }}>
@@ -65,25 +65,25 @@ export default function Myths() {
                         <span className="who">מי טוען: {c.who}</span>
                       </span>
                     </span>
-                    <span className="chev" aria-hidden>⌄</span>
+                    <span className="chev" aria-hidden>↓</span>
                   </button>
                   <div className="claim-body">
                     <div>
                       <div className="claim-inner">
                         <div className="oneliner">
-                          <div className="k">⚡ התשובה בשורה אחת</div>
+                          <div className="k">התשובה בשורה אחת</div>
                           <p>{c.oneLiner}</p>
                           <div className="actions">
-                            <button onClick={() => copyText(c.oneLiner)}>📋 העתקה</button>
-                            <a href={shareUrl(`${c.claim}\n${c.oneLiner}`)} target="_blank" rel="noopener noreferrer">💬 וואטסאפ</a>
+                            <button onClick={() => copyText(c.oneLiner)}>העתקה</button>
+                            <a href={shareUrl(`${c.claim}\n${c.oneLiner}`)} target="_blank" rel="noopener noreferrer">וואטסאפ</a>
                           </div>
                         </div>
                         <div>
                           <div className="label-sm" style={{ marginBottom: 10 }}>העובדות</div>
                           <ul className="facts-list">{c.facts.map((f) => <li key={f}>{f}</li>)}</ul>
                         </div>
-                        {c.legal && <div className="box law"><h4>⚖️ ההקשר המשפטי</h4>{c.legal}</div>}
-                        {c.honest && <div className="box honest"><h4>🤝 בכנות — מה שנוי במחלוקת</h4>{c.honest}</div>}
+                        {c.legal && <div className="box law"><h4>ההקשר המשפטי</h4>{c.legal}</div>}
+                        {c.honest && <div className="box honest"><h4>מה שנוי במחלוקת</h4>{c.honest}</div>}
                         <div>
                           <div className="label-sm" style={{ marginBottom: 10 }}>מקורות</div>
                           <SourceLinks sources={c.sources} />

@@ -2,16 +2,16 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CLAIMS } from '../data/claims'
 import { STATUS, type Status } from '../data/types'
-import { CountUp, StatusBadge, useReveal } from '../components/ui'
+import { CountUp, Split, StatusBadge, useReveal } from '../components/ui'
 
 const PATHS = [
-  { to: '/myths', emoji: '🔍', bg: 'var(--coral-soft)', title: 'מיתוס מול מציאות', text: '14 הטענות הנפוצות נגד ישראל — ומה באמת קרה. עם מקורות, סטטוס אמינות ותשובה בשורה אחת.', big: true },
-  { to: '/toolkit', emoji: '🧰', bg: 'var(--gold-soft)', title: 'ארגז כלים לוויכוח', text: 'תשובה ל־10 שניות, לדקה או לחפירה עמוקה. העתיקו, שתפו, ניצחתם.' },
-  { to: '/timeline', emoji: '⏳', bg: 'var(--sky)', title: '3,000 שנה ב־5 דקות', text: 'ציר זמן אינטראקטיבי מדוד המלך ועד חרבות ברזל.' },
-  { to: '/oct7', emoji: '🎗️', bg: '#fff1d6', title: '7 באוקטובר', text: 'מה קרה, שעה אחר שעה. כדי שאף אחד לא יוכל להכחיש.' },
-  { to: '/law', emoji: '⚖️', bg: 'var(--violet-soft)', title: 'משפט בינלאומי בגובה העיניים', text: 'מידתיות, מגן אנושי, ICJ מול ICC — בלי דוקטורט במשפטים.' },
-  { to: '/map', emoji: '🌍', bg: 'var(--mint-soft)', title: 'העולם גדול מעזה', text: 'מפה אינטראקטיבית של סכסוכים בעולם — כדי לשים דברים בפרופורציה. לחצו על נקודה וגלו מה קורה שם.', wide: true },
-  { to: '/quiz', emoji: '🧠', bg: 'var(--gold-soft)', title: 'החידון', text: '12 שאלות שיגלו אם אתם מוכנים לוויכוח הבא.' },
+  { to: '/myths', title: 'מיתוס מול מציאות', text: 'הטענות הנפוצות נגד ישראל, והתשובות.' },
+  { to: '/toolkit', title: 'ארגז כלים', text: 'מה עונים — בעשר שניות, בדקה או לעומק.' },
+  { to: '/timeline', title: 'ציר זמן', text: '3,000 שנה, מדוד המלך ועד היום.' },
+  { to: '/oct7', title: '7 באוקטובר', text: 'מה קרה, שעה אחר שעה.' },
+  { to: '/law', title: 'משפט בינלאומי', text: 'מידתיות, מגן אנושי, ICJ ו־ICC.' },
+  { to: '/map', title: 'מפת העולם', text: '152 סכסוכים מאז 1948, במפה אחת.' },
+  { to: '/quiz', title: 'חידון', text: '12 שאלות. כמה אתם באמת יודעים?' },
 ]
 
 export default function Home() {
@@ -22,55 +22,60 @@ export default function Home() {
 
   const nextMyth = () => {
     setFlipped(false)
-    setTimeout(() => setMythIdx((i) => (i + 1) % CLAIMS.length), 250)
+    setTimeout(() => setMythIdx((i) => (i + 1) % CLAIMS.length), 300)
   }
 
   return (
     <>
       <section className="hero">
-        <div className="grid-bg" />
-        <div className="container hero-in">
-          <span className="pill-live">🇮🇱 הסברה ישראלית · <b>בלי לצעוק, עם מקורות</b></span>
-          <h1>האמת פשוטה יותר <span className="hl">ממה שמספרים לכם בטיקטוק.</span></h1>
-          <p className="lead">ציר זמן, מיתוסים מול עובדות, משפט בינלאומי בשפה של בני אדם וארגז כלים לכל ויכוח — מהקמפוס ועד קבוצת הווטסאפ המשפחתית.</p>
-          <div className="hero-actions">
-            <Link to="/myths" className="btn btn-primary">מיתוס מול מציאות</Link>
-            <Link to="/quiz" className="btn btn-soft">🧠 כמה אתם יודעים?</Link>
+        <div className="container">
+          <div className="hero-in">
+            <div>
+              <span className="eyebrow fade-up" style={{ ['--d' as string]: '0s' }}>הסברה ישראלית</span>
+              <h1><Split text="העובדות על ישראל." /><br /><span className="hl"><Split text="בלי רעש." /></span></h1>
+            </div>
+            <div className="hero-side">
+              <p className="lead fade-up" style={{ ['--d' as string]: '.5s' }}>תשובות קצרות ומדויקות, עם מקורות, לשאלות שכולם שואלים.</p>
+              <div className="hero-actions fade-up" style={{ ['--d' as string]: '.65s' }}>
+                <Link to="/myths" className="btn btn-primary">למיתוסים <span className="arr">←</span></Link>
+                <Link to="/quiz" className="btn btn-soft">לחידון</Link>
+              </div>
+            </div>
           </div>
         </div>
+
         <div className="container">
           <div className="bento">
-            <Link to="/myths#occupied-gaza" className="bc tall lilac reveal">
-              <span className="bc-k">❌ מיתוס נפוץ</span>
+            <Link to="/myths#occupied-gaza" className="bc tall dark reveal">
+              <span className="bc-k">מיתוס נפוץ</span>
               <div className="bc-q"><s>״עזה הייתה כבושה עד 7 באוקטובר״</s></div>
-              <p className="bc-a">ב־2005 ישראל הוציאה מעזה כל חייל וכל אזרח — 21 יישובים פונו. מ־2007 שולט בה חמאס לבדו.</p>
-              <span className="bc-link">לכל 14 המיתוסים ←</span>
+              <p className="bc-a">ב־2005 ישראל יצאה מעזה — כל חייל וכל אזרח. מ־2007 שולט בה חמאס לבדו.</p>
+              <span className="bc-link">לכל המיתוסים <span className="arr">←</span></span>
             </Link>
-            <div className="bc sky reveal">
-              <span className="bc-k">🧳 הנכבה שלא מדברים עליה</span>
+            <div className="bc reveal">
+              <span className="bc-k">פליטים יהודים ממדינות ערב</span>
               <div className="bc-n"><CountUp to={850000} /></div>
-              <p className="bc-t">פליטים יהודים ממדינות ערב ואיראן. ישראל קלטה את כולם.</p>
+              <p className="bc-t">ישראל קלטה את כולם.</p>
             </div>
-            <div className="bc mint reveal">
-              <span className="bc-k">🗳️ ״אפרטהייד״?</span>
+            <div className="bc reveal">
+              <span className="bc-k">מאזרחי ישראל ערבים</span>
               <div className="bc-n"><CountUp to={21} suffix="%" /></div>
-              <p className="bc-t">מאזרחי ישראל ערבים — עם זכות הצבעה, נציגים בכנסת ושופט בעליון.</p>
+              <p className="bc-t">מצביעים, נבחרים, שופטים.</p>
             </div>
-            <div className="bc white reveal">
-              <span className="bc-k">🎗️ 7.10.2023</span>
+            <div className="bc reveal">
+              <span className="bc-k">7.10.2023</span>
               <div className="bc-n"><CountUp to={251} /></div>
               <p className="bc-t">חטופים, מתינוקות ועד קשישים.</p>
             </div>
-            <Link to="/timeline" className="bc wide peach reveal">
-              <span className="bc-k">📜 29.11.1947</span>
+            <Link to="/timeline" className="bc wide reveal">
+              <span className="bc-k">29.11.1947</span>
               <div className="bc-q">היהודים אמרו ״כן״ לחלוקה. הצד השני פתח במלחמה.</div>
-              <span className="bc-link">3,000 שנה ב־5 דקות ←</span>
-              <span className="bc-ill" aria-hidden>🕊️</span>
+              <span className="bc-link">לציר הזמן <span className="arr">←</span></span>
             </Link>
-            <div className="bc lemon reveal">
-              <span className="bc-k">🏛️ מצבת מרנפתח</span>
+            <div className="bc reveal">
+              <span className="bc-k">שנים מאז ש״ישראל״ נחקק באבן</span>
               <div className="bc-n"><CountUp to={3200} /></div>
-              <p className="bc-t">שנה עברו מאז ש״ישראל״ נחקק באבן במצרים.</p>
+              <p className="bc-t">מצבת מרנפתח, מצרים.</p>
             </div>
           </div>
         </div>
@@ -79,46 +84,45 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="section-head reveal">
-            <span className="eyebrow">✦ בחרו מסלול</span>
-            <h2>מאיפה מתחילים?</h2>
-            <p>יש לכם 30 שניות? 5 דקות? ערב שלם? יש מסלול לכל אחד.</p>
+            <span className="eyebrow">התחילו כאן</span>
+            <h2>שבע דרכים להבין</h2>
           </div>
-          <div className="paths">
-            {PATHS.map((p) => (
-              <Link key={p.to} to={p.to} className={`path reveal ${p.big ? 'big' : ''} ${p.wide ? 'wide' : ''}`}>
-                <div className="ic" style={p.big ? undefined : { background: p.bg }}>{p.emoji}</div>
+          <nav className="plist" aria-label="מסלולים באתר">
+            {PATHS.map((p, i) => (
+              <Link key={p.to} to={p.to} className="prow reveal">
+                <span className="n">{String(i + 1).padStart(2, '0')}</span>
                 <h3>{p.title}</h3>
                 <p>{p.text}</p>
-                <div className="go">יאללה <span>←</span></div>
+                <span className="go" aria-hidden>←</span>
               </Link>
             ))}
-          </div>
+          </nav>
         </div>
       </section>
 
-      <section className="section" style={{ background: 'var(--surface)', borderBlock: '1px solid var(--line)' }}>
+      <section className="section alt">
         <div className="container">
-          <div className="grid-2" style={{ alignItems: 'center', gap: 48 }}>
+          <div className="grid-2" style={{ alignItems: 'center', gap: 72 }}>
             <div className="reveal">
-              <span className="eyebrow">🎲 מיתוס אקראי</span>
-              <h2 style={{ fontSize: 'clamp(30px,4.4vw,46px)', fontWeight: 800, margin: '10px 0 14px' }}>הפכו את הכרטיס.</h2>
-              <p className="muted" style={{ fontSize: 18 }}>כל מיתוס מקבל תשובה קצרה שאפשר לשלוף בוויכוח — ועמוד מלא עם הראיות, ההקשר המשפטי, ומה שבאמת שנוי במחלוקת.</p>
-              <div style={{ display: 'flex', gap: 10, marginTop: 24, flexWrap: 'wrap' }}>
-                <button className="btn btn-soft" onClick={nextMyth}>🎲 מיתוס אחר</button>
-                <Link to={`/myths#${myth.id}`} className="btn btn-primary">לכל הפרטים</Link>
+              <span className="eyebrow">מיתוס אקראי</span>
+              <h2 style={{ fontSize: 'clamp(34px,4.6vw,56px)', margin: '18px 0 16px' }}>הפכו את הכרטיס.</h2>
+              <p className="muted" style={{ fontSize: 19 }}>טענה נפוצה — ותשובה במשפט אחד.</p>
+              <div style={{ display: 'flex', gap: 24, marginTop: 32, alignItems: 'center', flexWrap: 'wrap' }}>
+                <Link to={`/myths#${myth.id}`} className="btn btn-primary">לפרטים המלאים <span className="arr">←</span></Link>
+                <button className="btn btn-link" onClick={nextMyth}>מיתוס אחר</button>
               </div>
             </div>
             <div className={`flip reveal ${flipped ? 'flipped' : ''}`} onClick={() => setFlipped(!flipped)} role="button" tabIndex={0}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setFlipped(!flipped)} aria-label="הפוך כרטיס">
               <div className="flip-inner">
                 <div className="flip-face flip-front">
-                  <span className="lbl">❌ מה אומרים</span>
+                  <span className="lbl">מה אומרים</span>
                   <div className="q">{myth.claim}</div>
-                  <div className="muted" style={{ fontSize: 14 }}>מי טוען: {myth.who}</div>
-                  <div className="hint">👆 לחצו להפוך</div>
+                  <div className="muted" style={{ fontSize: 14 }}>{myth.who}</div>
+                  <div className="hint">לחצו להפוך</div>
                 </div>
                 <div className="flip-face flip-back">
-                  <span className="lbl">✅ מה באמת</span>
+                  <span className="lbl">מה נכון</span>
                   <div className="a">{myth.oneLiner}</div>
                   <div style={{ marginTop: 'auto' }}><StatusBadge status={myth.status} /></div>
                 </div>
@@ -130,10 +134,10 @@ export default function Home() {
 
       <section className="section">
         <div className="container">
-          <div className="section-head center center-text reveal" style={{ textAlign: 'center' }}>
-            <span className="eyebrow">🔎 איך אנחנו עובדים</span>
+          <div className="section-head reveal">
+            <span className="eyebrow">שיטה</span>
             <h2>אל תסמכו עלינו. תבדקו.</h2>
-            <p>ההסברה הכי חזקה היא זו שעומדת בבדיקה. לכן כל טענה באתר מסומנת לפי רמת הוודאות שלה — ומגיעה עם מקורות.</p>
+            <p>כל טענה באתר מסומנת לפי רמת הוודאות שלה, ומגיעה עם מקור.</p>
           </div>
           <div className="method">
             {(Object.keys(STATUS) as Status[]).map((s) => (
@@ -143,18 +147,13 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      <section className="section-tight">
-        <div className="container">
-          <div className="cta-band reveal">
-            <div className="glow a" style={{ opacity: .4 }} />
+          <div className="cta-band reveal" style={{ marginTop: 120 }}>
             <div>
-              <h2>12 שאלות. 3 דקות. 0 רחמים.</h2>
-              <p>בדקו אם אתם מוכנים לוויכוח הבא — ותגלו איזה דרגת הסברן אתם.</p>
+              <h2>12 שאלות.<br />שלוש דקות.</h2>
+              <p>כמה אתם באמת יודעים?</p>
             </div>
-            <Link to="/quiz" className="btn btn-gold">🧠 להתחיל חידון</Link>
+            <Link to="/quiz" className="btn btn-primary">להתחיל <span className="arr">←</span></Link>
           </div>
         </div>
       </section>

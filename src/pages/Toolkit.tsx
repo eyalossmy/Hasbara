@@ -4,9 +4,9 @@ import { PageHero, copyText, shareUrl, useReveal } from '../components/ui'
 
 type Len = 'short' | 'mid' | 'deep'
 const LENS: { id: Len; label: string }[] = [
-  { id: 'short', label: '⚡ 10 שניות' },
-  { id: 'mid', label: '☕ דקה' },
-  { id: 'deep', label: '🤓 חפירה' },
+  { id: 'short', label: '10 שניות' },
+  { id: 'mid', label: 'דקה' },
+  { id: 'deep', label: 'לעומק' },
 ]
 
 function Card({ item }: { item: TKItem }) {
@@ -28,8 +28,8 @@ function Card({ item }: { item: TKItem }) {
       </div>
       <div key={len} className={`ans ${len === 'short' ? 'short' : ''}`}>{text}</div>
       <div className="row">
-        <button className="btn btn-soft btn-sm" onClick={() => copyText(text)}>📋 העתקה</button>
-        <a className="btn btn-soft btn-sm" href={shareUrl(`${item.q}\n${text}`)} target="_blank" rel="noopener noreferrer">💬 שליחה בוואטסאפ</a>
+        <button className="btn btn-soft btn-sm" onClick={() => copyText(text)}>העתקה</button>
+        <a className="btn btn-soft btn-sm" href={shareUrl(`${item.q}\n${text}`)} target="_blank" rel="noopener noreferrer">שליחה בוואטסאפ</a>
       </div>
     </article>
   )
@@ -39,14 +39,13 @@ export default function Toolkit() {
   useReveal()
   return (
     <>
-      <PageHero eyebrow="🧰 ארגז כלים" emoji="🎤" title="מה עונים כש..."
-        lead="השאלות שתשמעו בקמפוס, ברשתות ובארוחת שישי — עם שלוש רמות תשובה: אחת לציוץ, אחת לשיחה ואחת למי שבאמת רוצה להבין. בחרו, העתיקו, שלחו." />
+      <PageHero eyebrow="ארגז כלים" title="מה עונים כש…"
+        lead="תשובה לעשר שניות, לדקה או לעומק. העתיקו ושלחו." />
       <section className="section-tight">
         <div className="container">
-          <div className="box honest reveal" style={{ marginBottom: 24, fontSize: 16 }}>
-            <h4>💡 טיפ של מקצוענים</h4>
-            הסברה טובה היא לא לנצח בוויכוח — היא לשכנע את מי שמקשיב מהצד. דברו בשקט, תנו עובדה אחת חזקה במקום עשר חלשות, ואל תפחדו להודות כשמשהו מורכב. זה מה שבונה אמינות.
-          </div>
+          <p className="muted reveal" style={{ maxWidth: '60ch', marginBottom: 40, fontSize: 18 }}>
+            המטרה היא לא לנצח בוויכוח, אלא לשכנע את מי שמקשיב מהצד. עובדה אחת חזקה עדיפה על עשר חלשות.
+          </p>
           <div className="tk-grid">
             {TOOLKIT.map((t) => <Card key={t.q} item={t} />)}
           </div>

@@ -15,20 +15,20 @@ function Simulator() {
       <div className="bar">{SIM.map((_, i) => <i key={i} className={i <= step ? 'on' : ''} />)}</div>
       {done ? (
         <>
-          <div className="step-n">🎓 סיימתם</div>
-          <h3>זהו. עכשיו אתם יודעים יותר מרוב הפרשנים בטלוויזיה.</h3>
-          <p>הנקודה החשובה: המשפט הבינלאומי לא אוסר על ישראל להילחם בחמאס. הוא קובע איך. וכשחמאס מסתתר מאחורי אזרחים — האחריות לפגיעה בהם רובצת במידה רבה עליו.</p>
-          <div className="opts"><button onClick={() => { setStep(0); setPick(null) }}>↺ שוב מההתחלה</button></div>
+          <div className="step-n">סיכום</div>
+          <h3>המשפט לא אוסר להילחם. הוא קובע איך.</h3>
+          <p>כשחמאס מסתתר מאחורי אזרחים, האחריות לפגיעה בהם רובצת במידה רבה עליו.</p>
+          <div className="opts"><button onClick={() => { setStep(0); setPick(null) }}>מההתחלה</button></div>
         </>
       ) : (
         <>
-          <div className="step-n">סימולטור · משגר ליד בית ספר</div>
+          <div className="step-n">תרחיש · משגר ליד בית ספר</div>
           <h3>{s.title}</h3>
           <p>{s.text}</p>
           <div className="opts">
             {s.options.map((o, i) => (
               <button key={o.label} onClick={() => setPick(i)} style={pick === i ? { background: o.ok ? 'rgba(15,180,126,.3)' : 'rgba(255,90,95,.3)', borderColor: o.ok ? '#0fb47e' : '#ff5a5f' } : undefined}>
-                {pick === i ? (o.ok ? '✅ ' : '❌ ') : ''}{o.label}
+                {o.label}
               </button>
             ))}
           </div>
@@ -36,7 +36,7 @@ function Simulator() {
             <div className="fb" key={`${step}-${pick}`}>
               {s.options[pick].fb}
               <div style={{ marginTop: 12 }}>
-                <button className="btn btn-gold btn-sm" onClick={() => { setStep(step + 1); setPick(null) }}>{step === SIM.length - 1 ? 'לסיכום' : 'לשלב הבא'} ←</button>
+                <button className="btn btn-gold btn-sm" onClick={() => { setStep(step + 1); setPick(null) }}>{step === SIM.length - 1 ? 'לסיכום' : 'לשלב הבא'} <span className="arr">←</span></button>
               </div>
             </div>
           )}
@@ -50,8 +50,8 @@ export default function Law() {
   useReveal()
   return (
     <>
-      <PageHero eyebrow="⚖️ משפט בינלאומי" emoji="🏛️" title="דיני המלחמה, בלי דוקטורט."
-        lead="״מידתיות״, ״מגן אנושי״, ״רצח עם״ — מילים שכולם זורקים ומעטים מבינים. הנה מה שהן באמת אומרות, ומה העמדה הישראלית." />
+      <PageHero eyebrow="משפט בינלאומי" title="דיני המלחמה, בפשטות"
+        lead="מה המונחים אומרים באמת — ומה העמדה הישראלית." />
 
       <section className="section-tight">
         <div className="container"><Simulator /></div>
@@ -60,8 +60,8 @@ export default function Law() {
       <section className="section-tight">
         <div className="container">
           <div className="section-head reveal">
-            <span className="eyebrow">📚 המושגים</span>
-            <h2>שישה מושגים שחייבים להכיר</h2>
+            <span className="eyebrow">המושגים</span>
+            <h2>שישה מושגים</h2>
           </div>
           <div className="grid-3">
             {LAW.map((l) => (
@@ -69,8 +69,8 @@ export default function Law() {
                 <span className="em">{l.emoji}</span>
                 <h3>{l.title}</h3>
                 <p className="def">{l.def}</p>
-                <div className="il"><b>🇮🇱 העמדה הישראלית: </b>{l.israel}</div>
-                <p className="dp"><b>🤔 איפה הוויכוח: </b>{l.disputed}</p>
+                <div className="il"><b>העמדה הישראלית: </b>{l.israel}</div>
+                <p className="dp"><b>איפה הוויכוח: </b>{l.disputed}</p>
               </div>
             ))}
           </div>
@@ -80,9 +80,9 @@ export default function Law() {
       <section className="section">
         <div className="container">
           <div className="section-head reveal">
-            <span className="eyebrow">🏛️ ICJ מול ICC</span>
-            <h2>שני בתי דין בהאג. ממש לא אותו דבר.</h2>
-            <p>הבלבול הכי נפוץ בכותרות. הנה ההבדל, ומה באמת נקבע.</p>
+            <span className="eyebrow">ICJ מול ICC</span>
+            <h2>שני בתי דין. לא אותו דבר.</h2>
+            <p>הבלבול הנפוץ ביותר בכותרות — ומה באמת נקבע.</p>
           </div>
           <div className="table-wrap reveal">
             <table className="compare">

@@ -42,7 +42,7 @@ export default function Quiz() {
     <section className="section" style={{ background: 'radial-gradient(60% 50% at 50% 0%, #eef0ff, var(--bg) 70%)', minHeight: '80vh' }}>
       <div className="container quiz-shell">
         <div className="center" style={{ marginBottom: 28 }}>
-          <span className="eyebrow">🧠 החידון</span>
+          <span className="eyebrow c">חידון</span>
           <h1 style={{ fontSize: 'clamp(32px,5vw,50px)', fontWeight: 800, marginTop: 8 }}>כמה אתם באמת יודעים?</h1>
         </div>
 
@@ -55,9 +55,9 @@ export default function Quiz() {
               <h2 style={{ fontSize: 30, fontWeight: 800 }}>{rank.title}</h2>
               <p className="muted" style={{ maxWidth: 460, margin: '0 auto', fontSize: 18 }}>{rank.text}</p>
               <div className="row">
-                <a className="btn btn-primary" href={shareUrl(shareText)} target="_blank" rel="noopener noreferrer">💬 לאתגר חברים</a>
-                <button className="btn btn-soft" onClick={() => copyText(`${shareText} ${window.location.href}`)}>📋 העתקת תוצאה</button>
-                <button className="btn btn-soft" onClick={restart}>↺ עוד פעם</button>
+                <a className="btn btn-primary" href={shareUrl(shareText)} target="_blank" rel="noopener noreferrer">לאתגר חברים</a>
+                <button className="btn btn-soft" onClick={() => copyText(`${shareText} ${window.location.href}`)}>העתקת תוצאה</button>
+                <button className="btn btn-soft" onClick={restart}>שוב</button>
               </div>
               <div style={{ marginTop: 22 }}><Link to="/myths">רוצים להשתפר? למיתוס מול מציאות ←</Link></div>
             </div>
@@ -65,7 +65,7 @@ export default function Quiz() {
             <>
               <div className="q-top">
                 <span>שאלה {i + 1} מתוך {QUIZ.length}</span>
-                <span className="q-score">⭐ {score}</span>
+                <span className="q-score">{score} נכונות</span>
               </div>
               <div className="progress"><i style={{ width: `${((i + (pick !== null ? 1 : 0)) / QUIZ.length) * 100}%` }} /></div>
               <h2>{q.q}</h2>
@@ -82,11 +82,11 @@ export default function Quiz() {
               {pick !== null && (
                 <>
                   <div className="explain">
-                    <div className="quip">{pick === q.answer ? '🎉 ' + q.right : '🙈 ' + q.wrong}</div>
+                    <div className="quip">{pick === q.answer ? q.right : q.wrong}</div>
                     <div className="muted">{q.explain}</div>
                   </div>
                   <div className="quiz-next">
-                    <button className="btn btn-primary" onClick={next}>{i === QUIZ.length - 1 ? 'לתוצאה שלי 🏁' : 'לשאלה הבאה ←'}</button>
+                    <button className="btn btn-primary" onClick={next}>{i === QUIZ.length - 1 ? 'לתוצאה' : 'הבאה'} <span className="arr">←</span></button>
                   </div>
                 </>
               )}

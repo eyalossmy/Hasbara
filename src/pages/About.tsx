@@ -15,16 +15,15 @@ export default function About() {
   useReveal()
   return (
     <>
-      <PageHero eyebrow="🔎 מרכז השקיפות" emoji="🪟" title="איך אנחנו עובדים"
-        lead="האתר הזה מציג את הצד הישראלי — ואנחנו אומרים את זה בגלוי. דווקא בגלל זה, אנחנו מקפידים שכל מה שכתוב כאן יעמוד בבדיקה." />
+      <PageHero eyebrow="שקיפות" title="איך אנחנו עובדים"
+        lead="לאתר יש עמדה ישראלית ברורה. לכן כל טענה בו מגובה במקור ומסומנת לפי רמת הוודאות." />
 
       <section className="section-tight">
         <div className="container">
           <div className="grid-3">
             {PRINCIPLES.map((p) => (
               <div key={p.t} className="card reveal">
-                <div style={{ fontSize: 32 }}>{p.e}</div>
-                <h3 style={{ fontSize: 20, margin: '10px 0 6px' }}>{p.t}</h3>
+                <h3 style={{ fontSize: 26, margin: '0 0 10px' }}>{p.t}</h3>
                 <p className="muted">{p.d}</p>
               </div>
             ))}
@@ -34,7 +33,7 @@ export default function About() {
 
       <section className="section-tight">
         <div className="container">
-          <div className="section-head reveal"><span className="eyebrow">🏷️ מקרא</span><h2>סטטוסי אמינות</h2></div>
+          <div className="section-head reveal"><span className="eyebrow">מקרא</span><h2>רמות ודאות</h2></div>
           <div className="method">
             {(Object.keys(STATUS) as Status[]).map((s) => (
               <div key={s} className="m reveal"><StatusBadge status={s} /><p><b style={{ direction: 'ltr', display: 'block', color: 'var(--ink)' }}>{STATUS[s].en}</b>{STATUS[s].desc}</p></div>
@@ -45,7 +44,7 @@ export default function About() {
 
       <section className="section-tight">
         <div className="container">
-          <div className="section-head reveal"><span className="eyebrow">📚 ספריית המקורות</span><h2>כל המקורות במקום אחד</h2></div>
+          <div className="section-head reveal"><span className="eyebrow">מקורות</span><h2>כל המקורות</h2></div>
           <div className="src-table">
             {Object.values(SRC).map((s) => (
               <a key={s.url} className="src-row" href={s.url} target="_blank" rel="noopener noreferrer">
@@ -61,12 +60,11 @@ export default function About() {
       <section className="section-tight">
         <div className="container">
           <div className="cta-band reveal">
-            <div className="glow a" style={{ opacity: .4 }} />
             <div>
               <h2>מצאתם טעות?</h2>
-              <p>פתחו דיווח בגיטהאב. אנחנו בודקים כל פנייה ומתקנים בפומבי. עודכן לאחרונה: {LAST_UPDATED}</p>
+              <p>אנחנו בודקים כל פנייה ומתקנים בפומבי. עודכן: {LAST_UPDATED}</p>
             </div>
-            <a className="btn btn-gold" href={`${REPO_URL}/issues/new`} target="_blank" rel="noopener noreferrer">🐞 דיווח על טעות</a>
+            <a className="btn btn-primary" href={`${REPO_URL}/issues/new`} target="_blank" rel="noopener noreferrer">דיווח על טעות <span className="arr">←</span></a>
           </div>
         </div>
       </section>

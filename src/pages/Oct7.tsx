@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { SRC } from '../data/sources'
-import { CountUp, SourceLinks, StatusBadge, useReveal } from '../components/ui'
+import { CountUp, SourceLinks, Split, StatusBadge, useReveal } from '../components/ui'
 
 const HOURS = [
   { t: '06:29', title: 'מטח הרקטות', text: 'חמאס פותח במטח מסיבי על דרום ומרכז ישראל. לפי צה״ל — כ־3,000 רקטות בשעות הראשונות. שבת, שמחת תורה, ואזעקות בכל הארץ.' },
@@ -26,7 +26,7 @@ const HOSTAGE_STEPS = [
   { d: 'נובמבר 2023', h: 'העסקה הראשונה', p: '105 חטופים — רובם נשים, ילדים ועובדים זרים — שוחררו בהפסקת אש של שבוע.' },
   { d: '2024', h: 'מבצעי חילוץ', p: 'צה״ל חילץ חטופים במבצעים נועזים, כמו מבצע ארנון ביוני 2024 שבו חולצו ארבעה מנוסייראת.' },
   { d: 'ינואר–מרץ 2025', h: 'העסקה השנייה', p: 'חטופים חיים וחללים הוחזרו בשלבים במסגרת הפסקת אש.' },
-  { d: 'אוקטובר 2025', h: 'כולם הביתה', p: '20 החטופים החיים האחרונים שוחררו במסגרת הסכם הפסקת האש, וגופות החללים הוחזרו בהדרגה לאחר מכן.' },
+  { d: 'אוקטובר 2025', h: 'כולם הביתה', p: '20 החטופים החיים האחרונים שוחררו. גופות החללים הוחזרו בהדרגה — האחרונה, של רן גבילי, בינואר 2026.' },
 ]
 
 export default function Oct7() {
@@ -38,8 +38,8 @@ export default function Oct7() {
         <div className="glow c" style={{ opacity: .12 }} />
         <div className="container">
           <span className="eyebrow"><span className="candle" aria-hidden /> 7.10.2023 · שמחת תורה</span>
-          <h1>היום שבו העולם היה צריך להבין.</h1>
-          <p className="lead">בעמוד הזה אין בדיחות. יש עובדות — כדי לזכור, וכדי שאף אחד לא יוכל להכחיש.</p>
+          <h1><Split text="היום שבו העולם היה צריך להבין." /></h1>
+          <p className="lead fade-up">עובדות — כדי לזכור, וכדי שאיש לא יוכל להכחיש.</p>
         </div>
       </header>
 
@@ -57,7 +57,7 @@ export default function Oct7() {
       <section className="section">
         <div className="container" style={{ maxWidth: 940 }}>
           <div className="section-head reveal">
-            <span className="eyebrow">🕰️ שעה אחר שעה</span>
+            <span className="eyebrow">שעה אחר שעה</span>
             <h2>מה קרה</h2>
             <p>הזמנים המדויקים משתנים בין מקורות ובין יישובים. זה הקו הכללי, כפי שתועד בתחקירים ובעדויות.</p>
           </div>
@@ -75,7 +75,7 @@ export default function Oct7() {
       <section className="section-tight">
         <div className="container">
           <div className="section-head reveal">
-            <span className="eyebrow">📍 המקומות</span>
+            <span className="eyebrow">המקומות</span>
             <h2>שמות שלא נשכח</h2>
           </div>
           <div className="places">
@@ -105,7 +105,7 @@ export default function Oct7() {
         <div className="container">
           <div className="grid-2">
             <div className="dark-card reveal">
-              <h3>✅ מה מתועד היטב</h3>
+              <h3>מה מתועד היטב</h3>
               <ul>
                 <li>רצח מכוון של אזרחים בבתיהם, ברחובות ובמסיבה.</li>
                 <li>חטיפת 251 בני אדם, כולל תינוקות וקשישים.</li>
@@ -115,7 +115,7 @@ export default function Oct7() {
               </ul>
             </div>
             <div className="dark-card reveal">
-              <h3>🤝 מה עדיין נחקר</h3>
+              <h3>מה עדיין נחקר</h3>
               <ul>
                 <li>התרעות מודיעיניות שהתקבלו לפני הטבח ולמה לא טופלו — צה״ל פרסם תחקירים שהודו בכישלון.</li>
                 <li>אירועים ספציפיים בבארי ובמקומות נוספים, כולל אש של כוחותינו בקרבות.</li>
@@ -128,7 +128,7 @@ export default function Oct7() {
             <SourceLinks sources={[SRC.oct7, SRC.hostages, SRC.idf]} />
           </div>
           <div style={{ marginTop: 40, textAlign: 'center' }} className="reveal">
-            <Link to="/myths#vacuum" className="btn btn-gold">״זה לא קרה בחלל ריק״? כך עונים ←</Link>
+            <Link to="/myths#vacuum" className="btn btn-primary">״זה לא קרה בחלל ריק״? כך עונים <span className="arr">←</span></Link>
           </div>
         </div>
       </section>

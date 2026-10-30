@@ -7,7 +7,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import { ACTORS, CONFLICTS, CONF_STATUS, CONF_TYPES, startYear, type ConfStatus, type ConfType, type Conflict } from '../data/conflicts'
 import { addBasemap } from '../components/basemap'
 import Flag from '../components/Flag'
-import { CountUp, copyText } from '../components/ui'
+import { CountUp, Split, copyText } from '../components/ui'
 
 const WORLD = L.latLngBounds([-35, -110], [60, 140])
 
@@ -157,7 +157,17 @@ export default function WorldMap() {
     const zoomClass = () => el.current?.classList.toggle('wm-far', map.getZoom() < 3.5)
     map.on('zoomend', zoomClass)
     zoomClass()
-    addBasemap(map).finally(() => setReady(true))
+    // The vector basemap is the heavy part: fetch it only as the visitor heads for the map,
+    // so the intro animates smoothly.
+    let based = false
+    const loadBase = () => {
+      if (based) return
+      based = true
+      addBasemap(map).finally(() => setReady(true))
+    }
+    const near = new IntersectionObserver(([e]) => e.isIntersecting && loadBase(), { rootMargin: '0px 0px 500px 0px' })
+    near.observe(wrap.current!)
+    if (selRef.current) loadBase()
 
     // The page scrolls past the intro first: the map takes the wheel (and, on touch, the drag)
     // only once it fills the screen, so scrolling down to it never gets caught half-way.
@@ -178,6 +188,7 @@ export default function WorldMap() {
 
     return () => {
       window.clearTimeout(jump)
+      near.disconnect()
       io.disconnect()
       map.remove()
       mapRef.current = null
@@ -242,18 +253,18 @@ export default function WorldMap() {
   return (
     <>
       <section className="wm-hero">
-        <div className="grid-bg" />
-        <div className="glow a" /><div className="glow b" />
         <div className="container wm-hero-in">
-          <span className="eyebrow">🌍 מפת הסכסוכים בעולם</span>
-          <h1>מפגינים ונלחמים למען עזה?<br /><span className="hl">ומה עם כל האחרים?</span></h1>
-          <p className="lead">מאז 1948 העולם ידע מאות מלחמות, רציחות עם וכיבושים — רבים מהם קטלניים פי כמה. אבל רק סכסוך אחד מקבל הפגנות בכל קמפוס, גינויים בכל עצרת וכותרות בכל יום. גללו למטה ותראו בעצמכם.</p>
-          <div className="wm-hero-stats">
-            <div><b><CountUp to={stats.total} /></b><span>סכסוכים על המפה</span></div>
-            <div><b><CountUp to={stats.active} /></b><span>פעילים ממש עכשיו</span></div>
-            <div><b><CountUp to={stats.atrocities} /></b><span>רציחות עם ומעשי זוועה</span></div>
+          <span className="eyebrow fade-up" style={{ ['--d' as string]: '0s' }}>מפת הסכסוכים בעולם</span>
+          <h1><Split text="מפגינים ונלחמים למען עזה?" /> <span className="hl"><Split text="ומה עם כל האחרים?" /></span></h1>
+          <p className="lead fade-up" style={{ ['--d' as string]: '.6s' }}>מאז 1948 העולם ידע מאות מלחמות, רציחות עם וכיבושים. רק סכסוך אחד מקבל את כל תשומת הלב.</p>
+          <div className="wm-hero-row fade-up" style={{ ['--d' as string]: '.8s' }}>
+            <div className="wm-hero-stats">
+              <div><b><CountUp to={stats.total} /></b><span>סכסוכים על המפה</span></div>
+              <div><b><CountUp to={stats.active} /></b><span>פעילים עכשיו</span></div>
+              <div><b><CountUp to={stats.atrocities} /></b><span>רציחות עם וזוועות</span></div>
+            </div>
+            <button className="btn btn-primary" onClick={toMap}>למפה <span className="bounce">↓</span></button>
           </div>
-          <button className="btn btn-gold wm-hero-cta" onClick={toMap}>לגלות את המפה <span className="bounce">↓</span></button>
         </div>
         <Marquee />
       </section>
@@ -265,15 +276,15 @@ export default function WorldMap() {
         <section className="wm-search" aria-label="חיפוש סכסוך">
           <div className="wm-title">
             <div>
-              <span className="eyebrow">🌍 {visible.length} מתוך {CONFLICTS.length} סכסוכים</span>
-              <h1>חפשו סכסוך</h1>
+              <span className="eyebrow">{visible.length} מתוך {CONFLICTS.length}</span>
+              <h1>חיפוש סכסוך</h1>
             </div>
-            <button className="wm-toggle" onClick={() => { setListOpen(!listOpen); setFilterOpen(false) }} aria-expanded={showList}>{showList ? 'הסתר' : `רשימה (${visible.length})`}</button>
+            <button className="wm-toggle" onClick={() => { setListOpen(!listOpen); setFilterOpen(false) }} aria-expanded={showList}>{showList ? 'הסתרה' : 'רשימה'}</button>
           </div>
           <div className="wm-searchrow">
             <label className="search wm-input">
               <span className="ic">🔎</span>
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפשו: סודאן, פוקלנד, וייטנאם…" aria-label="חיפוש סכסוך" />
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="סודאן, פוקלנד, וייטנאם…" aria-label="חיפוש סכסוך" />
               {q && <button onClick={() => setQ('')} aria-label="נקה">✕</button>}
             </label>
             <button className={`wm-filter-btn ${filterOpen || activeCount ? 'on' : ''}`} onClick={() => setFilterOpen(!filterOpen)} aria-expanded={filterOpen} aria-label="סינון" title="סינון">
@@ -284,10 +295,10 @@ export default function WorldMap() {
 
           {!filterOpen && filtered && (
             <div className="wm-active">
-              {[...types].map((t) => <button key={t} onClick={() => setTypes(toggle(types, t))}><i style={{ background: CONF_TYPES[t].color }} />{CONF_TYPES[t].label} ✕</button>)}
-              {[...statuses].map((s) => <button key={s} onClick={() => setStatuses(toggle(statuses, s))}>{CONF_STATUS[s].label} ✕</button>)}
-              {[...eras].map((e) => <button key={e} onClick={() => setEras(toggle(eras, e))}>{ERAS.find((x) => x.id === e)!.label} ✕</button>)}
-              <button className="clear" onClick={clearFilters}>נקה הכל</button>
+              {[...types].map((t) => <button key={t} onClick={() => setTypes(toggle(types, t))}><i style={{ background: CONF_TYPES[t].color }} />{CONF_TYPES[t].label} ×</button>)}
+              {[...statuses].map((s) => <button key={s} onClick={() => setStatuses(toggle(statuses, s))}>{CONF_STATUS[s].label} ×</button>)}
+              {[...eras].map((e) => <button key={e} onClick={() => setEras(toggle(eras, e))}>{ERAS.find((x) => x.id === e)!.label} ×</button>)}
+              <button className="clear" onClick={clearFilters}>ניקוי</button>
             </div>
           )}
 
@@ -315,7 +326,7 @@ export default function WorldMap() {
                 </div>
               </div>
               <div className="wm-fgroup">
-                <div className="label-sm">תקופה (שנת פתיחה)</div>
+                <div className="label-sm">תקופה</div>
                 <div className="wm-fopts row">
                   {ERAS.map((e) => (
                     <button key={e.id} className={`wm-fopt ${eras.has(e.id) ? 'on' : ''}`} onClick={() => setEras(toggle(eras, e.id))} aria-pressed={eras.has(e.id)}>{e.label}</button>
@@ -323,8 +334,8 @@ export default function WorldMap() {
                 </div>
               </div>
               <div className="wm-factions">
-                <button className="btn btn-soft btn-sm" onClick={clearFilters} disabled={!filtered}>נקה</button>
-                <button className="btn btn-primary btn-sm" onClick={() => setFilterOpen(false)}>הצג {visible.length} סכסוכים</button>
+                <button className="btn btn-soft btn-sm" onClick={clearFilters} disabled={!filtered}>ניקוי</button>
+                <button className="btn btn-primary btn-sm" onClick={() => setFilterOpen(false)}>הצגת {visible.length} סכסוכים</button>
               </div>
             </div>
           )}
@@ -349,8 +360,8 @@ export default function WorldMap() {
           {sel && (
             <div className="wm-panel-in" key={sel.id}>
               <div className="wm-panel-top">
-                <span className="wm-pill" style={{ background: CONF_TYPES[sel.type].color }}>{CONF_TYPES[sel.type].icon} {CONF_TYPES[sel.type].label}</span>
-                <span className="wm-pill ghost"><i style={{ background: CONF_STATUS[sel.status].color }} />{CONF_STATUS[sel.status].label}</span>
+                <span className="wm-meta"><i style={{ background: CONF_TYPES[sel.type].color }} />{CONF_TYPES[sel.type].label}</span>
+                <span className="wm-meta"><i style={{ background: CONF_STATUS[sel.status].color }} />{CONF_STATUS[sel.status].label}</span>
                 <button className="wm-x" onClick={() => select(null)} aria-label="סגירה">✕</button>
               </div>
               <h2>{sel.name}</h2>
@@ -371,12 +382,12 @@ export default function WorldMap() {
               <p className="wm-sum">{sel.summary}</p>
               <div className="label-sm" style={{ margin: '18px 0 10px' }}>עובדות מפתח</div>
               <ul className="facts-list">{sel.facts.map((f) => <li key={f}>{f}</li>)}</ul>
-              <div className="wm-now"><b>📍 המצב היום</b>{sel.now}</div>
-              {sel.angle && <div className="box honest" style={{ marginTop: 12 }}><h4>💡 זווית הסברתית</h4>{sel.angle}</div>}
+              <div className="wm-now"><b>המצב היום</b>{sel.now}</div>
+              {sel.angle && <div className="box honest" style={{ marginTop: 12 }}><h4>הזווית ההסברתית</h4>{sel.angle}</div>}
 
               <div className="wm-nav">
                 <button className="btn btn-soft btn-sm" onClick={() => step(-1)}>→ הקודם</button>
-                <button className="btn btn-soft btn-sm" onClick={() => copyText(window.location.href)}>🔗 קישור</button>
+                <button className="btn btn-soft btn-sm" onClick={() => copyText(window.location.href)}>העתקת קישור</button>
                 <button className="btn btn-soft btn-sm" onClick={() => step(1)}>הבא ←</button>
               </div>
             </div>

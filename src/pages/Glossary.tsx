@@ -9,13 +9,13 @@ export default function Glossary() {
 
   return (
     <>
-      <PageHero eyebrow="📖 מילון" emoji="🔤" title="המילים שכולם זורקים."
-        lead="מה זה בעצם ״ציונות״? מה ההבדל בין ״כיבוש״ ל״שטח במחלוקת״? מילון קצר שיעזור לכם לדבר בשפה מדויקת — ולזהות כשמישהו משתמש במילים לא נכון." />
+      <PageHero eyebrow="מילון" title="המילים, בדיוק"
+        lead="המונחים שחשוב להבין נכון — ולזהות כשמשתמשים בהם לא נכון." />
       <section className="section-tight">
         <div className="container">
           <label className="search">
             <span className="ic">🔎</span>
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפשו מונח בעברית או באנגלית" aria-label="חיפוש מונח" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש בעברית או באנגלית" aria-label="חיפוש מונח" />
           </label>
           <div className="gl-grid">
             {list.map((t) => (
@@ -23,7 +23,7 @@ export default function Glossary() {
                 <div className="en">{t.en}</div>
                 <h3>{t.he}</h3>
                 <p>{t.def}</p>
-                {t.tip && <div className="tip">💡 {t.tip}</div>}
+                {t.tip && <div className="tip">{t.tip}</div>}
               </div>
             ))}
           </div>
