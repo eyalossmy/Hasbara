@@ -15,7 +15,7 @@ export const NAV = [
 export function Logo() {
   return (
     <Link to="/" className="logo" aria-label="הסברה — דף הבית">
-      <img src="/favicon.svg" className="logo-mark" alt="" />
+      <img src="/logo-mark.svg" className="logo-mark" alt="" />
       <span>הסברה<span className="logo-dot">.</span></span>
     </Link>
   )
