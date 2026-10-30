@@ -114,7 +114,7 @@
  "israaid": {
   "src": "/img/israaid.png",
   "credit": "https://commons.wikimedia.org/wiki/File:Logo-Israaid.svg",
-  "artist": "Unknown authorUnknown author",
+  "artist": "Unknown author",
   "license": "Public domain",
   "logo": true
  },
@@ -198,7 +198,7 @@
  "alhambra": {
   "src": "/img/alhambra.jpg",
   "credit": "https://commons.wikimedia.org/wiki/File:Spanishhaggadah.jpg",
-  "artist": "Unknown authorUnknown author",
+  "artist": "Unknown author",
   "license": "Public domain",
   "logo": false
  },
@@ -219,7 +219,7 @@
  "farhud": {
   "src": "/img/farhud.jpg",
   "credit": "https://commons.wikimedia.org/wiki/File:Farhud_mass_grave.jpg",
-  "artist": "Unknown authorUnknown author",
+  "artist": "Unknown author",
   "license": "Public domain",
   "logo": false
  },
@@ -282,7 +282,7 @@
  "evian": {
   "src": "/img/evian.jpg",
   "credit": "https://commons.wikimedia.org/wiki/File:Myron_Taylor_addresses_the_%C3%89vian_Conference.jpg",
-  "artist": "Unknown authorUnknown author",
+  "artist": "Unknown author",
   "license": "Public domain",
   "logo": false
  },
@@ -310,7 +310,7 @@
  "warsaw": {
   "src": "/img/warsaw.jpg",
   "credit": "https://commons.wikimedia.org/wiki/File:Stroop_Report_-_Warsaw_Ghetto_Uprising_BW.jpg",
-  "artist": "Unknown authorUnknown author (Franz Konrad confessed to taki",
+  "artist": "Unknown author",
   "license": "Public domain",
   "logo": false
  },
@@ -352,7 +352,7 @@
  "yadVashem": {
   "src": "/img/yadVashem.png",
   "credit": "https://commons.wikimedia.org/wiki/File:Yad_Vashem_Logo.svg",
-  "artist": "Unknown authorUnknown author",
+  "artist": "Unknown author",
   "license": "Public domain",
   "logo": true
  },
