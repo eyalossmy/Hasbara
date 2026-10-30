@@ -30,7 +30,9 @@ def api(params):
 
 
 def plain(html):
-    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', html or '')).strip()
+    text = re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', html or '')).strip()
+    half = len(text) // 2
+    return text[:half].strip() if len(text) % 2 == 0 and text[:half] == text[half:] else text
 
 
 def resolve(entry):
@@ -61,6 +63,8 @@ def main():
     only = set(sys.argv[1:])
     os.makedirs(OUT, exist_ok=True)
     done = json.load(open(LOCK, encoding='utf-8')) if os.path.exists(LOCK) else {}
+    for v in done.values():
+        v['artist'] = plain(v['artist'])
     for key, entry in manifest.items():
         if (only and key not in only) or (not only and key in done):
             continue
