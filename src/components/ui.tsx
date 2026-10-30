@@ -86,6 +86,37 @@ export function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?:
   return <span ref={ref}>{prefix}{val.toLocaleString('en-US')}{suffix}</span>
 }
 
+// A sentence that talks about killing — its numbers are the point and get bolded
+const DEATH = /הרוג|נהרג|נרצח|רצח|נפל|מתו|קורבנ|טבח|להורג|חלל/
+const NOUN = /\s(?:הרוגים|הרוג|בני אדם|אזרחים|ישראלים|יהודים|פלסטינים|חיילים|ילדים|איש|נפש|קורבנות|לוחמים)$/
+const TOLL = /(?:(?:יותר מ|פחות מ|למעלה מ|לפחות |מעל |עד |כ)[־-]?)?(?:\d+(?:[,.]\d+)*(?:[–-]\d+(?:[,.]\d+)*)?(?:\s(?:אלף|מיליון))?|(?:מאות|עשרות)\s(?:אלפי|אלפים)|אלפי|מיליוני)(?:\s(?:הרוגים|הרוג|בני אדם|אזרחים|ישראלים|יהודים|פלסטינים|חיילים|ילדים|איש|נפש|קורבנות|לוחמים))?(?!\s(?:ימים|שנים|שעות|מושבים))/g
+const YEARS = /^\d{4}(?:[–-]\d{4})?$/
+/** Years, dates and other small bare numbers are not tolls */
+const notToll = (m: string) => YEARS.test(m) || (!NOUN.test(m) && /^\d{1,2}$/.test(m))
+
+function tolls(text: string, key: string) {
+  return text.split(/(?<=[.!?])(\s+)/).flatMap((sentence, si) => {
+    if (!DEATH.test(sentence)) return [sentence]
+    const out: ReactNode[] = []
+    let last = 0
+    for (const m of sentence.matchAll(TOLL)) {
+      if (notToll(m[0])) continue
+      out.push(sentence.slice(last, m.index), <b key={`${key}-${si}-${m.index}`}>{m[0]}</b>)
+      last = m.index! + m[0].length
+    }
+    out.push(sentence.slice(last))
+    return out
+  })
+}
+
+/** Text with **marked** phrases and death tolls in bold. */
+export function Emph({ text }: { text: string }) {
+  return <>{text.split(/\*\*(.+?)\*\*/).flatMap((part, i): ReactNode[] => (i % 2 ? [<b key={i}>{part}</b>] : tolls(part, String(i))))}</>
+}
+
+/** Whether a line carries a marked phrase or a death toll — the facts that must stay in view. */
+export const isKeyFact = (text: string) => text.includes('**') || DEATH.test(text)
+
 let toastTimer: number | undefined
 export function toast(msg: string) {
   let el = document.getElementById('toast')

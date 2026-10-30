@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import L from 'leaflet'
 import 'leaflet.markercluster'
@@ -7,7 +7,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import { ACTORS, CONFLICTS, CONF_STATUS, CONF_TYPES, startYear, type ActorId, type ConfStatus, type ConfType, type Conflict } from '../data/conflicts'
 import { addBasemap } from '../components/basemap'
 import Flag from '../components/Flag'
-import { CountUp, Split, copyText } from '../components/ui'
+import { CountUp, Emph, Split, copyText, isKeyFact } from '../components/ui'
 
 const WORLD = L.latLngBounds([-35, -110], [60, 140])
 
@@ -82,6 +82,44 @@ function FilterIcon() {
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d="M3 5h18l-7 8.5V19l-4 2v-7.5z" />
     </svg>
+  )
+}
+
+/**
+ * Drips hang from letters with a solid bottom stroke (מ, ם, כ, the legs of ה and ח):
+ * per word, [letter index, position across that letter in %, length in em, delay in s].
+ */
+const DRIPS: [number, number, number, number][][] = [
+  [[1, 50, 0.55, 0.3], [2, 86, 0.26, 1.2]],
+  [[1, 38, 0.4, 0.7]],
+  [[0, 46, 0.3, 1.5]],
+  [[2, 12, 0.62, 0], [5, 52, 0.36, 0.9]],
+]
+
+/** Headline that rises in word by word, then bleeds. */
+function BloodText({ text, start = 0 }: { text: string; start?: number }) {
+  return (
+    <span className="split blood" aria-label={text}>
+      {text.split(' ').map((w, i) => (
+        <Fragment key={i}>
+          {i > 0 && ' '}
+          <span className="w" style={{ ['--i' as string]: i + start }} aria-hidden>
+            {[...w].map((ch, k) => {
+              const drips = (DRIPS[i] ?? []).filter(([at]) => at === k)
+              if (!drips.length) return ch
+              return (
+                <span key={k} className="bl">
+                  {ch}
+                  {drips.map(([, x, len, d], j) => (
+                    <i key={j} className="drip" style={{ left: `${x}%`, ['--len' as string]: `${len}em`, animationDelay: `${1.4 + d}s` }} />
+                  ))}
+                </span>
+              )
+            })}
+          </span>
+        </Fragment>
+      ))}
+    </span>
   )
 }
 
@@ -297,6 +335,9 @@ export default function WorldMap() {
   stepRef.current = step
   const showList = (listOpen || !!q) && !filterOpen
   const isAtrocity = sel?.type === 'atrocity'
+  // Death tolls and the facts marked as crucial stay in view; the rest fold away
+  const keyFacts = sel?.facts.filter(isKeyFact) ?? []
+  const moreFacts = sel?.facts.filter((f) => !isKeyFact(f)) ?? []
   const activeCount = types.size + statuses.size + eras.size
 
   return (
@@ -306,9 +347,9 @@ export default function WorldMap() {
           <span className="eyebrow fade-up" style={{ ['--d' as string]: '0s' }}>מפת הסכסוכים בעולם</span>
           <h1>
             <span className="wm-h-q"><Split text="מפגינים ונלחמים למען עזה?" /></span>
-            <span className="wm-h-a"><Split text="ומה עם כל האחרים?" start={4} /></span>
+            <span className="wm-h-a"><BloodText text="ומה עם כל האחרים?" start={4} /></span>
           </h1>
-          <p className="lead fade-up" style={{ ['--d' as string]: '.6s' }}>מאז 1948 העולם ידע מאות מלחמות, רציחות עם וכיבושים. רק סכסוך אחד מקבל את כל תשומת הלב.</p>
+          <p className="lead fade-up" style={{ ['--d' as string]: '.6s' }}>מאז 1948, השנה שבה נוסדה מדינת ישראל, העולם ידע מאות מלחמות, רציחות עם וכיבושים. רק סכסוך אחד מקבל את כל תשומת הלב.</p>
           <div className="wm-hero-row fade-up" style={{ ['--d' as string]: '.8s' }}>
             <div className="wm-hero-stats">
               <div><b><CountUp to={stats.total} /></b><span>סכסוכים על המפה</span></div>
@@ -427,14 +468,15 @@ export default function WorldMap() {
                   <Side ids={sel.sides[1]} cap={isAtrocity ? 'הקורבנות' : undefined} />
                 </div>
 
-                <p className="wp-sum">{sel.summary}</p>
-                <p className="wp-now"><b>היום</b>{sel.now}</p>
-                {sel.angle && <p className="wp-point">{sel.angle}</p>}
+                <p className="wp-sum"><Emph text={sel.summary} /></p>
+                {keyFacts.length > 0 && <ul className="wp-key">{keyFacts.map((f) => <li key={f}><Emph text={f} /></li>)}</ul>}
+                <p className="wp-now"><b>היום</b><Emph text={sel.now} /></p>
+                {sel.angle && <p className="wp-point"><Emph text={sel.angle} /></p>}
 
-                {sel.facts.length > 0 && (
+                {moreFacts.length > 0 && (
                   <details className="wp-facts">
-                    <summary><span className="plus" aria-hidden />{sel.facts.length} עובדות נוספות</summary>
-                    <ul>{sel.facts.map((f) => <li key={f}>{f}</li>)}</ul>
+                    <summary><span className="plus" aria-hidden />{moreFacts.length === 1 ? 'עובדה נוספת' : `${moreFacts.length} עובדות נוספות`}</summary>
+                    <ul>{moreFacts.map((f) => <li key={f}><Emph text={f} /></li>)}</ul>
                   </details>
                 )}
               </div>
