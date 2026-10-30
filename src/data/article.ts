@@ -1,4 +1,5 @@
 import type { Source, Status } from './types'
+import type { PicKey } from './images'
 
 // The shape of a content page. Every item carries its own sources, so nothing on the page stands without one.
 
@@ -12,6 +13,8 @@ export interface Item {
   text: string
   status?: Status
   sources: Source[]
+  /** A real photo or logo, from data/images.ts */
+  img?: PicKey
 }
 
 export type Block =

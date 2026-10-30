@@ -6,13 +6,13 @@ import { CountUp, Split, StatusBadge, useReveal } from '../components/ui'
 
 const PATHS = [
   { to: '/myths', title: 'מיתוס מול מציאות', text: 'הטענות הנפוצות נגד ישראל, והתשובות.' },
-  { to: '/toolkit', title: 'ארגז כלים', text: 'מה עונים — בעשר שניות, בדקה או לעומק.' },
+  { to: '/toolkit', title: 'ארגז כלים', text: 'מה עונים, בעשר שניות, בדקה או לעומק.' },
   { to: '/timeline', title: 'ציר זמן', text: '3,000 שנה, מדוד המלך ועד היום.' },
   { to: '/oct7', title: '7 באוקטובר', text: 'מה קרה, שעה אחר שעה.' },
   { to: '/law', title: 'משפט בינלאומי', text: 'מידתיות, מגן אנושי, ICJ ו־ICC.' },
   { to: '/map', title: 'מפת העולם', text: '152 סכסוכים מאז 1948, במפה אחת.' },
   { to: '/quiz', title: 'חידון', text: '12 שאלות. כמה אתם באמת יודעים?' },
-  { to: '/gaza-or-not', title: 'עזה או לא?', text: 'חמש תמונות של הרס. אף אחת לא מעזה.' },
+  { to: '/gaza-or-not', title: 'עזה או לא?', text: 'תשע תמונות של הרס. אף אחת לא מעזה.' },
 ]
 
 export default function Home() {
@@ -50,7 +50,7 @@ export default function Home() {
             <Link to="/myths#occupied-gaza" className="bc tall dark reveal">
               <span className="bc-k">מיתוס נפוץ</span>
               <div className="bc-q"><s>״עזה הייתה כבושה עד 7 באוקטובר״</s></div>
-              <p className="bc-a">ב־2005 ישראל יצאה מעזה — כל חייל וכל אזרח. מ־2007 שולט בה חמאס לבדו.</p>
+              <p className="bc-a">ב־2005 ישראל יצאה מעזה, כל חייל וכל אזרח. מ־2007 שולט בה חמאס לבדו.</p>
               <span className="bc-link">לכל המיתוסים</span>
             </Link>
             <div className="bc reveal">
@@ -106,7 +106,7 @@ export default function Home() {
             <div className="reveal">
               <span className="eyebrow">מיתוס אקראי</span>
               <h2 style={{ fontSize: 'clamp(34px,4.6vw,56px)', margin: '18px 0 16px' }}>הפכו את הכרטיס.</h2>
-              <p className="muted" style={{ fontSize: 19 }}>טענה נפוצה — ותשובה במשפט אחד.</p>
+              <p className="muted" style={{ fontSize: 19 }}>טענה נפוצה, ותשובה במשפט אחד.</p>
               <div style={{ display: 'flex', gap: 24, marginTop: 32, alignItems: 'center', flexWrap: 'wrap' }}>
                 <Link to={`/myths#${myth.id}`} className="btn btn-primary">לפרטים המלאים</Link>
                 <button className="btn btn-link" onClick={nextMyth}>מיתוס אחר</button>

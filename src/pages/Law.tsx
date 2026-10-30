@@ -51,7 +51,7 @@ export default function Law() {
   return (
     <>
       <PageHero eyebrow="משפט בינלאומי" title="דיני המלחמה, בפשטות"
-        lead="מה המונחים אומרים באמת — ומה העמדה הישראלית." />
+        lead="מה המונחים אומרים באמת, ומה העמדה הישראלית." />
 
       <section className="section-tight">
         <div className="container"><Simulator /></div>
@@ -82,11 +82,11 @@ export default function Law() {
           <div className="section-head reveal">
             <span className="eyebrow">ICJ מול ICC</span>
             <h2>שני בתי דין. לא אותו דבר.</h2>
-            <p>הבלבול הנפוץ ביותר בכותרות — ומה באמת נקבע.</p>
+            <p>הבלבול הנפוץ ביותר בכותרות, ומה באמת נקבע.</p>
           </div>
           <div className="table-wrap reveal">
             <table className="compare">
-              <thead><tr><th></th><th>ICJ — בית הדין לצדק</th><th>ICC — בית הדין הפלילי</th></tr></thead>
+              <thead><tr><th></th><th>ICJ: בית הדין לצדק</th><th>ICC: בית הדין הפלילי</th></tr></thead>
               <tbody>
                 {COURTS.map((r) => <tr key={r.k}><td>{r.k}</td><td>{r.icj}</td><td>{r.icc}</td></tr>)}
               </tbody>

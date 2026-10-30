@@ -1,13 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { GAZA_OR_NOT } from '../data/gazaOrNot'
-import { QuizTabs, SourceLinks, copyText, shareUrl } from '../components/ui'
-
-const TIPS = [
-  ['חיפוש תמונה הפוך', 'Google Lens או TinEye מראים בשנייה איפה ומתי התמונה הופיעה לראשונה.'],
-  ['מי צילם, ומתי?', 'תמונה בלי צלם, בלי תאריך ובלי מקום — היא לא ראיה, היא תעמולה.'],
-  ['מי התחיל?', 'הרס במלחמה הוא נורא בכל מקום. השאלה היא מי פתח בה ומי מסתתר מאחורי אזרחים.'],
-]
+import { FakeNewsCheck, QuizTabs, SourceLinks, copyText, shareUrl } from '../components/ui'
 
 export default function GazaOrNot() {
   const [i, setI] = useState(0)
@@ -25,7 +19,7 @@ export default function GazaOrNot() {
   const restart = () => { setI(0); setPick(null); setFooled(0) }
 
   const total = GAZA_OR_NOT.length
-  const shareText = `שיחקתי ב״עזה או לא?״ — ${total} תמונות של הרס, אף אחת מהן לא מעזה. בדקו אם אתם מזהים:`
+  const shareText = `שיחקתי ב״עזה או לא?״, ${total} תמונות של הרס, אף אחת מהן לא מעזה. בדקו אם אתם מזהים:`
 
   return (
     <section className="section gon">
@@ -33,7 +27,7 @@ export default function GazaOrNot() {
         <div className="center" style={{ marginBottom: 28 }}>
           <QuizTabs />
           <h1 className="gon-title">עזה או לא?</h1>
-          <p className="muted gon-lead">תמונות של הרס מופצות ברשת כ״עזה״. נחשו איפה הן צולמו באמת — ומי פתח במלחמה.</p>
+          <p className="muted gon-lead">תמונות של הרס מופצות ברשת כ״עזה״, ומיליונים משתפים בלי לבדוק. נחשו איפה הן צולמו באמת, ומי פתח במלחמה.</p>
         </div>
 
         {done ? (
@@ -42,13 +36,9 @@ export default function GazaOrNot() {
             <h2>אף אחת מהתמונות לא הייתה מעזה.</h2>
             <p className="muted">
               {fooled === 0 ? 'זיהיתם את כולן. אתם קשים לעבוד עליכם.' : `${fooled} מתוך ${total} פעמים חשבתם שזו עזה. ככה בדיוק עובדת תעמולה.`}
-              {' '}מוסול, דרזדן, מילאנו והמבורג נהרסו במלחמות שפתחו בהן דאע״ש, גרמניה הנאצית ואיטליה הפשיסטית. האחריות להרס — על מי שפתח במלחמה.
+              {' '}{GAZA_OR_NOT.filter((x) => x.toll || x.when !== 'היום').map((x) => x.place.split(',')[0]).join(', ')}: כולן נהרסו במלחמות, ובכל אחת מהן האחריות להרס היא על מי שפתח במלחמה.
             </p>
-            <div className="gon-tips">
-              {TIPS.map(([t, d]) => (
-                <div key={t} className="gon-tip"><b>{t}</b><span>{d}</span></div>
-              ))}
-            </div>
+            <FakeNewsCheck title="אם נפלתם בפח, זה לא במקרה." />
             <div className="row">
               <a className="btn btn-primary" href={shareUrl(shareText)} target="_blank" rel="noopener noreferrer">לאתגר חברים</a>
               <button className="btn btn-soft" onClick={() => copyText(`${shareText} ${window.location.href}`)}>העתקת קישור</button>
@@ -88,6 +78,7 @@ export default function GazaOrNot() {
                 </div>
                 <p>{p.text}</p>
                 <p className="gon-point">{p.point}</p>
+                <p className="gon-check"><b>איך הייתם בודקים?</b> חיפוש תמונה הפוך היה מראה בתוך שניות שהתמונה צולמה ב{p.place.split(',')[0]}, {p.when}. מי שמשתף אותה כ״עזה״ בלי לבדוק, מפיץ פייק.</p>
                 <SourceLinks sources={p.sources} />
                 <div className="quiz-next">
                   <button className="btn btn-primary" onClick={next}>{i === total - 1 ? 'לתוצאה' : 'התמונה הבאה'}</button>

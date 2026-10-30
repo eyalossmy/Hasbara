@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { MISSIONS, SECTIONS, type Section } from '../data/sections'
 import { PageHero, useReveal } from '../components/ui'
 import { Think } from '../components/Article'
+import Pic from '../components/Pic'
 
 export default function Hub({ id }: { id: Section['id'] }) {
   useReveal()
@@ -14,10 +15,11 @@ export default function Hub({ id }: { id: Section['id'] }) {
         <div className="container">
           <nav className="plist" aria-label={s.title}>
             {s.pages.map((p, i) => (
-              <Link key={p.to} to={p.to} className="prow reveal">
+              <Link key={p.to} to={p.to} className={`prow reveal ${p.img ? 'prow-pic' : ''}`}>
                 <span className="n">{String(i + 1).padStart(2, '0')}</span>
                 <h3>{p.label}</h3>
                 <p>{p.text}</p>
+                {p.img && <Pic k={p.img} alt={p.label} />}
               </Link>
             ))}
           </nav>

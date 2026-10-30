@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { Article, Block, Head, Item } from '../data/article'
+import Pic from './Pic'
 import { Emph, PageHero, SourceLinks, StatusBadge, useReveal } from './ui'
 
 function SectionHead({ head }: { head: Head }) {
@@ -15,6 +16,7 @@ function SectionHead({ head }: { head: Head }) {
 function Card({ item }: { item: Item }) {
   return (
     <article className="ac reveal">
+      {item.img && <Pic k={item.img} alt={item.title} />}
       <div className="ac-top">
         {item.k && <span className="ac-k">{item.k}</span>}
         {item.status && <StatusBadge status={item.status} />}
@@ -60,6 +62,7 @@ function BlockView({ b }: { b: Block }) {
                   <div>
                     <h3>{i.title}</h3>
                     <p><Emph text={i.text} /></p>
+                    {i.img && <Pic k={i.img} alt={i.title} />}
                     <div className="ac-src">{i.status && <StatusBadge status={i.status} />}<SourceLinks sources={i.sources} /></div>
                   </div>
                 </div>

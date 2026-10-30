@@ -30,7 +30,7 @@ export default function Myths() {
   return (
     <>
       <PageHero eyebrow="מיתוס מול מציאות" title="מה אומרים, ומה נכון"
-        lead="הטענות הנפוצות נגד ישראל — והעובדות, עם מקורות ורמת ודאות." />
+        lead="הטענות הנפוצות נגד ישראל, והעובדות, עם מקורות ורמת ודאות." />
 
       <section className="section-tight">
         <div className="container" style={{ maxWidth: 940 }}>

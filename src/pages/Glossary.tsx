@@ -12,7 +12,7 @@ export default function Glossary() {
   return (
     <>
       <PageHero eyebrow="מילון" title="המילים, בדיוק"
-        lead={`${GLOSSARY.length} מונחים שחשוב להבין נכון — ולזהות כשמשתמשים בהם לא נכון.`} />
+        lead={`${GLOSSARY.length} מונחים שחשוב להבין נכון, ולזהות כשמשתמשים בהם לא נכון.`} />
       <div className="gl-bar">
         <div className="container">
           <label className="search">

@@ -5,7 +5,7 @@ import { SECTIONS } from '../data/sections'
 
 export function Logo() {
   return (
-    <Link to="/" className="logo" aria-label="הסברה — דף הבית">
+    <Link to="/" className="logo" aria-label="הסברה, דף הבית">
       <img src="/logo-mark.svg" className="logo-mark" alt="" />
       <span>הסברה<span className="logo-dot">.</span></span>
     </Link>
@@ -78,7 +78,7 @@ export default function Layout() {
           <div className="cols">
             <div>
               <Logo />
-              <p>להבין את ישראל, להסביר את הסכסוך ולחשוב ביקורתית — עם מקור לכל עובדה.</p>
+              <p>להבין את ישראל, להסביר את הסכסוך ולחשוב ביקורתית, עם מקור לכל עובדה.</p>
             </div>
             {SECTIONS.map((sec) => (
               <div key={sec.id}>

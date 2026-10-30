@@ -91,7 +91,7 @@ export function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?:
   return <span ref={ref}>{prefix}{val.toLocaleString('en-US')}{suffix}</span>
 }
 
-// A sentence that talks about killing — its numbers are the point and get bolded
+// A sentence that talks about killing, its numbers are the point and get bolded
 const DEATH = /הרוג|נהרג|נרצח|רצח|נפל|מתו|קורבנ|טבח|להורג|חלל/
 const NOUN = /\s(?:הרוגים|הרוג|בני אדם|אזרחים|ישראלים|יהודים|פלסטינים|חיילים|ילדים|איש|נפש|קורבנות|לוחמים)$/
 const TOLL = /(?:(?:יותר מ|פחות מ|למעלה מ|לפחות |מעל |עד |כ)[־-]?)?(?:\d+(?:[,.]\d+)*(?:[–-]\d+(?:[,.]\d+)*)?(?:\s(?:אלף|מיליון))?|(?:מאות|עשרות)\s(?:אלפי|אלפים)|אלפי|מיליוני)(?:\s(?:הרוגים|הרוג|בני אדם|אזרחים|ישראלים|יהודים|פלסטינים|חיילים|ילדים|איש|נפש|קורבנות|לוחמים))?(?!\s(?:ימים|שנים|שעות|מושבים))/g
@@ -119,7 +119,7 @@ export function Emph({ text }: { text: string }) {
   return <>{text.split(/\*\*(.+?)\*\*/).flatMap((part, i): ReactNode[] => (i % 2 ? [<b key={i}>{part}</b>] : tolls(part, String(i))))}</>
 }
 
-/** Whether a line carries a marked phrase or a death toll — the facts that must stay in view. */
+/** Whether a line carries a marked phrase or a death toll, the facts that must stay in view. */
 export const isKeyFact = (text: string) => text.includes('**') || DEATH.test(text)
 
 let toastTimer: number | undefined
@@ -143,7 +143,7 @@ export async function copyText(text: string) {
     await navigator.clipboard.writeText(text)
     toast('הועתק')
   } catch {
-    toast('לא הצלחנו להעתיק — סמנו והעתיקו ידנית')
+    toast('לא הצלחנו להעתיק, סמנו והעתיקו ידנית')
   }
 }
 
@@ -157,6 +157,33 @@ export function QuizTabs() {
     <div className="quiz-tabs">
       <NavLink to="/quiz" end>חידון ידע</NavLink>
       <NavLink to="/gaza-or-not">עזה או לא?</NavLink>
+    </div>
+  )
+}
+
+/** The checks to run before believing or sharing anything, shown at the end of both quizzes. */
+export const FAKE_CHECKS: [string, string][] = [
+  ['עצרו לפני שאתם משתפים', 'פייק ניוז בנוי לעורר כעס מיד. אם פוסט גורם לכם לרתוח, זה בדיוק הרגע לבדוק.'],
+  ['חיפוש תמונה הפוך', 'Google Lens או TinEye מראים בשנייה איפה ומתי תמונה הופיעה לראשונה. רוב התמונות המזויפות ״מעזה״ נחשפות כך.'],
+  ['מי צילם, איפה ומתי?', 'תמונה בלי צלם, בלי תאריך ובלי מקום היא לא ראיה. היא תעמולה.'],
+  ['מי המקור למספר?', '״משרד הבריאות בעזה״ הוא חמאס. ״לפי דיווחים״ זה לא מקור. חפשו מי סופר, ומה בדיוק.'],
+  ['מה קרה רגע לפני?', 'סרטון חתוך מספר חצי סיפור. חפשו את הגרסה המלאה ואת ההקשר.'],
+  ['גם לנו', 'גם פייק לטובת ישראל הוא פייק. מי שמשתף שקר ״בצד הנכון״ מאבד את האמינות של כולנו.'],
+]
+
+export function FakeNewsCheck({ title = 'ככה עובד פייק ניוז. ככה עוצרים אותו.' }: { title?: string }) {
+  return (
+    <div className="fake-check">
+      <span className="think-k">לחשוב ביקורתית</span>
+      <h3>{title}</h3>
+      <div className="gon-tips">
+        {FAKE_CHECKS.map(([t, d]) => <div key={t} className="gon-tip"><b>{t}</b><span>{d}</span></div>)}
+      </div>
+      <SourceLinks sources={[
+        { label: 'Google Lens: חיפוש לפי תמונה', url: 'https://lens.google/' },
+        { label: 'TinEye: חיפוש תמונה הפוך', url: 'https://tineye.com/' },
+        { label: 'אל־אהלי: איך כותרת שקרית הקיפה את העולם (HRW)', url: 'https://www.hrw.org/news/2023/11/26/gaza-findings-october-17-al-ahli-hospital-explosion' },
+      ]} />
     </div>
   )
 }

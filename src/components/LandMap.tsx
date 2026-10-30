@@ -78,7 +78,7 @@ export function MapView({ period }: { period: Period }) {
         {p.legend.map(([c, label]) => (
           <li key={label}><i style={{ background: c === COLORS.mix ? STRIPES : c }} />{label}</li>
         ))}
-        {p.greenLine && <li><i className="gl" />הקו הירוק — גבולות 1949</li>}
+        {p.greenLine && <li><i className="gl" />הקו הירוק, גבולות 1949</li>}
       </ul>
     </div>
   )
@@ -97,7 +97,7 @@ export function PeriodText({ period }: { period: Period }) {
   )
 }
 
-/** Map and text stacked — for narrow screens. */
+/** Map and text stacked, for narrow screens. */
 export default function LandMap({ period }: { period: Period }) {
   return (
     <figure className="lm">

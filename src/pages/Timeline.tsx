@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState, useSyncExternalStore } from 'rea
 import { ERAS, KEY_FACTS, TIMELINE, type Era } from '../data/timeline'
 import { Emph, PageHero, SourceLinks, useReveal } from '../components/ui'
 import LandMap, { MapView, PeriodText } from '../components/LandMap'
+import Pic from '../components/Pic'
 
 // Wide screens show one map beside the list; only narrow ones need a map per period inside it
 const WIDE = '(min-width: 1241px)'
@@ -34,7 +35,7 @@ export default function Timeline() {
   return (
     <>
       <PageHero eyebrow="ציר זמן" title="3,000 שנה בקצרה"
-        lead="האירועים שחייבים להכיר, ולצידם מפת הארץ של אותה תקופה: מי שלט כאן — ומה לא היה כאן אף פעם." />
+        lead="האירועים שחייבים להכיר, ולצידם מפת הארץ של אותה תקופה: מי שלט כאן, ומה לא היה כאן אף פעם." />
 
       <section className="container tl-facts" aria-label="שלוש עובדות לזכור">
         {KEY_FACTS.map((f, n) => (
@@ -76,6 +77,7 @@ export default function Timeline() {
                     <p><Emph text={e.text} /></p>
                     <div className="tl-more">
                       <div>
+                        {e.img && !wide && <Pic k={e.img} alt={e.title} />}
                         <div className="why"><b>למה זה חשוב: </b><Emph text={e.why} /></div>
                         <p className="lm-note">{e.bottom}</p>
                         {e.sources && <div style={{ marginTop: 12 }} onClick={(ev) => ev.stopPropagation()}><SourceLinks sources={e.sources} /></div>}
@@ -92,6 +94,7 @@ export default function Timeline() {
         <aside className="tl-side" aria-label="מפה והסבר">
           <div className="tl-side-text">
             <div className="tl-explain" key={cur.title}>
+              {cur.img && <Pic k={cur.img} alt={cur.title} />}
               <div className="tl-explain-k">{cur.year}</div>
               <h3>{cur.title}</h3>
               <p><Emph text={cur.why} /></p>

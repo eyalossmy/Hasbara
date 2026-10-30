@@ -177,7 +177,7 @@ export default function WorldMap() {
   const clearFilters = () => { setTypes(new Set()); setStatuses(new Set()); setEras(new Set()) }
   const toMap = () => wrap.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
 
-  // Map, basemap and cluster layer — once.
+  // Map, basemap and cluster layer, once.
   useEffect(() => {
     const map = L.map(el.current!, {
       zoomControl: false,

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { QUIZ, RANKS } from '../data/quiz'
-import { QuizTabs, SourceLinks, copyText, shareUrl } from '../components/ui'
+import { FakeNewsCheck, QuizTabs, SourceLinks, copyText, shareUrl } from '../components/ui'
 
 const LETTERS = ['א', 'ב', 'ג', 'ד']
 const COLORS = ['#1446f5', '#ffb020', '#0fb47e', '#ff5a5f', '#7c4dff']
@@ -36,7 +36,7 @@ export default function Quiz() {
   const restart = () => { setI(0); setPick(null); setScore(0) }
 
   const rank = [...RANKS].reverse().find((r) => score >= r.min)!
-  const shareText = `קיבלתי ${score}/${QUIZ.length} בחידון ההסברה — דרגה: ${rank.title} ${rank.emoji}. בואו לראות אם אתם יודעים יותר:`
+  const shareText = `קיבלתי ${score}/${QUIZ.length} בחידון ההסברה, דרגה: ${rank.title} ${rank.emoji}. בואו לראות אם אתם יודעים יותר:`
 
   return (
     <section className="section" style={{ background: 'radial-gradient(60% 50% at 50% 0%, #eef0ff, var(--bg) 70%)', minHeight: '80vh' }}>
@@ -59,6 +59,7 @@ export default function Quiz() {
                 <button className="btn btn-soft" onClick={() => copyText(`${shareText} ${window.location.href}`)}>העתקת תוצאה</button>
                 <button className="btn btn-soft" onClick={restart}>שוב</button>
               </div>
+              <FakeNewsCheck title="הידע הכי חשוב: לא להאמין לכל מה שרואים." />
               <div style={{ marginTop: 22 }}><Link to="/myths">רוצים להשתפר? למיתוס מול מציאות</Link></div>
             </div>
           ) : (
