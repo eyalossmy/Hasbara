@@ -2,7 +2,7 @@
 // Ancient borders are approximate; modern ones follow Natural Earth.
 
 export type Period =
-  | 'kingdoms' | 'judea' | 'palaestina' | 'empires' | 'mandate'
+  | 'kingdoms' | 'judea' | 'palaestina' | 'empires' | 'ottoman' | 'mandate'
   | 'armistice' | 'sixday' | 'peace' | 'oslo' | 'disengagement' | 'today'
 
 export type Region =
@@ -14,6 +14,7 @@ export const COLORS = {
   jewishDeep: '#173c9c',
   held: '#8fa9ee',
   empire: '#9a9fa8',
+  ottoman: '#5d8a84',
   british: '#7656d6',
   britishLight: '#c3b6ef',
   jordan: '#d98a1c',
@@ -104,13 +105,24 @@ export const PERIODS: Record<Period, PeriodInfo> = {
     labels: ANCIENT,
   },
   empires: {
-    years: '636–1917',
-    title: 'אלף שנה של כובשים',
+    years: '636–1517',
+    title: 'ח׳ליפים, צלבנים וממלוכים',
     fills: { israel: COLORS.empire, westbank: COLORS.empire, gaza: COLORS.empire, golan: COLORS.empire, jordan: COLORS.empire, syria: COLORS.empire, lebanon: COLORS.empire },
-    legend: [[COLORS.empire, 'ח׳ליפויות ערביות, צלבנים, ממלוכים ועות׳מאנים']],
+    legend: [[COLORS.empire, 'ח׳ליפויות ערביות, צלבנים וממלוכים — שליטים זרים שהתחלפו']],
     state: NO_STATE,
-    note: 'יותר מאלף שנה הארץ הייתה מחוז שולי של אימפריות, שנשלט מדמשק, מקהיר או מאיסטנבול. מעולם לא קמה כאן מדינה פלסטינית או ערבית עצמאית — ועוד ב־1919 ראו בה מנהיגי הערבים המקומיים ״סוריה הדרומית״.',
+    note: 'אחרי הכיבוש המוסלמי הארץ עברה מיד ליד: ח׳ליפים מדמשק, מבגדד ומקהיר, צלבנים מאירופה וממלוכים ממצרים. אף שליט מוסלמי לא הפך את ירושלים לבירתו — את זה עשו רק היהודים, ולזמן קצר הצלבנים.',
+    cities: ['jerusalem', 'acre', 'gaza', 'damascus'],
+    labels: { egypt: 'מצרים', sinai: null, jordan: null, syria: null, lebanon: null },
+  },
+  ottoman: {
+    years: '1517–1917',
+    title: '400 שנה עות׳מאניות',
+    fills: { israel: COLORS.ottoman, westbank: COLORS.ottoman, gaza: COLORS.ottoman, golan: COLORS.ottoman, jordan: COLORS.ottoman, syria: COLORS.ottoman, lebanon: COLORS.ottoman },
+    legend: [[COLORS.ottoman, 'האימפריה העות׳מאנית — נשלטה מאיסטנבול']],
+    state: NO_STATE,
+    note: 'הארץ הייתה פינה נידחת של אימפריה טורקית, מחולקת בין כמה מחוזות. לא היה בה מחוז בשם ״פלסטין״ ולא קם בה שום שלטון מקומי — ועוד ב־1919 ראו בה מנהיגי הערבים המקומיים ״סוריה הדרומית״.',
     cities: ['jerusalem', 'jaffa', 'acre', 'safed', 'hebron', 'gaza', 'damascus'],
+    marks: [[34.95, 31.05, 'סנג׳ק ירושלים', true], [35.32, 32.62, 'וילאיט ביירות', true]],
     labels: { egypt: 'מצרים', sinai: null, jordan: null, syria: null, lebanon: null },
   },
   mandate: {

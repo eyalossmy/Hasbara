@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
+import { NavLink } from 'react-router-dom'
 import { STATUS, type Source, type Status } from '../data/types'
 
 export function useReveal() {
@@ -144,4 +145,14 @@ export async function copyText(text: string) {
 
 export function shareUrl(text: string) {
   return `https://wa.me/?text=${encodeURIComponent(text + '\n\n' + window.location.origin)}`
+}
+
+/** Switch between the two quizzes. */
+export function QuizTabs() {
+  return (
+    <div className="quiz-tabs">
+      <NavLink to="/quiz" end>חידון ידע</NavLink>
+      <NavLink to="/gaza-or-not">עזה או לא?</NavLink>
+    </div>
+  )
 }

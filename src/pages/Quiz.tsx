@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { QUIZ, RANKS } from '../data/quiz'
-import { copyText, shareUrl } from '../components/ui'
+import { QuizTabs, copyText, shareUrl } from '../components/ui'
 
 const LETTERS = ['א', 'ב', 'ג', 'ד']
 const COLORS = ['#1446f5', '#ffb020', '#0fb47e', '#ff5a5f', '#7c4dff']
@@ -42,7 +42,7 @@ export default function Quiz() {
     <section className="section" style={{ background: 'radial-gradient(60% 50% at 50% 0%, #eef0ff, var(--bg) 70%)', minHeight: '80vh' }}>
       <div className="container quiz-shell">
         <div className="center" style={{ marginBottom: 28 }}>
-          <span className="eyebrow c">חידון</span>
+          <QuizTabs />
           <h1 style={{ fontSize: 'clamp(32px,5vw,50px)', fontWeight: 800, marginTop: 8 }}>כמה אתם באמת יודעים?</h1>
         </div>
 

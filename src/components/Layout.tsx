@@ -56,7 +56,7 @@ export default function Layout() {
         </div>
       </nav>
       <div className={`drawer ${open ? 'open' : ''}`} aria-hidden={!open}>
-        {[...NAV, { to: '/quiz', label: 'חידון' }, { to: '/about', label: 'שקיפות' }].map((n, i) => (
+        {[...NAV, { to: '/quiz', label: 'חידון' }, { to: '/gaza-or-not', label: 'עזה או לא?' }, { to: '/about', label: 'שקיפות' }].map((n, i) => (
           <NavLink key={n.to} to={n.to} tabIndex={open ? 0 : -1}><span className="em">{String(i + 1).padStart(2, '0')}</span>{n.label}</NavLink>
         ))}
       </div>
@@ -83,6 +83,7 @@ export default function Layout() {
               <Link to="/myths">מיתוס מול מציאות</Link>
               <Link to="/toolkit">ארגז כלים</Link>
               <Link to="/quiz">חידון</Link>
+              <Link to="/gaza-or-not">עזה או לא?</Link>
               <Link to="/about">שקיפות ומקורות</Link>
             </div>
           </div>

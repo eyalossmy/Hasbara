@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { ERAS, TIMELINE, type Era } from '../data/timeline'
 import { Emph, PageHero, SourceLinks, useReveal } from '../components/ui'
-import LandMap, { LandSvg, PeriodText } from '../components/LandMap'
+import LandMap, { MapView, PeriodText } from '../components/LandMap'
 
 export default function Timeline() {
   const [era, setEra] = useState<Era | 'all' | 'key'>('all')
@@ -80,7 +80,7 @@ export default function Timeline() {
             </div>
             <PeriodText period={cur.map} />
           </div>
-          <div className="tl-side-map"><LandSvg period={cur.map} /></div>
+          <div className="tl-side-map"><MapView period={cur.map} /></div>
         </aside>
       </section>
     </>

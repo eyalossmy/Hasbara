@@ -10,6 +10,7 @@ const Toolkit = lazy(() => import('./pages/Toolkit'))
 const Law = lazy(() => import('./pages/Law'))
 const WorldMap = lazy(() => import('./pages/WorldMap'))
 const Quiz = lazy(() => import('./pages/Quiz'))
+const GazaOrNot = lazy(() => import('./pages/GazaOrNot'))
 const Glossary = lazy(() => import('./pages/Glossary'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="law" element={<Law />} />
           <Route path="map" element={<WorldMap />} />
           <Route path="quiz" element={<Quiz />} />
+          <Route path="gaza-or-not" element={<GazaOrNot />} />
           <Route path="glossary" element={<Glossary />} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />

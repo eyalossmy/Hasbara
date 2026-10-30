@@ -12,6 +12,7 @@ const PATHS = [
   { to: '/law', title: 'משפט בינלאומי', text: 'מידתיות, מגן אנושי, ICJ ו־ICC.' },
   { to: '/map', title: 'מפת העולם', text: '152 סכסוכים מאז 1948, במפה אחת.' },
   { to: '/quiz', title: 'חידון', text: '12 שאלות. כמה אתם באמת יודעים?' },
+  { to: '/gaza-or-not', title: 'עזה או לא?', text: 'חמש תמונות של הרס. אף אחת לא מעזה.' },
 ]
 
 export default function Home() {

@@ -17,7 +17,7 @@ const NAMES = {
   syria: { at: proj(36.55, 33.2), text: 'סוריה' },
   lebanon: { at: proj(35.42, 33.42), text: 'לבנון' },
 }
-const [SEA_X, SEA_Y] = proj(33.3, 32.6)
+const [SEA_X, SEA_Y] = proj(33.4, 31.8)
 const [DEAD_X, DEAD_Y] = proj(35.5, 31.5)
 
 /** The land in one period: who held what, its towns and names. */
@@ -67,7 +67,24 @@ export function LandSvg({ period }: { period: Period }) {
   )
 }
 
-/** The period's title, its answer on a Palestinian state, the key and the point to take away. */
+/** The map with its key laid over the sea. */
+export function MapView({ period }: { period: Period }) {
+  const p = PERIODS[period]
+  return (
+    <div className="lm-frame">
+      <LandSvg period={period} />
+      <ul className="lm-legend" key={period} aria-label="מקרא">
+        <li className="k">מקרא</li>
+        {p.legend.map(([c, label]) => (
+          <li key={label}><i style={{ background: c === COLORS.mix ? STRIPES : c }} />{label}</li>
+        ))}
+        {p.greenLine && <li><i className="gl" />הקו הירוק — גבולות 1949</li>}
+      </ul>
+    </div>
+  )
+}
+
+/** The period's title, its answer on a Palestinian state and the point to take away. */
 export function PeriodText({ period }: { period: Period }) {
   const p = PERIODS[period]
   return (
@@ -75,12 +92,6 @@ export function PeriodText({ period }: { period: Period }) {
       <div className="lm-years">{p.years}</div>
       <h3>{p.title}</h3>
       <div className={`lm-state ${p.state.no ? 'no' : ''}`}>מדינה פלסטינית: <b>{p.state.text}</b></div>
-      <ul className="lm-legend">
-        {p.legend.map(([c, label]) => (
-          <li key={label}><i style={{ background: c === COLORS.mix ? STRIPES : c }} />{label}</li>
-        ))}
-        {p.greenLine && <li><i className="gl" />הקו הירוק — גבולות 1949</li>}
-      </ul>
       <p className="lm-note">{p.note}</p>
     </div>
   )
@@ -90,7 +101,7 @@ export function PeriodText({ period }: { period: Period }) {
 export default function LandMap({ period }: { period: Period }) {
   return (
     <figure className="lm">
-      <div className="lm-map"><LandSvg period={period} /></div>
+      <div className="lm-map"><MapView period={period} /></div>
       <figcaption><PeriodText period={period} /></figcaption>
     </figure>
   )
