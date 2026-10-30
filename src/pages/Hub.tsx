@@ -19,7 +19,7 @@ export default function Hub({ id }: { id: Section['id'] }) {
                 <span className="n">{String(i + 1).padStart(2, '0')}</span>
                 <h3>{p.label}</h3>
                 <p>{p.text}</p>
-                {p.img && <Pic k={p.img} alt={p.label} />}
+                {p.img && <Pic k={p.img} alt={p.label} credit={false} />}
               </Link>
             ))}
           </nav>

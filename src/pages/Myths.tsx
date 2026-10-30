@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { CLAIM_CATS, CLAIMS, type ClaimCat } from '../data/claims'
+import Pic from '../components/Pic'
 import { PageHero, SourceLinks, StatusBadge, copyText, shareUrl, useReveal } from '../components/ui'
 
 export default function Myths() {
@@ -31,6 +32,16 @@ export default function Myths() {
     <>
       <PageHero eyebrow="מיתוס מול מציאות" title="מה אומרים, ומה נכון"
         lead="הטענות הנפוצות נגד ישראל, והעובדות, עם מקורות ורמת ודאות." />
+
+      <section className="section-tight" style={{ paddingBottom: 0 }}>
+        <div className="container">
+          <div className="photo-grid">
+            <div className="reveal"><Pic k="tunnel" alt="מנהרת טרור של חמאס, מתחת לשכונות בעזה" /><p className="photo-cap">מנהרת טרור של חמאס, מתחת לשכונות בעזה</p></div>
+            <div className="reveal"><Pic k="rocketsGaza" alt="רקטות משוגרות מאזורים מאוכלסים בעזה" /><p className="photo-cap">רקטות משוגרות מאזורים מאוכלסים בעזה</p></div>
+            <div className="reveal"><Pic k="gushKatif" alt="2005: ישראל מפנה את כל היישובים בעזה" /><p className="photo-cap">2005: ישראל מפנה את כל היישובים בעזה</p></div>
+          </div>
+        </div>
+      </section>
 
       <section className="section-tight">
         <div className="container" style={{ maxWidth: 940 }}>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { TOOLKIT, type TKItem } from '../data/toolkit'
+import Pic from '../components/Pic'
 import { PageHero, copyText, shareUrl, useReveal } from '../components/ui'
 
 type Len = 'short' | 'mid' | 'deep'
@@ -41,6 +42,16 @@ export default function Toolkit() {
     <>
       <PageHero eyebrow="ארגז כלים" title="מה עונים כש…"
         lead="תשובה לעשר שניות, לדקה או לעומק. העתיקו ושלחו." />
+
+      <section className="section-tight" style={{ paddingBottom: 0 }}>
+        <div className="container">
+          <div className="photo-grid">
+            <div className="reveal"><Pic k="campDavid" alt="קמפ דייוויד, 2000: הוצעה מדינה, והתשובה הייתה לא" /><p className="photo-cap">קמפ דייוויד, 2000: הוצעה מדינה, והתשובה הייתה לא</p></div>
+            <div className="reveal"><Pic k="bringHome" alt="251 חטופים: העובדה הראשונה בכל ויכוח" /><p className="photo-cap">251 חטופים: העובדה הראשונה בכל ויכוח</p></div>
+            <div className="reveal"><Pic k="kiryatShmona" alt="רקטה של חיזבאללה בקריית שמונה" /><p className="photo-cap">רקטה של חיזבאללה בקריית שמונה</p></div>
+          </div>
+        </div>
+      </section>
       <section className="section-tight">
         <div className="container">
           <p className="muted reveal" style={{ maxWidth: '60ch', marginBottom: 40, fontSize: 18 }}>

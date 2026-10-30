@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { Article, Block, Head, Item } from '../data/article'
 import Pic from './Pic'
+import { Videos } from './Video'
 import { Emph, PageHero, SourceLinks, StatusBadge, useReveal } from './ui'
 
 function SectionHead({ head }: { head: Head }) {
@@ -88,6 +89,36 @@ function BlockView({ b }: { b: Block }) {
           </div>
         </section>
       )
+    case 'analysis':
+      return (
+        <section className="section-tight">
+          <div className="container">
+            <div className="analysis reveal">
+              <span className="think-k">פרשנות</span>
+              <h3>{b.title}</h3>
+              <div className="an-cols">
+                <div><h4>מה אומרים המבקרים</h4><p><Emph text={b.critics} /></p></div>
+                <div><h4>איך אנחנו קוראים את זה</h4><p><Emph text={b.reading} /></p></div>
+                <div><h4>מה עדיין פתוח</h4><p><Emph text={b.open} /></p></div>
+              </div>
+              <SourceLinks sources={b.sources} />
+            </div>
+          </div>
+        </section>
+      )
+    case 'photos':
+      return (
+        <section className="section-tight">
+          <div className="container">
+            <SectionHead head={b.head} />
+            <div className="photo-grid">
+              {b.items.map((p) => (
+                <div key={p.img} className="reveal"><Pic k={p.img} alt={p.caption} /><p className="photo-cap">{p.caption}</p></div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
     case 'honest':
       return (
         <section className="section-tight">
@@ -121,6 +152,7 @@ export default function ArticleView({ a }: { a: Article }) {
     <>
       <PageHero eyebrow={a.eyebrow} title={a.title} lead={a.lead} />
       {a.blocks.map((b, i) => <BlockView key={i} b={b} />)}
+      {a.videos && <Videos list={a.videos} />}
       <section className="section-tight">
         <div className="container" style={{ maxWidth: 880 }}>
           <Think questions={a.think} />

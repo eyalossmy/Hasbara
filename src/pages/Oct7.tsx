@@ -2,6 +2,19 @@ import { Link } from 'react-router-dom'
 import { SRC } from '../data/sources'
 import type { PicKey } from '../data/images'
 import Pic from '../components/Pic'
+import Scale from '../components/Scale'
+import { Videos } from '../components/Video'
+import { VIDEOS } from '../data/videos'
+import { I } from '../data/intl'
+
+const GALLERY: { k: PicKey; cap: string }[] = [
+  { k: 'o7Beeri1', cap: 'בארי, ימים אחרי הטבח' },
+  { k: 'o7Gpo02', cap: 'בית שרוף בעוטף, אוקטובר 2023' },
+  { k: 'o7NirOz', cap: 'ניר עוז, ״השבת השחורה״' },
+  { k: 'o7Gpo05', cap: 'סימני ירי על קיר בית בעוטף' },
+  { k: 'o7Cars', cap: 'קיר המכוניות בתקומה: רכבים מהמסיבה ומהכבישים' },
+  { k: 'o7Sderot', cap: 'פגיעות ירי במקלט ליד תחנת המשטרה בשדרות' },
+]
 import { CountUp, SourceLinks, Split, StatusBadge, useReveal } from '../components/ui'
 
 const HOURS = [
@@ -54,6 +67,23 @@ export default function Oct7() {
             <div><div className="n">#1</div><div className="t">היום הקטלני ביותר ליהודים מאז השואה</div></div>
           </div>
         </div>
+      </section>
+
+      <section className="section-tight">
+        <div className="container">
+          <div className="section-head reveal">
+            <span className="eyebrow">תיעוד</span>
+            <h2>כך זה נראה</h2>
+            <p>תמונות אמיתיות מהיישובים, ימים אחרי הטבח. חלקן קשות לצפייה, ולכן הן מוסתרות עד שתלחצו. מי שמכחיש את 7 באוקטובר צריך לראות אותן.</p>
+          </div>
+          <div className="photo-grid">
+            {GALLERY.map((g) => <div key={g.k} className="reveal"><Pic k={g.k} alt={g.cap} /><p className="photo-cap">{g.cap}</p></div>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-tight">
+        <div className="container"><Scale /></div>
       </section>
 
       <section className="section">
@@ -128,13 +158,24 @@ export default function Oct7() {
             </div>
           </div>
           <div style={{ marginTop: 24 }} className="reveal">
-            <SourceLinks sources={[SRC.oct7, SRC.hostages, SRC.idf]} />
+            <SourceLinks sources={[SRC.oct7, SRC.hostages, SRC.idf, I.britOct7, I.nprNova, I.cnnNova, I.cnnHostages, I.cnnHostagesDied, I.pcpsr90]} />
+          </div>
+          <div className="analysis reveal" style={{ marginTop: 40 }}>
+            <span className="think-k">פרשנות</span>
+            <h3>״זה לא קרה בחלל ריק״</h3>
+            <div className="an-cols">
+              <div><h4>מה אומרים המבקרים</h4><p>הטבח היה תגובה לעשרות שנות כיבוש ומצור, ולכן צריך להבין אותו בהקשר. מזכ״ל האו״ם אמר את המשפט הזה במפורש.</p></div>
+              <div><h4>איך אנחנו קוראים את זה</h4><p>להקשר יש מקום בניתוח מלחמות, לא בהצדקת רצח של תינוקות במיטתם. ישראל יצאה מעזה ב־2005. המטרה של 7 באוקטובר הייתה אזרחים: מסיבה, בתים, קיבוצים. ולפי סקר פלסטיני מדצמבר 2023, כ־72% אמרו שההחלטה לתקוף הייתה ״נכונה״.</p></div>
+              <div><h4>מה עדיין פתוח</h4><p>אותו סקר מצא שרק 7% האמינו שחמאס ביצע זוועות, כלומר רבים תמכו במתקפה בלי להכיר את מה שקרה בה. השאלה הפתוחה היא מה הם רואים, ולא רק מה הם חושבים.</p></div>
+            </div>
+            <SourceLinks sources={[I.pcpsr90, I.arabNewsPoll, I.britOct7]} />
           </div>
           <div style={{ marginTop: 40, textAlign: 'center' }} className="reveal">
             <Link to="/myths#vacuum" className="btn btn-primary">״זה לא קרה בחלל ריק״? כך עונים</Link>
           </div>
         </div>
       </section>
+      <Videos list={VIDEOS.oct7} title="עדויות וסרטים" />
     </div>
   )
 }

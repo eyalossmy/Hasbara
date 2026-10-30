@@ -1,5 +1,6 @@
 import type { Source, Status } from './types'
 import type { PicKey } from './images'
+import type { VideoRef } from '../components/Video'
 
 // The shape of a content page. Every item carries its own sources, so nothing on the page stands without one.
 
@@ -23,6 +24,10 @@ export type Block =
   | { type: 'steps'; head: Head; items: Item[] }
   | { type: 'compare'; head: Head; cols: [string, string]; rows: { label: string; a: string; b: string }[]; sources: Source[] }
   | { type: 'honest'; title: string; text: string; sources?: Source[] }
+  /** Interpretation: what critics say, how we read it, and what is still open */
+  | { type: 'analysis'; title: string; critics: string; reading: string; open: string; sources: Source[] }
+  /** A strip of real photos */
+  | { type: 'photos'; head: Head; items: { img: PicKey; caption: string }[] }
 
 export interface Article {
   eyebrow: string
@@ -32,4 +37,5 @@ export interface Article {
   /** Questions that send the reader to check for themselves */
   think: string[]
   next?: { to: string; label: string }[]
+  videos?: VideoRef[]
 }

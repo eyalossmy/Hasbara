@@ -6,9 +6,10 @@
   "scripts": {
     "predev": "node scripts/no-dashes.mjs && node scripts/copy-maplibre.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/no-dashes.mjs && node scripts/copy-maplibre.mjs",
+    "prebuild": "node scripts/no-dashes.mjs && node scripts/check-sources.mjs && node scripts/copy-maplibre.mjs",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check:sources": "node scripts/check-sources.mjs"
   },
   "dependencies": {
     "@maplibre/maplibre-gl-leaflet": "^0.1.4",

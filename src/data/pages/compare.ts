@@ -1,4 +1,6 @@
 import type { Article } from '../article'
+import { I } from '../intl'
+import { VIDEOS } from '../videos'
 import { SRC, src, wiki } from '../sources'
 import { CONFLICT_WIKI } from '../conflict-sources'
 
@@ -11,34 +13,34 @@ export const COMPARE: Article = {
       type: 'cards',
       head: { eyebrow: 'ההגדרה', title: 'מה החוק אומר', text: 'האמנה למניעת רצח עם (1948) נכתבה אחרי השואה. המילה החשובה בה היא ״כוונה״.' },
       items: [
-        { title: 'כוונה להשמיד', text: 'רצח עם הוא מעשים שנעשים ״**בכוונה להשמיד**, כולה או חלקה, קבוצה לאומית, אתנית, גזעית או דתית״. לא כל מלחמה עם הרבה הרוגים היא רצח עם.', status: 'verified', sources: [SRC.genocideConv] },
-        { title: 'רף ההוכחה', text: 'בית הדין הבינלאומי קבע (בוסניה נ׳ סרביה, 2007) שכוונה להשמיד צריכה להיות ״המסקנה הסבירה היחידה״ מהראיות.', status: 'verified', sources: [wiki('en', 'Bosnian genocide case')] },
-        { title: 'פשעי מלחמה ≠ רצח עם', text: 'פשע מלחמה, פשע נגד האנושות ורצח עם הם שלושה דברים שונים במשפט הבינלאומי. ערבוב ביניהם הוא טעות, או תעמולה.', status: 'verified', sources: [SRC.romeStatute] },
+        { title: 'כוונה להשמיד', text: 'רצח עם הוא מעשים שנעשים ״**בכוונה להשמיד**, כולה או חלקה, קבוצה לאומית, אתנית, גזעית או דתית״. לא כל מלחמה עם הרבה הרוגים היא רצח עם.', status: 'verified', sources: [SRC.genocideConv, I.ushWhatIsGenocide, I.britGenocide] },
+        { title: 'רף ההוכחה', text: 'בית הדין הבינלאומי קבע (בוסניה נ׳ סרביה, 2007) שכוונה להשמיד צריכה להיות ״המסקנה הסבירה היחידה״ מהראיות.', status: 'verified', sources: [wiki('en', 'Bosnian genocide case'), I.icjBosnia] },
+        { title: 'פשעי מלחמה ≠ רצח עם', text: 'פשע מלחמה, פשע נגד האנושות ורצח עם הם שלושה דברים שונים במשפט הבינלאומי. ערבוב ביניהם הוא טעות, או תעמולה.', status: 'verified', sources: [SRC.romeStatute, I.ushWhatIsGenocide] },
       ],
     },
     {
       type: 'cards',
       head: { eyebrow: 'מקרים שהוכרו', title: 'רצח עם וטבח המוני', text: 'מקרים שבהם בתי דין, האו״ם או ממשלות קבעו רצח עם או זוועה המונית. המספרים הם הערכות מקובלות.' },
       items: [
-        { k: '1941–1945', title: 'השואה', text: 'כ־6 מיליון יהודים נרצחו בתוך ארבע שנים. הכוונה תועדה בפרוטוקול ועידת ואנזה.', status: 'verified', sources: [src('יד ושם', 'https://www.yadvashem.org/holocaust/about.html')] },
-        { k: '1915–1923', title: 'הארמנים', text: 'האימפריה העות׳מאנית רצחה וגירשה למוות כמיליון ארמנים ויותר.', status: 'verified', sources: [wiki('en', 'Armenian genocide')] },
-        { k: '1975–1979', title: 'קמבודיה', text: 'משטר החמר רוז׳ רצח או הרעיב למוות 1.5–2 מיליון בני אדם, כרבע מהאוכלוסייה.', status: 'verified', sources: [wiki('en', 'Cambodian genocide')] },
-        { k: '1994', title: 'רואנדה', text: 'כ־800,000 טוטסים והוטו מתונים נרצחו ב־100 ימים, רובם בסכינים, בידי שכנים. הרדיו קרא להם ״ג׳וקים״.', status: 'verified', sources: [wiki('en', 'Rwandan genocide'), src('UN: Rwanda', 'https://www.un.org/en/preventgenocide/rwanda/historical-background.shtml')] },
-        { k: '1995', title: 'סרברניצה', text: 'יותר מ־8,000 גברים ונערים בוסנים מוסלמים נרצחו בתוך ימים. בית הדין לבוסניה קבע: רצח עם.', status: 'verified', sources: [wiki('en', 'Srebrenica massacre')] },
-        { k: '2003–היום', title: 'דארפור וסודאן', text: 'כ־300,000 נהרגו בשנות ה־2000 (הערכת האו״ם). מאז 2023 הטבח חזר: ארה״ב קבעה ב־2025 שה־RSF מבצע רצח עם, ובאל־פאשר נטבחו אלפים.', status: 'verified', sources: CONFLICT_WIKI.darfur.concat(CONFLICT_WIKI.sudan) },
-        { k: '2014', title: 'היזידים', text: 'דאעש רצח אלפי גברים יזידים ושעבד אלפי נשים וילדות. ועדת חקירה של האו״ם קבעה: רצח עם.', status: 'verified', sources: [wiki('en', 'Genocide of Yazidis by the Islamic State')] },
-        { k: '2017', title: 'הרוהינגה', text: 'צבא מיאנמר רצח אלפים, ויותר מ־700,000 ברחו לבנגלדש תוך חודשים.', status: 'verified', sources: [wiki('en', 'Rohingya genocide')] },
+        { k: '1941–1945', title: 'השואה', text: 'כ־6 מיליון יהודים נרצחו בתוך ארבע שנים. הכוונה תועדה בפרוטוקול ועידת ואנזה.', status: 'verified', sources: [src('יד ושם', 'https://www.yadvashem.org/holocaust/about.html'), I.britHolocaust, I.histAuschwitz] },
+        { k: '1915–1923', title: 'הארמנים', text: 'האימפריה העות׳מאנית רצחה וגירשה למוות כמיליון ארמנים ויותר.', status: 'verified', sources: [wiki('en', 'Armenian genocide'), I.ushArmenia, I.britArmenia, I.histArmenia] },
+        { k: '1975–1979', title: 'קמבודיה', text: 'משטר החמר רוז׳ רצח או הרעיב למוות 1.5–2 מיליון בני אדם, כרבע מהאוכלוסייה.', status: 'verified', sources: [wiki('en', 'Cambodian genocide'), I.ushCambodia, I.britCambodia, I.histKhmer] },
+        { k: '1994', title: 'רואנדה', text: 'כ־800,000 טוטסים והוטו מתונים נרצחו ב־100 ימים, רובם בסכינים, בידי שכנים. הרדיו קרא להם ״ג׳וקים״.', status: 'verified', sources: [wiki('en', 'Rwandan genocide'), src('UN: Rwanda', 'https://www.un.org/en/preventgenocide/rwanda/historical-background.shtml'), I.ushRwanda, I.britRwanda] },
+        { k: '1995', title: 'סרברניצה', text: 'יותר מ־8,000 גברים ונערים בוסנים מוסלמים נרצחו בתוך ימים. בית הדין לבוסניה קבע: רצח עם.', status: 'verified', sources: [wiki('en', 'Srebrenica massacre'), I.ushBosnia, I.britSrebrenica, I.icjBosnia] },
+        { k: '2003–היום', title: 'דארפור וסודאן', text: 'כ־300,000 נהרגו בשנות ה־2000 (הערכת האו״ם). מאז 2023 הטבח חזר: ארה״ב קבעה ב־2025 שה־RSF מבצע רצח עם, ובאל־פאשר נטבחו אלפים.', status: 'verified', sources: [...CONFLICT_WIKI.darfur, ...CONFLICT_WIKI.sudan, I.ushSudan] },
+        { k: '2014', title: 'היזידים', text: 'דאעש רצח אלפי גברים יזידים ושעבד אלפי נשים וילדות. ועדת חקירה של האו״ם קבעה: רצח עם.', status: 'verified', sources: [wiki('en', 'Genocide of Yazidis by the Islamic State'), I.ushIraq] },
+        { k: '2017', title: 'הרוהינגה', text: 'צבא מיאנמר רצח אלפים, ויותר מ־700,000 ברחו לבנגלדש תוך חודשים.', status: 'verified', sources: [wiki('en', 'Rohingya genocide'), I.ushBurma, I.cfrRohingya] },
       ],
     },
     {
       type: 'cards',
       head: { eyebrow: 'מלחמות ששכחו', title: 'סוריה, ניגריה, תימן', text: 'סכסוכים עם מספרי הרוגים עצומים, שזכו לחלק קטן מתשומת הלב שקיבלה עזה.' },
       items: [
-        { k: '2011–2024', title: 'סוריה', text: 'כחצי מיליון הרוגים ויותר, ומעל 12 מיליון עקורים ופליטים. המשטר השתמש בנשק כימי נגד אזרחים ובעינויים המוניים. מחנה הפליטים הפלסטיני ירמוכ הופצץ והורעב.', status: 'verified', sources: CONFLICT_WIKI.syria.concat([wiki('en', 'Yarmouk Camp')]) },
-        { k: '1982', title: 'חמה', text: 'חאפז אל־אסד הפציץ עיר שלמה כדי לדכא מרד. אלפים רבים נהרגו, ההערכות נעות בין 10,000 ל־40,000.', status: 'disputed', sources: [wiki('en', '1982 Hama massacre')] },
-        { k: '2009–היום', title: 'ניגריה, בוקו חראם', text: 'עשרות אלפים נהרגו ישירות, ולפי האו״ם כ־350,000 כולל רעב ומחלות בצפון־מזרח המדינה. חטיפת 276 התלמידות בצ׳יבוק.', status: 'verified', sources: CONFLICT_WIKI.nigeria.concat([wiki('en', 'Chibok schoolgirls kidnapping')]) },
-        { k: '2014–היום', title: 'תימן', text: 'לפי הערכת האו״ם, עד 2021 נהרגו כ־377,000 בני אדם, רובם מרעב ומחלות.', status: 'verified', sources: CONFLICT_WIKI.yemen },
-        { k: '2016–2017', title: 'הקרב על מוסול', text: 'קואליציה בהובלת ארה״ב נגד דאעש. אלפי אזרחים נהרגו; תחקיר AP העריך 9,000–11,000.', status: 'disputed', sources: [wiki('en', 'Battle of Mosul (2016–2017)')] },
+        { k: '2011–2024', title: 'סוריה', text: 'כחצי מיליון הרוגים ויותר, ומעל 12 מיליון עקורים ופליטים. המשטר השתמש בנשק כימי נגד אזרחים ובעינויים המוניים. מחנה הפליטים הפלסטיני ירמוכ הופצץ והורעב.', status: 'verified', sources: [...CONFLICT_WIKI.syria, ...[wiki('en', 'Yarmouk Camp')], I.ushSyria, I.britSyria] },
+        { k: '1982', title: 'חמה', text: 'חאפז אל־אסד הפציץ עיר שלמה כדי לדכא מרד. אלפים רבים נהרגו, ההערכות נעות בין 10,000 ל־40,000.', status: 'disputed', sources: [wiki('en', '1982 Hama massacre'), I.britHama] },
+        { k: '2009–היום', title: 'ניגריה, בוקו חראם', text: 'עשרות אלפים נהרגו ישירות, ולפי האו״ם כ־350,000 כולל רעב ומחלות בצפון־מזרח המדינה. חטיפת 276 התלמידות בצ׳יבוק.', status: 'verified', sources: [...CONFLICT_WIKI.nigeria, ...[wiki('en', 'Chibok schoolgirls kidnapping')], I.britDeadliest] },
+        { k: '2014–היום', title: 'תימן', text: 'לפי הערכת האו״ם, עד 2021 נהרגו כ־377,000 בני אדם, רובם מרעב ומחלות.', status: 'verified', sources: [...CONFLICT_WIKI.yemen, I.britYemen, I.cfrYemen] },
+        { k: '2016–2017', title: 'הקרב על מוסול', text: 'קואליציה בהובלת ארה״ב נגד דאעש. אלפי אזרחים נהרגו; תחקיר AP העריך 9,000–11,000.', status: 'disputed', sources: [wiki('en', 'Battle of Mosul (2016–2017)'), I.britDeadliest] },
       ],
     },
     {
@@ -64,6 +66,14 @@ export const COMPARE: Article = {
       sources: [src('UN: Protection of civilians report (2022)', 'https://www.un.org/en/ga/search/view_doc.asp?symbol=S/2022/381'), wiki('en', 'Casualties of the Gaza war'), wiki('en', 'Civilian casualty ratio')],
     },
     {
+      type: 'analysis',
+      title: 'זו לא ״מה־אבוטיזם״?',
+      critics: 'השוואה לזוועות אחרות היא תירוץ: העובדה שבסוריה היה גרוע יותר לא פוטרת את ישראל מאחריות.',
+      reading: 'נכון, וזו לא המטרה. ההשוואה נועדה לכייל מילים: אם עזה היא ״רצח עם״, איך נקרא לרואנדה? והיא חושפת סטנדרט כפול: מלחמות עם פי עשרה הרוגים כמעט לא מוציאות אנשים לרחוב.',
+      open: 'ישראל כפופה לדיני המלחמה כמו כל מדינה, וחקירה של מקרים ספציפיים היא לגיטימית. השאלה היא אם המבקרים מחילים את אותם כללים על כולם.',
+      sources: [I.ushWhatIsGenocide, I.nprIcj, I.britDeadliest],
+    },
+    {
       type: 'honest',
       title: 'בכנות',
       text: 'השוואה לרצח עם אחר לא הופכת את המוות בעזה לפחות כואב, ולא פוטרת את ישראל מלחקור כל מקרה חשוד. גם יחסי ההרוגים שנויים במחלוקת, כי כל צד סופר אחרת. הטענה כאן מדויקת יותר: מלחמה קשה עם אזרחים רבים שנהרגו, זה עדיין לא רצח עם. ומי שקורא לכל מלחמה ״רצח עם״, מרוקן את המילה ממשמעות דווקא בשביל מי שבאמת עובר רצח עם.',
@@ -75,5 +85,6 @@ export const COMPARE: Article = {
     'מה צריך להוכיח כדי לקבוע ״כוונה להשמיד״? ומי מוסמך לקבוע את זה?',
     'אם צבא מזהיר אזרחים לפני תקיפה, האם זה מתאים למי שרוצה להשמיד אותם?',
   ],
+  videos: VIDEOS.compare,
   next: [{ to: '/law', label: 'למשפט הבינלאומי' }, { to: '/map', label: 'למפת העולם' }, { to: '/gaza-or-not', label: 'עזה או לא?' }],
 }

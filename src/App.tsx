@@ -30,10 +30,11 @@ const Achievements = page(() => import('./pages/Achievements'))
 const War = page(() => import('./pages/War'))
 const ConflictHistory = page(() => import('./pages/ConflictHistory'))
 const Compare = page(() => import('./pages/Compare'))
+const Protest = page(() => import('./pages/Protest'))
 const NotFound = page(() => import('./pages/NotFound'))
 
 // Light pages are fetched once the first page is idle, so moving between them never waits on the network
-const LIGHT = [Hub, Timeline, Oct7, Holocaust, Antisemitism, Achievements, War, ConflictHistory, Myths, Toolkit, Compare, Law, Quiz, GazaOrNot, Glossary, About]
+const LIGHT = [Hub, Timeline, Oct7, Holocaust, Antisemitism, Achievements, War, ConflictHistory, Myths, Toolkit, Protest, Compare, Law, Quiz, GazaOrNot, Glossary, About]
 
 export default function App() {
   useEffect(() => {
@@ -60,6 +61,7 @@ export default function App() {
           <Route path="war" element={<War />} />
           <Route path="conflict-history" element={<ConflictHistory />} />
           <Route path="compare" element={<Compare />} />
+          <Route path="protest" element={<Protest />} />
           <Route path="timeline" element={<Timeline />} />
           <Route path="oct7" element={<Oct7 />} />
           <Route path="myths" element={<Myths />} />
