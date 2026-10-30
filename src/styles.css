@@ -861,16 +861,18 @@ a.bc.dark:hover { background: #1a1d25; }
     linear-gradient(165deg, var(--accent) 0%, var(--blue-deep) 100%);
 }
 
-/* silk lines drifting slowly across the blue; moved with transform only, so it stays cheap */
+/* wide light panels on the diagonal, with one thin gold edge, gliding slowly; moved with transform only */
 .page-hero, .hero, .footer, .cta-band { position: relative; overflow: hidden; isolation: isolate; }
 .page-hero::before, .hero::before, .footer::before, .cta-band::before {
-  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: calc(100% + 600px); z-index: -1; pointer-events: none;
-  background: url('/flow.svg') repeat-x 0 0 / 600px 100%;
-  -webkit-mask-image: linear-gradient(180deg, #000 30%, rgba(0, 0, 0, .35));
-  mask-image: linear-gradient(180deg, #000 30%, rgba(0, 0, 0, .35));
-  animation: flow 40s linear infinite; will-change: transform;
+  content: ''; position: absolute; top: 0; bottom: 0; left: -240px; width: calc(100% + 480px); z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(118deg,
+      transparent 0 16%, rgba(255, 255, 255, .07) 16% 31%, transparent 31% 47%,
+      rgba(255, 194, 61, .35) 47% 47.12%, rgba(255, 255, 255, .05) 47.12% 58%, transparent 58% 73%,
+      rgba(255, 255, 255, .08) 73% 88%, transparent 88%);
+  animation: glide 22s ease-in-out infinite alternate; will-change: transform;
 }
-@keyframes flow { to { transform: translateX(-600px); } }
+@keyframes glide { from { transform: translateX(-120px); } to { transform: translateX(120px); } }
 
 /* nav: blue, white links, gold call to action */
 .nav { background: var(--stripes); backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: 0; box-shadow: 0 1px 0 rgba(255, 255, 255, .08); }
