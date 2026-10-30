@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { ERAS, TIMELINE, type Era } from '../data/timeline'
+import { ERAS, KEY_FACTS, TIMELINE, type Era } from '../data/timeline'
 import { Emph, PageHero, SourceLinks, useReveal } from '../components/ui'
 import LandMap, { MapView, PeriodText } from '../components/LandMap'
 
@@ -29,6 +29,17 @@ export default function Timeline() {
     <>
       <PageHero eyebrow="ציר זמן" title="3,000 שנה בקצרה"
         lead="האירועים שחייבים להכיר, ולצידם מפת הארץ של אותה תקופה: מי שלט כאן — ומה לא היה כאן אף פעם." />
+
+      <section className="container tl-facts" aria-label="שלוש עובדות לזכור">
+        {KEY_FACTS.map((f, n) => (
+          <div key={f.title} className="tl-fact reveal">
+            <span className="n">{n + 1}</span>
+            <div className="k">{f.k}</div>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </div>
+        ))}
+      </section>
 
       <div className="tl-filters">
         <div className="container">
@@ -60,6 +71,7 @@ export default function Timeline() {
                     <div className="tl-more">
                       <div>
                         <div className="why"><b>למה זה חשוב: </b><Emph text={e.why} /></div>
+                        <p className="lm-note">{e.bottom}</p>
                         {e.sources && <div style={{ marginTop: 12 }} onClick={(ev) => ev.stopPropagation()}><SourceLinks sources={e.sources} /></div>}
                       </div>
                     </div>
@@ -74,10 +86,12 @@ export default function Timeline() {
         <aside className="tl-side" aria-label="מפה והסבר">
           <div className="tl-side-text">
             <div className="tl-explain" key={cur.title}>
-              <div className="tl-explain-k">{cur.year} · {cur.title}</div>
+              <div className="tl-explain-k">{cur.year}</div>
+              <h3>{cur.title}</h3>
               <p><Emph text={cur.why} /></p>
               {cur.sources && <SourceLinks sources={cur.sources} />}
             </div>
+            <p className="lm-note" key={`b-${cur.title}`}>{cur.bottom}</p>
             <PeriodText period={cur.map} />
           </div>
           <div className="tl-side-map"><MapView period={cur.map} /></div>

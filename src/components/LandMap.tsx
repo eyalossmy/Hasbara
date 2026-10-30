@@ -92,7 +92,7 @@ export function PeriodText({ period }: { period: Period }) {
       <div className="lm-years">{p.years}</div>
       <h3>{p.title}</h3>
       <div className={`lm-state ${p.state.no ? 'no' : ''}`}>מדינה פלסטינית: <b>{p.state.text}</b></div>
-      <p className="lm-note">{p.note}</p>
+      <p className="lm-ctx">{p.note}</p>
     </div>
   )
 }
